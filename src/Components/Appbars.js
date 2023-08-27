@@ -52,7 +52,7 @@ const DestopMode = () =>{
     <div>
       <Grid container sx={{ backgroundColor: "#757575" }}>
         <Grid item xs={12} md={6}>
-        Location
+          Location
         </Grid>
 
       </Grid>
