@@ -34,7 +34,7 @@ const Homepage = () => {
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, []); // Empty dependency array ensures this effect runs only once
+  }, []); 
 
   return (
     <div>
@@ -60,7 +60,7 @@ const Homepage = () => {
 
       {/* Scroll to top */}
       <Fade in={isFaded}>
-        <Fab color='primary' sx={{ position: 'fixed', bottom: 16, right: 16 }} onClick={e=>e.preventDefault()}>
+        <Fab color='primary' sx={{ position: 'fixed', bottom: 110, right: 37 }} onClick={e=>e.preventDefault()}>
           <Link
           to="home"
           spy={true}
