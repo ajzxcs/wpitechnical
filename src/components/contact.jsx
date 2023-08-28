@@ -149,9 +149,9 @@ export const Contact = (props) => {
       <div id="footer">
         <div className="container text-center">
           <p>
-            &copy; 2023 Issaaf Kattan React Land Page Template. Design by{" "}
-            <a href="http://www.templatewire.com" rel="nofollow">
-              TemplateWire
+            &copy; 2023 Copyright By Wellness Pro. Design by{" "}
+            <a href="#" rel="nofollow">
+            </a>
             </a>
           </p>
         </div>
