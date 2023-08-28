@@ -4,16 +4,19 @@ import {
   Route,
   Routes as RouterS
 } from 'react-router-dom'
+import Loading from '../Features/Loading'
 
 const Homepage = React.lazy(()=> import('../Pages/Home/Homepage'))
 const Routes = () => {
   return (
     <div>
-      <React.Suspense fallback={<div>Loading....</div>}>
+      <React.Suspense fallback={<Loading/>}>
         <RouterS>
           <Route path='/' element={<Homepage/>} />
           <Route path='*' element={<Navigate to="/"/>} />
         </RouterS>
+
+
       </React.Suspense>
     </div>
   )

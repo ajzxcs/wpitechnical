@@ -10,7 +10,7 @@ import {
   IconButton,
   Toolbar,
   Box,
-  AppBar 
+  AppBar
 } from '@mui/material';
 import { Link } from 'react-scroll'
 
@@ -24,11 +24,11 @@ import {
 } from 'react-icons/fa';
 import { BsInstagram } from 'react-icons/bs';
 import MenuIcon from '@mui/icons-material/Menu';
+import CloseIcon from '@mui/icons-material/Close';
 
 // Logo
 import LOGO from '../assets/images/wellness-logov2.png'
-
-
+import '../assets/styles/Appbars.css'
 
 const AppBars = () => {
   const [state,setState] = React.useState(true)
@@ -37,7 +37,7 @@ const AppBars = () => {
     const setResponsiveness = () => {
       return window.innerWidth < 700 ? setState(true) : setState(false)
     }
-    setResponsiveness();
+
     window.addEventListener("resize", () => setResponsiveness());
 
     return () => {
@@ -80,7 +80,7 @@ const DestopMode = () =>{
     <div>
 
 {/* Information */}
-      <Grid container sx={{ backgroundColor: "#1A2A36", paddingX:3, paddingY:1 }}  
+      <Grid container sx={{ backgroundColor: "#666666", paddingX:3, paddingY:1 }}  
       direction="row"
       justifyContent="center"
       alignItems="center">
@@ -214,23 +214,44 @@ const DestopMode = () =>{
 
 // For mobile mode
 const MobileMode = () =>{
+  const [isOpen, setIsOpen] = React.useState(true);
+
+  const handleButtonClick = e => {
+    e.preventDefault();
+    setIsOpen(!isOpen);
+  };
+
   return(
     <div>
       <AppBar position='static' color='secondary'>
         <Toolbar>
 
           <Typography
+          onClick={()=>alert("Hello Friend")}
           variant="h6"
           component="div"
           sx={{ flexGrow: 1, paddingTop:1, display: {  sm: 'block' }}}>
             <img src={LOGO} alt='ASD' width={250} height={70}/>
           </Typography>
-        
-          <Box sx={{ display: { sm: 'block' } }}>
-            <Button color='info'>
-              <MenuIcon/>
-            </Button>
 
+          <Box sx={{ display: { sm: 'block' } }}>
+            
+            <Stack
+            direction="row"
+            justifyContent="center"
+            alignItems="center"
+            spacing={1}
+            >
+              <Divider orientation="vertical" flexItem />
+
+{/*               <Zoom in={isOpen}> */}
+<IconButton className={`toggle-icon-button ${isOpen ? 'open' : 'closed'}`} onClick={handleButtonClick}>
+
+                {isOpen ? <MenuIcon sx={{ fontSize: 40 }} /> : <CloseIcon sx={{ fontSize: 40 }} />}
+                
+              </IconButton>
+              {/* </Zoom> */}
+            </Stack>
           </Box>
 
         </Toolbar>
