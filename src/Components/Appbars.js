@@ -1,186 +1,239 @@
-import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
+import React from 'react';
+
+// components
+import { 
+  Grid, 
+  Stack,
+  Divider,
+  Button,
+  Typography,
+  IconButton,
+  Toolbar,
+  Box,
+  AppBar 
+} from '@mui/material';
+import { Link } from 'react-scroll'
+
+// icons
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import { 
+  FaViber,
+  FaFacebook,
+  FaLinkedinIn,
+  FaYoutube 
+} from 'react-icons/fa';
+import { BsInstagram } from 'react-icons/bs';
 import MenuIcon from '@mui/icons-material/Menu';
-import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
-import { Grid } from '@mui/material';
+
+// Logo
+import LOGO from '../assets/images/wellness-logov2.png'
 
 
-const pages = ['Products', 'Pricing', 'Blog'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 const AppBars = () => {
-    return (
-        <div>
-            <DestopMode/>
-        </div>
-    )
+  const [state,setState] = React.useState(true)
+
+  React.useEffect(()=>{
+    const setResponsiveness = () => {
+      return window.innerWidth < 700 ? setState(true) : setState(false)
+    }
+    setResponsiveness();
+    window.addEventListener("resize", () => setResponsiveness());
+
+    return () => {
+      window.addEventListener("resize", () => setResponsiveness());
+    }
+  },[])
+  return (
+    <div>
+      {state ? <MobileMode/> : <DestopMode/>}
+      
+    </div>
+  )
 }
 
 export default AppBars
 
+
+// For Desktop mode
 const DestopMode = () =>{
 
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [variants,setVariants] = React.useState({
+    home: 'primary',
+    services: 'disabled',
+    forum: 'disabled',
+    about: 'disabled'
+    
+  })
 
-  const handleOpenNavMenu = (event) => {
-    setAnchorElNav(event.currentTarget);
-  };
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
-  };
-
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-  };
-
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
+  const handleSetActive = (sectionName) => {
+    setVariants({
+      home: sectionName === 'home'? 'primary' : 'disabled',
+      services: sectionName === 'services'? 'primary' : 'disabled',
+      forum: sectionName === 'forum'? 'primary' : 'disabled',
+      about: sectionName === 'about'? 'primary' : 'disabled',
+      
+    })
+  }
 
   return (
     <div>
-      <Grid container sx={{ backgroundColor: "#757575" }}>
-        <Grid item xs={12} md={6}>
-          Location
+
+{/* Information */}
+      <Grid container sx={{ backgroundColor: "#1A2A36", paddingX:3, paddingY:1 }}  
+      direction="row"
+      justifyContent="center"
+      alignItems="center">
+
+        {/* Location */}
+        <Grid item xs={12} md={6} >
+          <Stack
+          direction="row"
+          justifyContent="flex-start"
+          alignItems="center"
+          spacing={1}>
+            <LocationOnIcon color='secondary'/>
+            <Typography color='white'>56 San Rafael St, Pasig, 1603, Metro Manila Phillippines</Typography>
+          </Stack>
         </Grid>
 
-      </Grid>
-      {/* <Box sx={{ backgroundColor: "#757575"}}>
-       
-      </Box> */}
-    <AppBar position="static">
-      <Container maxWidth="xl">
-        <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
-          <Typography
-            variant="h6"
-            noWrap
-            component="a"
-            href="/"
-            sx={{
-              mr: 2,
-              display: { xs: 'none', md: 'flex' },
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none',
-            }}
-          >
-            LOGO
-          </Typography>
+        {/* Contacts */}
+        <Grid item xs={12} md={6}>
 
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-            <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              color="inherit"
-            >
-              <MenuIcon />
+          <Stack
+          direction="row"
+          justifyContent="flex-end"
+          alignItems="center"
+          spacing={1}>
+
+            {/* Viber */}
+            <FaViber fontSize={30} color='white'/>
+            <Typography color='white'>+63 947 3117 641</Typography>
+            <div></div>
+            <div></div>
+
+
+            {/* Facebook */}
+            <IconButton size="small" color='secondary'>
+              <FaFacebook fontSize={30}/>
             </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: 'block', md: 'none' },
-              }}
-            >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
-          <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
-          <Typography
-            variant="h5"
-            noWrap
-            component="a"
-            href="/"
-            sx={{
-              mr: 2,
-              display: { xs: 'flex', md: 'none' },
-              flexGrow: 1,
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none',
-            }}
-          >
-            LOGO
-          </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
-              >
-                {page}
-              </Button>
-            ))}
-          </Box>
+            <Divider orientation="vertical" flexItem />
 
-          <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: '45px' }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
+            {/* LinkedIn */}
+            <IconButton size="small" color='secondary'>
+              <FaLinkedinIn fontSize={30}/>
+            </IconButton>
+            <Divider orientation="vertical" flexItem />
+            
+            {/* Youtube */}
+            <IconButton size="small" color='secondary'>
+              <FaYoutube fontSize={30}/>
+            </IconButton>
+            <Divider orientation="vertical" flexItem />
+
+            {/* Instagram */}
+            <IconButton size="small" color='secondary'>
+              <BsInstagram fontSize={30}/>
+            </IconButton>
+
+          </Stack>
+
+        </Grid>
+      </Grid>
+
+{/* Header */}
+      <AppBar position='static' color='secondary'>
+        <Toolbar>
+ 
+          <Typography
+          variant="h6"
+          component="div"
+          sx={{ flexGrow: 1,  paddingTop:1, display: { xs: 'none', sm: 'block' }}}>
+            <img src={LOGO} alt='ASD' width={250} height={70}/>
+          </Typography>
+
+          <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
+
+            <Button color={variants.home}>
+              <Link
+              to="home"
+              spy={true}
+              smooth={true}
+              offset={-200}
+              duration={500}
+              onSetActive={active=>handleSetActive(active)}
+              >
+                home
+              </Link>
+                
+            </Button>
+
+            <Button color={variants.services}>
+              <Link
+              to="services"
+              spy={true}
+              smooth={true}
+              offset={70}
+              duration={500}
+              onSetActive={active=>handleSetActive(active)}>
+                services
+              </Link>
+            </Button>
+
+            <Button color={variants.forum}>
+              <Link
+              to="forum"
+              spy={true}
+              smooth={true}
+              offset={70}
+              duration={500}
+              onSetActive={active=>handleSetActive(active)}>
+                forum
+              </Link>
+            </Button>
+
+            <Button color={variants.about}>
+              <Link
+              to="about"
+              spy={true}
+              smooth={true}
+              offset={100}
+              duration={500}
+              onSetActive={active=>handleSetActive(active)}>
+                about
+              </Link>
+            </Button>
+
           </Box>
+        
         </Toolbar>
-      </Container>
-    </AppBar>
+      </AppBar>
     </div>
   );
 }
 
+// For mobile mode
+const MobileMode = () =>{
+  return(
+    <div>
+      <AppBar position='static' color='secondary'>
+        <Toolbar>
+
+          <Typography
+          variant="h6"
+          component="div"
+          sx={{ flexGrow: 1, paddingTop:1, display: {  sm: 'block' }}}>
+            <img src={LOGO} alt='ASD' width={250} height={70}/>
+          </Typography>
+        
+          <Box sx={{ display: { sm: 'block' } }}>
+            <Button color='info'>
+              <MenuIcon/>
+            </Button>
+
+          </Box>
+
+        </Toolbar>
+      </AppBar>
+  </div>)
+}

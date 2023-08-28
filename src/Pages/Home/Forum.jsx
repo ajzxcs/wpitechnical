@@ -1,8 +1,10 @@
 import React from 'react'
+// CSS
+import '../../assets/styles/center.css'
 
 function Forum() {
   return (
-    <div>Forum</div>
+    <div className='centered-container'>Forum</div>
   )
 }
 

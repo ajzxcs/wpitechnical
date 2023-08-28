@@ -1,8 +1,10 @@
 import React from 'react'
+// CSS
+import '../../assets/styles/center.css'
 
 function Home() {
   return (
-    <div>Home</div>
+    <div className='centered-container'>Home</div>
   )
 }
 
