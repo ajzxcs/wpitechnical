@@ -4,7 +4,7 @@ import {
   Route,
   Routes as RouterS
 } from 'react-router-dom'
-import Loading from '../Features/Loading'
+import Loading from '../features/Loading'
 
 const Homepage = React.lazy(()=> import('../Pages/Home/Homepage'))
 const Routes = () => {
