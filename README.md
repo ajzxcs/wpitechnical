@@ -1,6 +1,5 @@
 # TEMPORARY DEPLOYMENT WEBSITE
  [click this to view website](https://wpi-projects-17ff6.web.app/)
-READEME
 
 # MAKINIG KAYO AJ AT FRANZ
 ito ang final at deployment branch natin
