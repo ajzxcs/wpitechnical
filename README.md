@@ -1,5 +1,5 @@
 # TEMPORARY DEPLOYMENT WEBSITE
-click this website to view [a link](https://wpi-projects-17ff6.web.app/)
+ [click this to view website](https://wpi-projects-17ff6.web.app/)
 READEME
 
 # MAKINIG KAYO AJ AT FRANZ
