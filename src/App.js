@@ -7,9 +7,9 @@ const App = () => {
 
       <Drift
       appId={process.env.REACT_APP_CHAT_BOT}
-      // style={{
-      //   bottom: "100px",
-      // }}
+      style={{
+        bottom: "100px",
+      }}
       />
     </div>
   );
