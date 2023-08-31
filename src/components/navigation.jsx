@@ -1,6 +1,9 @@
 import React from "react";
+// import { Navigate } from "react-router-dom";
+
 
 export const Navigation = (props) => {
+  // let navigationTo = Navigate()
   return (
     <nav id="menu" className="navbar navbar-default navbar-fixed-top">
       <div className="container">
@@ -17,7 +20,7 @@ export const Navigation = (props) => {
             <span className="icon-bar"></span>{" "}
             <span className="icon-bar"></span>{" "}
           </button>
-          <a className="navbar-brand page-scroll" href="#page-top">
+          <a className="navbar-brand page-scroll" href="/">
             Wellness Pro Inc.
           </a>{" "}
         </div>
@@ -63,7 +66,9 @@ export const Navigation = (props) => {
               </a>
             </li>
             <li>
-              <a style={{ color: 'blue'}} href="#contact" className="page-scroll">
+              <a style={{ color: 'blue'}} 
+              href="/Login"
+              className="page-scroll">
                 Sign In
               </a>
             </li>
