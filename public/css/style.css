@@ -5,9 +5,17 @@ html {
   -webkit-font-smoothing: antialiased !important;
   color: #777;
   font-weight: 400;
-  width: 100% !important;
-  height: 100% !important;
+  width: 100%;
+  height: auto;
+ 
 }
+body {
+  max-width: 100%; /* Limit the maximum width to the viewport width */
+  margin: 0 auto; /* Center the content horizontally */
+  overflow-x: hidden; /* Hide horizontal scrollbar if it appears */
+  
+}
+
 h2,
 h3,
 h4 {
@@ -204,6 +212,7 @@ a:focus,
   outline-offset: none;
 }
 /* Header Section */
+/* Base styles for larger screens */
 .intro {
   display: table;
   width: 100%;
@@ -215,9 +224,11 @@ a:focus,
   background-size: cover;
   -o-background-size: cover;
 }
+
 .intro .overlay {
   background: rgba(0, 0, 0, 0.2);
 }
+
 .intro h1 {
   font-family: "Raleway", sans-serif;
   color: #fff;
@@ -227,10 +238,12 @@ a:focus,
   margin-top: 0;
   margin-bottom: 10px;
 }
+
 .intro h1 span {
   font-weight: 800;
   color: #5ca9fb;
 }
+
 .intro p {
   color: #fff;
   font-size: 22px;
@@ -239,14 +252,43 @@ a:focus,
   margin: 0 auto;
   margin-bottom: 60px;
 }
+
 header .intro-text {
   padding-top: 350px;
   padding-bottom: 200px;
   text-align: center;
 }
+
+/* Media Query for Mobile Devices */
+@media (max-width: 768px) {
+  .intro h1 {
+    font-size: 42px; /* Adjust the font size for smaller screens */
+  }
+
+  .intro p {
+    font-size: 16px; /* Adjust the font size for smaller screens */
+    line-height: 24px; /* Adjust the line height for smaller screens */
+    margin-bottom: 30px; /* Reduce the margin between paragraphs */
+  }
+
+  header .intro-text {
+    padding-top: 150px; /* Adjust the top padding for the header */
+    padding-bottom: 100px; /* Adjust the bottom padding for the header */
+  }
+  
+  /* Background image adjustments for mobile */
+  .intro {
+    background-position: top center; /* Display the background image at the top */
+  }
+  /* Remove or adjust the overlay for mobile */
+  .intro .overlay {
+    background: none; /* Remove the overlay for mobile */
+  }
+}
+
 /* Features Section */
 #brand {
-  background: #f6f6f6;
+  background: #dbd8e3;
 }
 #brand i.fa {
   font-size: 38px;
@@ -254,15 +296,52 @@ header .intro-text {
   transition: all 0.5s;
   color: #fff;
   width: 100px;
-  height: 100px;
+  height: auto;
   padding: 30px 0;
   border-radius: 50%;
   background: linear-gradient(to right, #6372ff 0%, #5ca9fb 100%);
   box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.05);
 }
+/* CSS for mobile view */
+@media (max-width: 768px) {
+  #brand .container {
+    max-width: 100%; /* Ensure the container adjusts to the screen width */
+  }
+
+  #brand .section-title h2 {
+    font-size: 24px; /* Reduce the font size of the section title */
+  }
+
+  #brand .row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* Center-align the columns */
+  }
+
+  #brand .col-xs-6 {
+    width: 50%; /* Display two columns per row on mobile */
+    text-align: center; /* Center-align the content within columns */
+    margin-bottom: 20px; /* Add some margin between columns */
+  }
+
+  #brand h3 {
+    font-size: 18px; /* Reduce the font size of the headings */
+    margin-top: 10px; /* Add some top margin for spacing */
+  }
+
+  #brand p {
+    font-size: 14px; /* Reduce the font size of the text */
+  }
+
+  #brand i {
+    font-size: 32px; /* Reduce the font size of the icons */
+  }
+}
+
+
 /* About Section */
 #about {
-  padding: 100px 0;
+ background:white;
 }
 #about h3 {
   font-size: 22px;
@@ -297,7 +376,7 @@ header .intro-text {
   padding-right: 8px;
 }
 #about img {
-  width: 520px;
+  width: 768px;
   margin-top: 10px;
   background: #fff;
   border-right: 0;
@@ -309,15 +388,14 @@ header .intro-text {
 }
 /* Services Section */
 #services {
-  padding: 100px 0;
-  background: linear-gradient(to right, #6372ff 0%, #5ca9fb 100%);
-  color: #fff;
+  background:linear-gradient(to right, #6372ff 0%, #5ca9fb 100%);
+  color: white;
 }
 #services .service-desc {
   margin: 10px 10px 20px;
 }
 #services h2 {
-  color: #fff;
+  color: white;
 }
 #services .section-title h2::after {
   position: absolute;
@@ -345,7 +423,7 @@ header .intro-text {
   color: #fff;
 }
 #services p {
-  color: rgba(255, 255, 255, 0.75);
+  color: white;
 }
 #services .service-desc {
   margin-bottom: 40px;
@@ -604,3 +682,76 @@ label {
     margin: 50px 0;
   }
 }
+
+.sub-menu {
+  display: none; /* Hide the sub-menu by default */
+  font-family: sans-serif;
+  padding-left: 20px;
+  padding-top: 5px;
+}
+
+/* Style for the sub-menu items */
+.sub-menu li {
+  list-style: none;
+}
+
+/* Style for the sub-menu links */
+.sub-menu a {
+  text-decoration: none;
+  color: #333;
+}
+
+/* Style for the parent link when it's active */
+li:hover .sub-menu {
+  display: block; /* Display the sub-menu when the parent li is hovered */
+}
+
+/* Add this code for responsive design for mobile devices */
+@media (max-width: 768px) {
+  /* Adjustments for screens up to 768px in width */
+  body,
+  html {
+    font-size: 16px; /* Adjust the base font size for better readability on smaller screens */
+  }
+
+  /* Header Section */
+  .intro {
+    padding-top: 200px; /* Adjust the padding for the header intro text */
+    padding-bottom: 100px; /* Adjust the padding for the header intro text */
+  }
+
+  /* Services Section */
+  #services .service-desc {
+    margin-bottom: 20px; /* Adjust the margin for service descriptions */
+  }
+
+  /* Portfolio Section */
+  .portfolio-item {
+    margin: 1px -10px 0 -10px; /* Adjust margins for portfolio items */
+  }
+
+  /* Testimonials Section */
+  #forum {
+    padding-top: 60px; /* Adjust padding for the testimonials section */
+    padding-bottom: 60px; /* Adjust padding for the testimonials section */
+  }
+
+  /* Contact Section */
+  #contact .form-control {
+    font-size: 14px; /* Adjust font size for form inputs */
+  }
+
+  #contact .btn-custom {
+    margin: 20px 0; /* Adjust margin for the contact button */
+  }
+
+  #contact .contact-item {
+    margin: 10px 0; /* Adjust margin for contact items */
+  }
+
+  /* Social Icons */
+  #contact .social ul li {
+    margin: 0 10px; /* Adjust margin for social icons */
+  }
+}
+

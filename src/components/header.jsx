@@ -1,5 +1,5 @@
 import React from "react";
-
+import { AiFillCaretUp } from "react-icons/ai";
 export const Header = (props) => {
   return (
     <header id="header">
@@ -17,6 +17,7 @@ export const Header = (props) => {
                   href="#about"
                   className="btn btn-custom btn-lg page-scroll"
                 >
+                <AiFillCaretUp />
                   Learn More
                 </a>{" "}
               </div>
