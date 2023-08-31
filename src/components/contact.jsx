@@ -150,8 +150,8 @@ export const Contact = (props) => {
         <div className="container text-center">
           <p>
             &copy; 2023 Copyright By Wellness Pro. Design by{" "}
-            <a href="#" rel="nofollow">
-            </a>
+            <a href="/" rel="nofollow">
+        
             </a>
           </p>
         </div>
