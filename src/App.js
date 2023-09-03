@@ -12,7 +12,7 @@ const App = () => {
       }}
       />
 
-      {/* hello friend */}
+
     </div>
   );
 };
