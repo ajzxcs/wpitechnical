@@ -11,6 +11,8 @@ const App = () => {
         bottom: "100px",
       }}
       />
+
+      {/* hello friend */}
     </div>
   );
 };
