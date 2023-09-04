@@ -19,22 +19,22 @@ function LoginForm() {
 
   const [showPopup, setShowPopup] = useState(false); // State to control popup visibility
   const [showPasswordCheckbox, setShowPasswordCheckbox] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
+  // const [showPassword, setShowPassword] = useState(false);
 
   const handleGoogleSignIn = () => {
     setShowPopup(true); // Show the popup when the button is clicked
     // Implement your Google sign-in logic here
   };
 
-  const togglePasswordVisibility = () => {
-    setShowPassword((prevShowPassword) => !prevShowPassword);
-  };
+  // const togglePasswordVisibility = () => {
+  //   setShowPassword((prevShowPassword) => !prevShowPassword);
+  // };
 
   const handleShowPasswordCheckbox = () => {
     setShowPasswordCheckbox(
       (prevShowPasswordCheckbox) => !prevShowPasswordCheckbox
     );
-    setShowPassword(false); // Hide the password when toggling the checkbox
+    // setShowPassword(false); // Hide the password when toggling the checkbox
   };
 
   return (
@@ -63,7 +63,8 @@ function LoginForm() {
               onChange={handleShowPasswordCheckbox}
               style={{ marginRight: "6px" }}
             />
-            <span>Show Password</span>
+            <span style={{ fontWeight: "bold" }}>Show Password</span>
+
           </div>
           <Marginer direction="vertical" margin="10px" />
           <MutedLink href="#">Forgot Your Password?</MutedLink>
