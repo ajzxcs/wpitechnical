@@ -57,6 +57,7 @@ function LoginForm() {
               color: "#666"
             }}
           >
+          {/* Hello Friend */}
             <input
               type="checkbox"
               checked={showPasswordCheckbox}
