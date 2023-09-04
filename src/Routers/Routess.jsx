@@ -4,6 +4,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 
 const Homepage = React.lazy(()=>import('../Pages/Homepage'))
 const Login = React.lazy(()=>import('../Pages/Login'))
+const Forum = React.lazy(()=>import('../Pages/Forum'))
 const Routess = () => {
 
   return (
@@ -15,6 +16,7 @@ const Routess = () => {
 
           <Route path="/" element={ <Homepage/>}/> 
           <Route path="/Login" element={ <Login/>}/> 
+          <Route path="/Forum" element={ <Forum/>}/> 
           <Route path="*" element={<Navigate to="/"/>}/>
 
         </Routes>
