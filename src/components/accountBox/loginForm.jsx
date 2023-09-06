@@ -9,17 +9,22 @@ import {
 } from "./common";
 import { Marginer } from "../marginer";
 import { AccountContext } from "./accountContext";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGoogle } from "@fortawesome/free-brands-svg-icons"; // Import the Google icon
+import { useNavigate } from "react-router-dom";
+
 
 function LoginForm() {
-  // -- destructure the object function
+
   let { switchToSignup } = useContext(AccountContext);
-  // console.log(switchToSignup)
+
+  const navigate = useNavigate(); // Initialize useNavigate
+
+  const handleBackToHomepage = () => {
+    navigate("/"); // Navigate to the homepage ("/" route)
+  };
 
   const [showPopup, setShowPopup] = useState(false); // State to control popup visibility
   const [showPasswordCheckbox, setShowPasswordCheckbox] = useState(false);
-  // const [showPassword, setShowPassword] = useState(false);
+  
 
   const handleGoogleSignIn = () => {
     setShowPopup(true); // Show the popup when the button is clicked
@@ -62,45 +67,21 @@ function LoginForm() {
               type="checkbox"
               checked={showPasswordCheckbox}
               onChange={handleShowPasswordCheckbox}
-              style={{ marginRight: "6px" }}
+              style={{ marginRight: "10px" }}
             />
             <span style={{ fontWeight: "bold" }}>Show Password</span>
 
           </div>
-          <Marginer direction="vertical" margin="10px" />
-          <MutedLink href="#">Forgot Your Password?</MutedLink>
-          <Marginer direction="vertical" margin="10px" />
+          <Marginer direction="vertical" margin="20px" />
+          <Marginer direction="vertical" margin="20px" />
           <SubmitButton type="button">Sign in</SubmitButton>
           <Marginer direction="vertical" margin="10px" />
-          <MutedLink>
-            Don't have an account?
-            <BoldLink href="#" onClick={switchToSignup}>
-              Sign Up
+            <BoldLink onClick={handleBackToHomepage}>
+              Back To Homepage
             </BoldLink>
-          </MutedLink>
+      
           <Marginer direction="vertical" margin="10px" />
-          <div>
-            <SubmitButton type="button" onClick={handleGoogleSignIn}>
-              <FontAwesomeIcon icon={faGoogle} /> Continue with Google
-            </SubmitButton>
-          </div>
-          {showPopup && (
-            <div className="popup">
-              <div className="popup-content">
-                <p>
-                  This is a beta Test for the TSG.
-                  <br />
-                  Thank you for testing!
-                </p>
-                <button
-                  className="close-button"
-                  onClick={() => setShowPopup(false)}
-                >
-                  Close
-                </button>
-              </div>
-            </div>
-          )}
+        
           <div></div>
         </FormContainer>
       </BoxContainer>

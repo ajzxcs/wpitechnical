@@ -24,13 +24,15 @@ export const MutedLink = styled.a`
   margin-left: 10px;
 `;
 
-// sign-up link highlight
+// back to homepage
 export const BoldLink = styled.a`
-  font-size: 12px;
+  font-size: 13px;
   color: rgb(51, 153, 204);
   text-decoration: none;
   margin: 0 4px;
   font-weight: bold;
+  align-items: center;
+  cursor: pointer;
 `;
 
 export const Input = styled.input`
@@ -42,7 +44,7 @@ export const Input = styled.input`
   padding: 0px 10px;
   border-bottom: 1.4px solid transparent;
   transition: all 200ms ease-in-out;
-  font-size: 12px;
+  font-size: 15px;
   border-bottom: 1.5px solid rgba(200, 200, 200, 3);
   border-radius: 10px;
   &::placeholder {
