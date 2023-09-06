@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import Header from "../componentsPB/Header";
-import Sidebar from "../componentsPB/Sidebar";
-import PostList from "../componentsPB/PostList";
-import PostDetail from "../componentsPB/PostDetail";
-import SearchBar from "../componentsPB/SearchBar";
-import AskQ from "../componentsPB/AskQ";
-import PostForm from "../componentsPB/PostForm";
+import Header from "../components/componentsPB/Header";
+import Sidebar from "../components/componentsPB/Sidebar";
+import PostList from "../components/componentsPB/PostList";
+import PostDetail from "../components/componentsPB/PostDetail";
+import SearchBar from "../components/componentsPB/SearchBar";
+import AskQ from "../components/componentsPB/AskQ";
+import PostForm from "../components/componentsPB/PostForm";
 import samplePosts from "../data/samplePosts";
 import "../App.css";
 
