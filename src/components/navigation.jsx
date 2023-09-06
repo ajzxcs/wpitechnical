@@ -1,4 +1,5 @@
 import React from "react";
+import wellnessProImage from '../imgsrc/wpilogo.png';
 // import { Navigate } from "react-router-dom";
 
 
@@ -21,7 +22,7 @@ export const Navigation = (props) => {
             <span className="icon-bar"></span>{" "}
           </button>
           <a className="navbar-brand page-scroll" href="/">
-            Wellness Pro Inc.
+           Wellness Pro Inc.
           </a>{" "}
         </div>
 
