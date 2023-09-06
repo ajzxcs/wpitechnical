@@ -1,20 +1,19 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import {
   BoxContainer,
   FormContainer,
   Input,
-  MutedLink,
   SubmitButton,
   BoldLink
 } from "./common";
 import { Marginer } from "../marginer";
-import { AccountContext } from "./accountContext";
 import { useNavigate } from "react-router-dom";
 
+// validation and Authentication
+import { userSchema } from '../../Features/Authentication/Validation'
+import { LoginSession } from "../../Features/Authentication/Authentication";
 
 function LoginForm() {
-
-  let { switchToSignup } = useContext(AccountContext);
 
   const navigate = useNavigate(); // Initialize useNavigate
 
@@ -22,36 +21,116 @@ function LoginForm() {
     navigate("/"); // Navigate to the homepage ("/" route)
   };
 
-  const [showPopup, setShowPopup] = useState(false); // State to control popup visibility
   const [showPasswordCheckbox, setShowPasswordCheckbox] = useState(false);
-  
-
-  const handleGoogleSignIn = () => {
-    setShowPopup(true); // Show the popup when the button is clicked
-    // Implement your Google sign-in logic here
-  };
-
-  // const togglePasswordVisibility = () => {
-  //   setShowPassword((prevShowPassword) => !prevShowPassword);
-  // };
 
   const handleShowPasswordCheckbox = () => {
     setShowPasswordCheckbox(
       (prevShowPasswordCheckbox) => !prevShowPasswordCheckbox
-    );
-    // setShowPassword(false); // Hide the password when toggling the checkbox
+    )
   };
 
+
+   // Login details
+   const [users,setUser] = useState({
+    email: "",
+    password: ""
+  })
+
+  // for email
+  const handleforEmail = e =>{
+    setUser({...users, email: e.target.value})
+  }
+
+  // for password
+  const handleforPassword = e =>{
+    setUser({...users, password: e.target.value})
+  }
+
+  // for Login Button
+  const loginButton = e =>{
+    e.preventDefault()
+    isValid(users.email, users.password)
+  }
+
+  // validatioon
+  const isValid = async(Email,Password) =>{
+    try{
+      await userSchema.validate({ email: Email, password: Password }, { abortEarly: false });
+
+      // Login in firebase
+      LoginSession(users).then(result=>{
+
+        // if success
+        alert(result)
+        
+        // setError({
+        //   email: false,
+        //   emailError: "",
+
+        //   password: false,
+        //   passwordError: ""
+        // });
+
+    }).catch((error) => {
+
+      // if Login Fiale
+      alert(error); // Error message
+
+      // setError({
+        //   email: true,
+        //   emailError: "",
+
+        //   password: true,
+        //   passwordError: error
+        // });
+
+
+      })
+
+
+    }catch(validationError){
+
+      // Extract specific error messages for email and password
+      const emailError = validationError.inner.find((error) => error.path === 'email');
+      const passwordError = validationError.inner.find((error) => error.path === 'password');
+
+      alert( !!emailError + " | " + emailError && emailError.message )
+      alert( !!passwordError + passwordError && passwordError.message )
+
+
+      // email and password
+      // !!emailError = If TRUE mean error occured
+      // emailError && emailError.message = error messages
+
+      // !!passwordError = If TRUE mean error occured
+      // passwordError + passwordError && passwordError.message = error messages
+
+
+    }
+  }
   return (
     <div>
       <BoxContainer>
         <FormContainer>
-          <Input type="text" placeholder="Email" required />
+
+        {/* Email */}
+          <Input 
+          type="text" 
+          placeholder="Email" 
+          required 
+          value={users.email}
+          onChange={handleforEmail}
+          />
+
+        {/* Password */}
           <Input
             type={showPasswordCheckbox ? "text" : "password"}
             placeholder="Password"
             required
+            value={users.password}
+            onChange={handleforPassword}
           />
+
           <div
             style={{
               display: "flex",
@@ -62,19 +141,24 @@ function LoginForm() {
               color: "#666"
             }}
           >
-          {/* Hello Friend */}
             <input
               type="checkbox"
               checked={showPasswordCheckbox}
               onChange={handleShowPasswordCheckbox}
               style={{ marginRight: "10px" }}
+
             />
             <span style={{ fontWeight: "bold" }}>Show Password</span>
 
           </div>
+
           <Marginer direction="vertical" margin="20px" />
           <Marginer direction="vertical" margin="20px" />
-          <SubmitButton type="button">Sign in</SubmitButton>
+
+          {/* Login Button */}
+          <SubmitButton type="button" onClick={loginButton}>Sign in</SubmitButton>
+
+
           <Marginer direction="vertical" margin="10px" />
             <BoldLink onClick={handleBackToHomepage}>
               Back To Homepage

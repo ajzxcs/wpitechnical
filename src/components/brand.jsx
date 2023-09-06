@@ -3,7 +3,7 @@ import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 // firebase
-import { getAllImages } from '../firebase/Storage'
+import { getAllImages } from '../Features/firebase/Storage'
 
 export const Brand = (props) => {
   // State to control the current slide
