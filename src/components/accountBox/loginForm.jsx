@@ -49,6 +49,7 @@ function LoginForm() {
   // for Login Button
   const loginButton = e =>{
     e.preventDefault()
+    // Login in firebase
     isValid(users.email, users.password)
   }
 
@@ -62,6 +63,7 @@ function LoginForm() {
 
         // if success
         alert(result)
+        navigate("/Forum")
         
         // setError({
         //   email: false,
@@ -156,7 +158,9 @@ function LoginForm() {
           <Marginer direction="vertical" margin="20px" />
 
           {/* Login Button */}
-          <SubmitButton type="button" onClick={loginButton}>Sign in</SubmitButton>
+          <SubmitButton type="button" 
+          onClick={loginButton}
+          >Sign in</SubmitButton>
 
 
           <Marginer direction="vertical" margin="10px" />

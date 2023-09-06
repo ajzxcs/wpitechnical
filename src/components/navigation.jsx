@@ -1,9 +1,19 @@
 import React from "react";
-import wellnessProImage from '../imgsrc/wpilogo.png';
+import { statusLogin } from "../Features/Authentication/Authentication"
+// import wellnessProImage from '../imgsrc/wpilogo.png';
 // import { Navigate } from "react-router-dom";
 
 
 export const Navigation = (props) => {
+
+  const [status,setStatus] = React.useState(false)
+  React.useState(()=>{
+    statusLogin().then(res=>setStatus(res))
+    return (()=>{
+      // clean up function
+    })
+  },[])
+
   // let navigationTo = Navigate()
   return (
     <nav id="menu" className="navbar navbar-default navbar-fixed-top">
@@ -67,11 +77,19 @@ export const Navigation = (props) => {
               </a>
             </li>
             <li>
+            {
+              !status ?
               <a style={{ color: 'blue'}} 
               href="/Login"
               className="page-scroll">
                 Sign In
+              </a> :
+              <a href="/Forum" style={{ color: 'blue'}} 
+              className="page-scroll">
+                Go to Forum
               </a>
+            }
+        
             </li>
           </ul>
         </div>

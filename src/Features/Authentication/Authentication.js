@@ -4,13 +4,33 @@ import {
     signInWithEmailAndPassword, 
     browserSessionPersistence,
     signOut,
+    onAuthStateChanged,
 } from "firebase/auth";
 
 import { auth } from '../firebase/Configuration'
 
 
+// status Login
+export const statusLogin = () => {
+
+  return new Promise((resolve, reject) => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        sessionStorage.setItem('TOKEN',"Login")   
+                            // window.location.reload();
+        resolve(true);
+      } else {
+
+        sessionStorage.clear()
+        resolve(false);
+      }
+    }, reject);
+  });
+};
+
 // Login 
 export const LoginSession = (user) => {
+
     return new Promise((resolve, reject) => {
 
       setPersistence(auth, browserSessionPersistence)
@@ -19,7 +39,12 @@ export const LoginSession = (user) => {
           signInWithEmailAndPassword(auth, user.email, user.password)
 
             .then(() => {
-                window.location.reload();
+                // window.location.reload();
+
+              sessionStorage.setItem('TOKEN',"Login")   
+
+
+         
               resolve("Login Successful");
             })
             .catch((error) => {
@@ -37,12 +62,12 @@ export const LoginSession = (user) => {
     });
   };
 
-
 // Logout
 export const LogoutSession = async () => {
     await signOut(auth).then(()=>{
         console.log("Succesfull signout")
         sessionStorage.clear()
+        window.location.reload()
 
     }).catch((err)=>console.log(err))
   

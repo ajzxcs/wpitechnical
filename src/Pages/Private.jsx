@@ -7,7 +7,11 @@ import SearchBar from "../components/componentsPV/SearchBarpv";
 import AskQ from "../components/componentsPV/AskQpv";
 import PostForm from "../components/componentsPV/PostFormpv";
 import samplePosts from "../data/samplePosts";
+import { LogoutSession } from '../Features/Authentication/Authentication'
+
 import "../App.css";
+
+
 
 function Public() {
   const [posts, setPosts] = useState([]);
@@ -120,6 +124,11 @@ function Public() {
     <div className="public">
       <Header />
       <ImageBanner />
+
+      
+      <h1>PRIVATE FORUM</h1> 
+      <button onClick={()=>LogoutSession()}>LOG OUT</button>
+
       <div className="cover-image"></div>
       <div className="main-content">
         <div className="content">

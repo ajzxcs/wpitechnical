@@ -120,6 +120,12 @@ function Public() {
     <div className="public">
       <Header />
       <ImageBanner />
+      
+      <h1>PUBLIC FORUM</h1>
+
+      <a href="/Login">
+        <button>Login</button>
+      </a>
       <div className="cover-image"></div>
       <div className="main-content">
         <div className="content">
