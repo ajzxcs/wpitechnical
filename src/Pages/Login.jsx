@@ -3,7 +3,7 @@ import styled from "styled-components";
 import LoginForm from "../components/accountBox/loginForm";
 import { motion } from "framer-motion";
 import { AccountContext } from "../components/accountBox/accountContext";
-import SignUp from "../components/accountBox/signUpForm";
+
 import "../App.css";
 
 const AppContainer = styled.div`
@@ -125,6 +125,7 @@ const expandingTransition = {
 const { expanded, collapsed } = backDropVariants;
 
 const Login = () => {
+  
   const [isExapanded, setExpanded] = useState(false);
   const [active, setActive] = useState("signin");
 
