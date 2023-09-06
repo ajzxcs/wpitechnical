@@ -7,17 +7,17 @@ import { getAllImages } from '../Features/firebase/Storage'
 
 export const Brand = (props) => {
   // State to control the current slide
-  const [currentSlide, setCurrentSlide] = React.useState(0);
+  // const [currentSlide, setCurrentSlide] = React.useState(0);
 
-  const handlePrevClick = () => {
-    // Decrease the current slide index
-    setCurrentSlide((prevSlide) => prevSlide - 1);
-  };
+  // const handlePrevClick = () => {
+  //   // Decrease the current slide index
+  //   setCurrentSlide((prevSlide) => prevSlide - 1);
+  // };
 
-  const handleNextClick = () => {
-    // Increase the current slide index
-    setCurrentSlide((prevSlide) => prevSlide + 1);
-  };
+  // const handleNextClick = () => {
+  //   // Increase the current slide index
+  //   setCurrentSlide((prevSlide) => prevSlide + 1);
+  // };
 
   // brands from firebase
 const [brands,setBrands] = React.useState([])
@@ -57,7 +57,7 @@ const [brands,setBrands] = React.useState([])
               showThumbs={false}
               showStatus={false}
               infiniteLoop={true}
-              selectedItem={currentSlide} // Control the current slide
+              // selectedItem={currentSlide} // Control the current slide
               renderArrowPrev={(onClickHandler, hasPrev) =>
                 hasPrev && (
                   <button onClick={onClickHandler} className="custom-arrow custom-arrow-prev">
