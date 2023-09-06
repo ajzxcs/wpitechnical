@@ -2,6 +2,9 @@ import React from "react";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 
+// firebase
+import { getAllImages } from '../firebase/Storage'
+
 export const Brand = (props) => {
   // State to control the current slide
   const [currentSlide, setCurrentSlide] = React.useState(0);
@@ -16,6 +19,29 @@ export const Brand = (props) => {
     setCurrentSlide((prevSlide) => prevSlide + 1);
   };
 
+  // brands from firebase
+const [brands,setBrands] = React.useState([])
+
+  React.useEffect(()  => {
+    let isMounted = true; // A flag to track whether the component is mounted
+
+
+    const loadImages = async () => {
+      const urls = await getAllImages();
+      setBrands(urls);
+    };
+
+   if (isMounted){
+    loadImages()
+   }
+
+    // Cleanup function
+    return () => {
+      isMounted = false; // Mark the component as unmounted
+    };
+  }, []);
+
+
   return (
     <div id="brand" className="text-center">
       <div className="container">
@@ -23,7 +49,7 @@ export const Brand = (props) => {
           <h2>Brands</h2>
         </div>
         <div className="row">
-          {props.data ? (
+          {brands ? (
             <Carousel
               showArrows={false} // Hide the default arrows
               autoPlay={true}
@@ -47,13 +73,14 @@ export const Brand = (props) => {
                 )
               }
             >
-              {props.data.map((d, i) => (
-                <div key={`${d.title}-${i}`}>
-                  <img src={d.image} alt={d.title} style={{ width: '300px', height: '300px' }} />
+              {brands?.map((url, index) => (
+                <div key={`${url.name}-${index}`}>
+                  <img src={url.url} alt={url.name} style={{ width: '300px', height: '300px' }} />
                 </div>
               ))}
             </Carousel>
-          ) : (
+          ) : 
+          (
             "Loading..."
           )}
         </div>
