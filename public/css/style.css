@@ -215,6 +215,7 @@ a:focus,
   background-size: cover;
   -o-background-size: cover;
 }
+
 .intro .overlay {
   background: rgba(0, 0, 0, 0.2);
 }
@@ -260,6 +261,7 @@ header .intro-text {
   background: linear-gradient(to right, #6372ff 0%, #5ca9fb 100%);
   box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.05);
 }
+
 /* About Section */
 #about {
   padding: 100px 0;
@@ -604,3 +606,5 @@ label {
     margin: 50px 0;
   }
 }
+
+
