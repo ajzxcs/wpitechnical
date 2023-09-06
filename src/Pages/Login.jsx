@@ -193,18 +193,10 @@ const Login = () => {
               </HeaderContainer>
             )}
 
-            {active === "signup" && (
-              <HeaderContainer>
-                <Logo imageUrl={"./WPI 1.png"} /> {/* Use the imported image */}
-                <HeaderText>Hello, Friend!</HeaderText>
-                <SmallText>Enter your personal details and</SmallText>
-                <SmallText>start journey with us</SmallText>
-              </HeaderContainer>
-            )}
+      
           </TopContainer>
           <BottomContainer>
             {active === "signin" && <LoginForm />}
-            {active === "signup" && <SignUp />}
           </BottomContainer>
         </BoxContainer>
       </AccountContext.Provider>
