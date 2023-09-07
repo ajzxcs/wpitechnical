@@ -44,7 +44,7 @@ export const Contact = (props) => {
                   get back to you as soon as possible.
                 </p>
               </div>
-              <form name="sentMessage" validate onSubmit={handleSubmit}>
+              <form name="sentMessage" action="https://formsubmit.co/ajderoque@gmail.com" method="post">
                 <div className="row">
                   <div className="col-md-6">
                     <div className="form-group">
@@ -98,11 +98,21 @@ export const Contact = (props) => {
             <div className="contact-item">
               <h3>Contact Info</h3>
               <p>
-                <span>
-                  <i className="fa fa-map-marker"></i> Address
-                </span>
-                {props.data ? props.data.address : "loading"}
-              </p>
+          <span>
+             <i className="fa fa-map-marker"></i> Address
+               </span>{" "}
+               {props.data ? (
+             <a
+               href={`https://goo.gl/maps/HCPj8u1J8VBdCCMz6`}
+               target="_blank"
+               rel="noopener noreferrer"
+               style={{ color: 'white' }}
+                >{props.data.address}
+                 </a> 
+               ) : (
+              "loading"
+             )}
+      </p>
             </div>
             <div className="contact-item">
               <p>

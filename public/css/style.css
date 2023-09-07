@@ -219,21 +219,36 @@ a:focus,
 .intro .overlay {
   background: rgba(0, 0, 0, 0.2);
 }
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-20px);
+  }
+  60% {
+    transform: translateY(-10px);
+  }
+}
+
 .intro h1 {
   font-family: "Raleway", sans-serif;
-  color: #fff;
+  color: #333;
   font-size: 82px;
   font-weight: 700;
   text-transform: uppercase;
   margin-top: 0;
   margin-bottom: 10px;
+  animation: bounce 2s infinite; /* Adjust the duration as needed */
 }
+
+
 .intro h1 span {
   font-weight: 800;
   color: #5ca9fb;
 }
 .intro p {
-  color: #fff;
+  color: #333;
   font-size: 22px;
   font-weight: 300;
   line-height: 30px;
@@ -245,6 +260,50 @@ header .intro-text {
   padding-bottom: 200px;
   text-align: center;
 }
+/* CSS for the logosn class */
+/* CSS for the logosn class */
+.logosn {
+  width: 400px; /* Adjust the size as needed */
+  position: absolute;
+  left: 50%;
+  top: 30%;
+  transform: translate(-50%, -50%);
+}
+
+
+
+
+/* Media Query for Mobile View */
+@media (max-width: 768px) {
+  /* Adjust styles for smaller screens */
+
+  .intro {
+    background-position: center top; /* Adjust the background position for mobile */
+    padding-top: 100px; /* Adjust the top padding */
+    padding-bottom: 100px; /* Adjust the bottom padding */
+    position: relative; /* Add relative positioning to the .intro container */
+  }
+  .intro .overlay {
+    background: none;
+    
+  }
+
+  .intro h1 {
+    font-size: 42px; /* Increase the font size for mobile */
+    color: #333;
+  }
+
+  .intro p {
+    font-size: 16px; /* Adjust the font size for mobile */
+    line-height: 24px; /* Adjust the line height for mobile */
+    margin-bottom: 30px; /* Adjust the margin for mobile */
+    color: #333;
+  }
+
+  /* You can add more specific styles for smaller screens here */
+}
+
+
 /* Features Section */
 #brand {
   background: #f6f6f6;
@@ -607,4 +666,16 @@ label {
   }
 }
 
+.btn-forum{
+  background-color: lightseagreen; /* Change to your preferred blue color */
+  color: white;
+  padding: 10px 20px; /* Adjust padding as needed */
+  border: none;
+  border-radius: 5px; /* Optional: Add rounded corners */
+  cursor: pointer;
+  font-size: 16px; /* Adjust font size as needed */
+}
 
+.btn-forum:hover{
+  background-color: darkblue; 
+}

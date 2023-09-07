@@ -1,6 +1,8 @@
 import React from "react";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; 
+import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 
 // firebase
 import { getAllImages } from '../Features/firebase/Storage'
@@ -51,24 +53,25 @@ const [brands,setBrands] = React.useState([])
         <div className="row">
           {brands ? (
             <Carousel
-              showArrows={false} // Hide the default arrows
+              showArrows={true} // Hide the default arrows
               autoPlay={true}
               interval={3000}
               showThumbs={false}
               showStatus={false}
               infiniteLoop={true}
+              showIndicators={false} // Hide the navigation dots
               // selectedItem={currentSlide} // Control the current slide
               renderArrowPrev={(onClickHandler, hasPrev) =>
                 hasPrev && (
                   <button onClick={onClickHandler} className="custom-arrow custom-arrow-prev">
-                    Previous
+                  <FontAwesomeIcon icon={faChevronLeft} className="custom-arrow-icon" /> {/* Left arrow */}
                   </button>
                 )
               }
               renderArrowNext={(onClickHandler, hasNext) =>
                 hasNext && (
                   <button onClick={onClickHandler} className="custom-arrow custom-arrow-next">
-                    Next
+                  <FontAwesomeIcon icon={faChevronRight} className="custom-arrow-icon" /> {/* Right arrow */}
                   </button>
                 )
               }
