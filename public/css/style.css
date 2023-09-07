@@ -666,4 +666,16 @@ label {
   }
 }
 
+.btn-forum{
+  background-color: lightseagreen; /* Change to your preferred blue color */
+  color: white;
+  padding: 10px 20px; /* Adjust padding as needed */
+  border: none;
+  border-radius: 5px; /* Optional: Add rounded corners */
+  cursor: pointer;
+  font-size: 16px; /* Adjust font size as needed */
+}
 
+.btn-forum:hover{
+  background-color: darkblue; 
+}

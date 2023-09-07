@@ -1,4 +1,6 @@
 import React from "react";
+import { Image } from "./image";
+
 
 export const Forum = (props) => {
   return (
@@ -24,6 +26,9 @@ export const Forum = (props) => {
                 </div>
               ))
             : "loading"}
+        </div><br></br><br></br><br></br>
+        <div className="text-center">
+          <button className="btn-forum">View Forum</button>
         </div>
       </div>
     </div>

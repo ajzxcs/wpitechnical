@@ -9,7 +9,7 @@ export const Gallery = (props) => {
         <div className="section-title">
           <h2>Gallery</h2>
           <p>
-            THIS SECTION IS OPEN FOR REDEVELOPMENT -AJ
+            Post and Blogs Campaign
           </p>
         </div>
         <div className="row">

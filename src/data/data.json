@@ -21,50 +21,35 @@
   },
   "Gallery": [
     {
-      "title": "Project Title",
-      "largeImage": "imgsrc/pic1.jpg",
-      "smallImage": "imgsrc/pic1.jpg"
+      "title": "ERO-SCAN",
+      "largeImage": "./new-image/pic1.jpg",
+      "smallImage": "./new-image/pic1.jpg"
     },
     {
-      "title": "Project Title",
-      "largeImage": "img/portfolio/02-large.jpg",
-      "smallImage": "img/portfolio/02-small.jpg"
+      "title": "MB11 BERAPHONE",
+      "largeImage": "./new-image/pic2.png",
+      "smallImage": "./new-image/pic2.png"
     },
     {
-      "title": "Project Title",
-      "largeImage": "img/portfolio/03-large.jpg",
-      "smallImage": "img/portfolio/03-small.jpg"
+      "title": "SIGHT SAVING",
+      "largeImage": "./new-image/pic3.jpg",
+      "smallImage": "./new-image/pic3.jpg"
     },
     {
-      "title": "Project Title",
-      "largeImage": "img/portfolio/04-large.jpg",
-      "smallImage": "img/portfolio/04-small.jpg"
+      "title": "SECA",
+      "largeImage": "./new-image/pic4.jpg",
+      "smallImage": "./new-image/pic4.jpg"
     },
     {
-      "title": "Project Title",
-      "largeImage": "img/portfolio/05-large.jpg",
-      "smallImage": "img/portfolio/05-small.jpg"
+      "title": "SINAPI",
+      "largeImage": "./new-image/pic5.png",
+      "smallImage": "./new-image/pic5.png"
     },
     {
-      "title": "Project Title",
-      "largeImage": "img/portfolio/06-large.jpg",
-      "smallImage": "img/portfolio/06-small.jpg"
-    },
-    {
-      "title": "Project Title",
-      "largeImage": "img/portfolio/07-large.jpg",
-      "smallImage": "img/portfolio/07-small.jpg"
-    },
-    {
-      "title": "Project Title",
-      "largeImage": "img/portfolio/08-large.jpg",
-      "smallImage": "img/portfolio/08-small.jpg"
-    },
-    {
-      "title": "Project Title",
-      "largeImage": "img/portfolio/09-large.jpg",
-      "smallImage": "img/portfolio/09-small.jpg"
-    }
+      "title": "AND",
+      "largeImage": "./new-image/pic6.png",
+      "smallImage": "./new-image/pic6.png"
+    } 
   ],
   "Services": [
     {
@@ -100,34 +85,34 @@
   ],
   "Forum": [
     {
-      "img": "img/testimonials/01.jpg",
-      "text": "\"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed dapibus leo nec ornare diam sedasd commodo nibh ante facilisis bibendum dolor feugiat at.\"",
-      "name": "John Doe"
+      "img": "img/img-forum/dr1.jfif",
+      "text": "\"Everything that irritates us about others can lead us to an understanding of ourselves.\"",
+      "name": "Dr. Carl Jung"
     },
     {
-      "img": "img/testimonials/02.jpg",
-      "text": "\"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed dapibus leo nec ornare diam sedasd commodo nibh ante facilisis bibendum dolor feugiat at.\"",
-      "name": "Johnathan Doe"
+      "img": "img/img-forum/dr2.jpg",
+      "text": "\"Success is not the key to happiness. Happiness is the key to success. If you love what you are doing, you will be successful.\"",
+      "name": "Dr. Albert Schweitzer"
     },
     {
-      "img": "img/testimonials/03.jpg",
-      "text": "\"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed dapibus leo nec ornare diam sedasd commodo nibh ante facilisis bibendum dolor feugiat at.\"",
-      "name": "John Doe"
+      "img": "img/img-forum/dr3.jpg",
+      "text": "\"There are only two sorts of doctors: those who practice with their brains, and those who practice with their tongues.\"",
+      "name": "Dr. William Osler"
     },
     {
-      "img": "img/testimonials/04.jpg",
-      "text": "\"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed dapibus leo nec ornare diam sedasd commodo nibh ante facilisis bibendum dolor feugiat at.\"",
-      "name": "Johnathan Doe"
+      "img": "img/img-forum/dr4.jpg",
+      "text": "\"Let the young know they will never find a more interesting, more instructive book than the patient himself.\"",
+      "name": "Dr. Giorgio Baglivi"
     },
     {
-      "img": "img/testimonials/05.jpg",
-      "text": "\"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed dapibus leo nec ornare diam sedasd commodo nibh ante facilisis bibendum dolor feugiat at.\"",
-      "name": "John Doe"
+      "img": "img/img-forum/dr5.jpg",
+      "text": "\"The aim of medicine is to prevent disease and prolong life; the ideal of medicine is to eliminate the need of a physician.\"",
+      "name": "Dr. William J. Mayo"
     },
     {
-      "img": "img/testimonials/06.jpg",
-      "text": "\"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed dapibus leo nec ornare diam sedasd commodo nibh ante facilisis bibendum dolor feugiat at.\"",
-      "name": "Johnathan Doe"
+      "img": "img/img-forum/dr6.jfif",
+      "text": "\"Science has everything to say about what is possible. Science has nothing to say about what is permissible.\"",
+      "name": "Dr. Charles Krauthammer"
     }
   ],
   "Team": [
@@ -153,7 +138,7 @@
     }
   ],
   "Contact": {
-    "address": "4321 California St, San Francisco, CA 12345 ",
+    "address": "Wellness PRO Tower, 56 San Rafael St, Pasig, 1603 Metro Manila",
     "phone": "+1 123 456 1234",
     "email": "info@company.com",
     "facebook": "fb.com",
