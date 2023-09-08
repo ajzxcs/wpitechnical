@@ -93,7 +93,7 @@ function DefaultNavbar({ transparent, light, action }) {
         left={0}
         zIndex={3}
         sx={({
-          palette: { transparent: transparentColor, transparent, background },
+          palette: { transparent: transparentColor, transparent, white, background },
           functions: { rgba },
         }) => ({
           backgroundColor: transparent
