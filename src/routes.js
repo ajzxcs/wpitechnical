@@ -59,7 +59,7 @@ const routes = [
   },
   {
     type: "collapse",
-    name: "Tables",
+    name: "Services",
     key: "tables",
     icon: <Icon fontSize="small">table_view</Icon>,
     route: "/tables",
@@ -67,7 +67,7 @@ const routes = [
   },
   {
     type: "collapse",
-    name: "Billing",
+    name: "Brands",
     key: "billing",
     icon: <Icon fontSize="small">receipt_long</Icon>,
     route: "/billing",
@@ -75,15 +75,7 @@ const routes = [
   },
   {
     type: "collapse",
-    name: "RTL",
-    key: "rtl",
-    icon: <Icon fontSize="small">format_textdirection_r_to_l</Icon>,
-    route: "/rtl",
-    component: <RTL />,
-  },
-  {
-    type: "collapse",
-    name: "Notifications",
+    name: "Forum Section",
     key: "notifications",
     icon: <Icon fontSize="small">notifications</Icon>,
     route: "/notifications",

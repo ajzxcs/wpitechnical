@@ -50,19 +50,15 @@ function Footer({ light }) {
             color={light ? "white" : "text"}
             fontSize={size.sm}
           >
-            &copy; {new Date().getFullYear()}, made with
+            &copy; {new Date().getFullYear()}
             <MDBox fontSize={size.md} color={light ? "white" : "dark"} mb={-0.5} mx={0.25}>
-              <Icon color="inherit" fontSize="inherit">
-                favorite
-              </Icon>
+              <Icon color="inherit" fontSize="inherit"></Icon>
             </MDBox>
-            by
             <Link href="https://www.creative-tim.com/" target="_blank">
               <MDTypography variant="button" fontWeight="medium" color={light ? "white" : "dark"}>
-                &nbsp;Creative Tim&nbsp;
+                &nbsp;Wellness Pro Inc.&nbsp;
               </MDTypography>
             </Link>
-            for a better web.
           </MDBox>
           <MDBox
             component="ul"
@@ -82,47 +78,39 @@ function Footer({ light }) {
             })}
           >
             <MDBox component="li" pr={2} lineHeight={1}>
-              <Link href="https://www.creative-tim.com/" target="_blank">
+              <Link href="/" target="_blank">
                 <MDTypography
                   variant="button"
                   fontWeight="regular"
                   color={light ? "white" : "dark"}
-                >
-                  Creative Tim
-                </MDTypography>
+                ></MDTypography>
               </Link>
             </MDBox>
             <MDBox component="li" px={2} lineHeight={1}>
-              <Link href="https://www.creative-tim.com/presentation" target="_blank">
+              <Link href="/" target="_blank">
                 <MDTypography
                   variant="button"
                   fontWeight="regular"
                   color={light ? "white" : "dark"}
-                >
-                  About Us
-                </MDTypography>
+                ></MDTypography>
               </Link>
             </MDBox>
             <MDBox component="li" px={2} lineHeight={1}>
-              <Link href="https://www.creative-tim.com/blog" target="_blank">
+              <Link href="/" target="_blank">
                 <MDTypography
                   variant="button"
                   fontWeight="regular"
                   color={light ? "white" : "dark"}
-                >
-                  Blog
-                </MDTypography>
+                ></MDTypography>
               </Link>
             </MDBox>
             <MDBox component="li" pl={2} lineHeight={1}>
-              <Link href="https://www.creative-tim.com/license" target="_blank">
+              <Link href="/" target="_blank">
                 <MDTypography
                   variant="button"
                   fontWeight="regular"
                   color={light ? "white" : "dark"}
-                >
-                  License
-                </MDTypography>
+                ></MDTypography>
               </Link>
             </MDBox>
           </MDBox>
