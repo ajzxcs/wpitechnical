@@ -21,7 +21,7 @@ const Routess = () => {
     <div>
       <React.Suspense fallback={<div>Loading...</div>}>
 
-        {/*  */}
+
         <Routes>
 
           <Route path="/" element={ <Homepage/>}/> 

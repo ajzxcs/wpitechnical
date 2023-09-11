@@ -1,6 +1,4 @@
 import React from "react";
-import { Image } from "./image";
-
 
 export const Forum = (props) => {
   return (

@@ -35,16 +35,17 @@ function LoginForm() {
     password: ""
   })
 
-  // Add email validation state
-  const [isEmailValid, setIsEmailValid] = useState(true);
+  // set error validation 
+  const [isError, setIsError] = useState({
+    errorEmail: false,
+    emailText: "",
+    errorPassword: false,
+    passwordText: "",
+  })
 
   // for email
   const handleforEmail = e =>{
     setUser({...users, email: e.target.value});
-    
-    // Basic email validation using a regular expression
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    setIsEmailValid(emailRegex.test(e.target.value));
   }
 
   // for password
@@ -68,12 +69,26 @@ function LoginForm() {
       LoginSession(users).then(result=>{
 
         // if success
-        alert(result)
+        setIsError({
+          errorEmail: false,
+          emailText: "",
+          errorPassword: false,
+          passwordText: "",
+        })
+
         navigate("/Forum")
       }).catch((error) => {
 
         // if Login Fiale
-        alert(error); // Error message
+
+        setIsError({
+          errorEmail: true,
+          emailText: "",
+          errorPassword: true,
+          passwordText: error,
+        })
+
+
       })
     }catch(validationError){
 
@@ -81,21 +96,24 @@ function LoginForm() {
       const emailError = validationError.inner.find((error) => error.path === 'email');
       const passwordError = validationError.inner.find((error) => error.path === 'password');
 
-      alert( !!emailError + " | " + emailError && emailError.message )
-      alert( !!passwordError + passwordError && passwordError.message )
+      // alert( !!emailError + " | " + emailError && emailError.message )
+      // alert( !!passwordError + passwordError && passwordError.message )
 
-      // email and password
-      // !!emailError = If TRUE mean error occurred
-      // emailError && emailError.message = error messages
 
-      // !!passwordError = If TRUE mean error occurred
-      // passwordError + passwordError && passwordError.message = error messages
+      setIsError({
+        errorEmail: !!emailError,
+        emailText: emailError && emailError.message,
+        errorPassword: !!passwordError,
+        passwordText: passwordError && passwordError.message,
+      })
+
     }
   }
 
   return (
     <div>
       <BoxContainer>
+
         <FormContainer>
 
         {/* Email */}
@@ -105,14 +123,16 @@ function LoginForm() {
             required 
             value={users.email}
             onChange={handleforEmail}
-            style={!isEmailValid ? { border: "1px solid red" } : {}}
+            style={isError.errorEmail ? { border: "1px solid red" } : {}}
           />
- {/* Invalid Email */}
-          {!isEmailValid && (
-            <div style={{ color: "red", fontSize: "13px", marginTop: "5px" }}>
-              Invalid email address
+        {/* Invalid Email */}
+          {isError.errorEmail && (
+            <div style={{ color: "red", fontSize: "13px", marginTop: "1px" }}>
+              {isError.emailText}
             </div>
           )}
+
+
 
         {/* Password */}
           <Input
@@ -121,7 +141,16 @@ function LoginForm() {
             required
             value={users.password}
             onChange={handleforPassword}
+            style={isError.errorPassword ? { border: "1px solid red" } : {}}
           />
+
+        {/* Invalid password */}
+        {isError.errorPassword && (
+            <div style={{ color: "red", fontSize: "13px", marginTop: "1px" }}>
+              {isError.passwordText}
+            </div>
+          )}
+
 
           <div
             style={{
