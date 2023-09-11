@@ -9,7 +9,7 @@ import PostForm from "../components/componentsPV/PostFormpv";
 import samplePosts from "../data/samplePosts";
 
 import { LogoutSession,userCredentials } from '../Features/Authentication/Authentication'
-import { returnPost,createPost } from '../Features/firebase/RealtimeDB'
+import { returnPost,createPost } from '../Features/firebase/Database'
 
 import "../App.css";
 
@@ -129,9 +129,19 @@ function Public() {
 
       
       <h1>PRIVATE FORUM</h1> 
-      <button onClick={()=>LogoutSession()}>LOG OUT</button>
-      <button onClick={()=>
+
+      
+      <button onClick={(event)=>
       {
+        event.preventDefault();
+        LogoutSession();
+        }
+        }>LOG OUT</button>
+
+
+      <button onClick={(event)=>
+      {
+        event.preventDefault();
         userCredentials()
         .then(e=>console.log(e.uniqueID))
         .catch(e=>console.log(e))           
@@ -139,14 +149,21 @@ function Public() {
       }
       }>Click me</button>
 
-      <button onClick={()=>returnPost()
+      <button onClick={event=>
+     { 
+      event.preventDefault();
+      returnPost()
       .then(e=>console.log(e))
-      .catch(e=>console.log(e))
+      .catch(e=>console.log(e))}
       }>
         show datas
       </button>
 
-      <button onClick={()=>createPost("Hello Friend", "this is my first post")
+      <button onClick={event=>{
+        event.preventDefault();
+      createPost("Hello Friend", "this is my first post")
+      .then(e=>alert(e))
+      .catch(e=>alert(e))}
       }>
        add post
       </button>

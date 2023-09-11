@@ -31,5 +31,5 @@ export const auth = getAuth(app);
 export const storage = getStorage(app);
 
 // for firesstore database
-export const database = getDatabase(app);
+export const databases = getDatabase(app);
 
