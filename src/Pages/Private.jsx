@@ -7,7 +7,9 @@ import SearchBar from "../components/componentsPV/SearchBarpv";
 import AskQ from "../components/componentsPV/AskQpv";
 import PostForm from "../components/componentsPV/PostFormpv";
 import samplePosts from "../data/samplePosts";
-import { LogoutSession } from '../Features/Authentication/Authentication'
+
+import { LogoutSession,userCredentials } from '../Features/Authentication/Authentication'
+import { returnPost,createPost } from '../Features/firebase/RealtimeDB'
 
 import "../App.css";
 
@@ -128,6 +130,28 @@ function Public() {
       
       <h1>PRIVATE FORUM</h1> 
       <button onClick={()=>LogoutSession()}>LOG OUT</button>
+      <button onClick={()=>
+      {
+        userCredentials()
+        .then(e=>console.log(e.uniqueID))
+        .catch(e=>console.log(e))           
+        // console.log(userCredentials())                                                                            
+      }
+      }>Click me</button>
+
+      <button onClick={()=>returnPost()
+      .then(e=>console.log(e))
+      .catch(e=>console.log(e))
+      }>
+        show datas
+      </button>
+
+      <button onClick={()=>createPost("Hello Friend", "this is my first post")
+      }>
+       add post
+      </button>
+
+      
 
       <div className="cover-image"></div>
       <div className="main-content">
