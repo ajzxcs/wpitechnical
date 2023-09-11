@@ -29,16 +29,22 @@ function LoginForm() {
     )
   };
 
-
-   // Login details
-   const [users,setUser] = useState({
+  // Login details
+  const [users,setUser] = useState({
     email: "",
     password: ""
   })
 
+  // Add email validation state
+  const [isEmailValid, setIsEmailValid] = useState(true);
+
   // for email
   const handleforEmail = e =>{
-    setUser({...users, email: e.target.value})
+    setUser({...users, email: e.target.value});
+    
+    // Basic email validation using a regular expression
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    setIsEmailValid(emailRegex.test(e.target.value));
   }
 
   // for password
@@ -53,7 +59,7 @@ function LoginForm() {
     isValid(users.email, users.password)
   }
 
-  // validatioon
+  // validation
   const isValid = async(Email,Password) =>{
     try{
       await userSchema.validate({ email: Email, password: Password }, { abortEarly: false });
@@ -64,32 +70,11 @@ function LoginForm() {
         // if success
         alert(result)
         navigate("/Forum")
-        
-        // setError({
-        //   email: false,
-        //   emailError: "",
+      }).catch((error) => {
 
-        //   password: false,
-        //   passwordError: ""
-        // });
-
-    }).catch((error) => {
-
-      // if Login Fiale
-      alert(error); // Error message
-
-      // setError({
-        //   email: true,
-        //   emailError: "",
-
-        //   password: true,
-        //   passwordError: error
-        // });
-
-
+        // if Login Fiale
+        alert(error); // Error message
       })
-
-
     }catch(validationError){
 
       // Extract specific error messages for email and password
@@ -99,17 +84,15 @@ function LoginForm() {
       alert( !!emailError + " | " + emailError && emailError.message )
       alert( !!passwordError + passwordError && passwordError.message )
 
-
       // email and password
-      // !!emailError = If TRUE mean error occured
+      // !!emailError = If TRUE mean error occurred
       // emailError && emailError.message = error messages
 
-      // !!passwordError = If TRUE mean error occured
+      // !!passwordError = If TRUE mean error occurred
       // passwordError + passwordError && passwordError.message = error messages
-
-
     }
   }
+
   return (
     <div>
       <BoxContainer>
@@ -117,12 +100,19 @@ function LoginForm() {
 
         {/* Email */}
           <Input 
-          type="text" 
-          placeholder="Email" 
-          required 
-          value={users.email}
-          onChange={handleforEmail}
+            type="text" 
+            placeholder="Email" 
+            required 
+            value={users.email}
+            onChange={handleforEmail}
+            style={!isEmailValid ? { border: "1px solid red" } : {}}
           />
+ {/* Invalid Email */}
+          {!isEmailValid && (
+            <div style={{ color: "red", fontSize: "13px", marginTop: "5px" }}>
+              Invalid email address
+            </div>
+          )}
 
         {/* Password */}
           <Input
@@ -148,7 +138,6 @@ function LoginForm() {
               checked={showPasswordCheckbox}
               onChange={handleShowPasswordCheckbox}
               style={{ marginRight: "10px" }}
-
             />
             <span style={{ fontWeight: "bold" }}>Show Password</span>
 
@@ -158,18 +147,17 @@ function LoginForm() {
           <Marginer direction="vertical" margin="20px" />
 
           {/* Login Button */}
-          <SubmitButton type="button" 
-          onClick={loginButton}
-          >Sign in</SubmitButton>
-
+          <SubmitButton type="button" onClick={loginButton}>
+            Sign in
+          </SubmitButton>
 
           <Marginer direction="vertical" margin="10px" />
-            <BoldLink onClick={handleBackToHomepage}>
-              Back To Homepage
-            </BoldLink>
-      
+          <BoldLink onClick={handleBackToHomepage}>
+            Back To Homepage
+          </BoldLink>
+
           <Marginer direction="vertical" margin="10px" />
-        
+
           <div></div>
         </FormContainer>
       </BoxContainer>
