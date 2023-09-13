@@ -55,17 +55,18 @@ export const createPost = (title, content, tags) => {
         // for date and time
         const date = new Date().toLocaleDateString();
         const time = new Date().toLocaleTimeString();
+
+        // Push the new post to the user's "Posts" node and get the unique key
+        const newPostRef = push(userPostsRef);
   
         // Create a new post
         const newPost = {
+          id: newPostRef.key,
           Title: title,
           Content: content,
           date: [date, time],
           tags: tags
         };
-  
-        // Push the new post to the user's "Posts" node and get the unique key
-        const newPostRef = push(userPostsRef);
   
         // Prepare updates for the user's "Posts" node
         const updates = {
