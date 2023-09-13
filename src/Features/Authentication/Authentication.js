@@ -73,3 +73,22 @@ export const LogoutSession = async () => {
   
 }
 
+
+// get user credentials
+export const userCredentials = () => {
+
+  return new Promise((resolve, reject) => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+
+        resolve({
+          uniqueID: user.uid,
+          email: user.email
+        });
+      } else {
+        resolve(null);
+      }
+    }, reject);
+  });
+};
+

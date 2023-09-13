@@ -1,7 +1,7 @@
-import { getDownloadURL, getStorage, listAll, ref, uploadBytes, deleteObject } from "@firebase/storage";
-import { app } from './Configuration'
+import { getDownloadURL, listAll, ref, uploadBytes, deleteObject } from "@firebase/storage";
+import { storage } from './Configuration'
 
-const storage = getStorage(app);
+
 
 // Upload image
 export async function imageUpload(file, Name){
