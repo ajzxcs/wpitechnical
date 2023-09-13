@@ -104,7 +104,9 @@ function DashboardNavbar({ absolute, light, isMini }) {
       onClose={handleCloseMenu}
       sx={{ mt: 2 }}
     >
-      <NotificationItem icon={<Icon>email</Icon>} title="Check new messages" />
+    <a href='https://app.drift.com/conversations' target="_blank" rel="noopener noreferrer">
+    <NotificationItem icon={<Icon>email</Icon>} title="Check new messages" />
+    </a>
       
     </Menu>
   );
