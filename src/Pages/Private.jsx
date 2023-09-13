@@ -4,7 +4,7 @@ import Header from '../components/componentsPV/Headerpv';
 
 
 import { LogoutSession,userCredentials } from '../Features/Authentication/Authentication'
-import { viewList,createPost } from '../Features/firebase/Database'
+import { viewList,createPost,addComments } from '../Features/firebase/Database'
 
 import "../App.css";
 
@@ -24,9 +24,11 @@ function Public() {
     const fetchData = async () => {
       try {
         const postsData = await viewList();
+   
         setShowDats(postsData);
       } catch (error) {
         // Handle the error
+        console.log(error)
       }
     }
 
@@ -97,9 +99,10 @@ function Public() {
         <div key={index} style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}} >
          
           {/* Iterate through the each Posts of user */}
-          {Object.values(item.Posts)?.map((post, postIndex) => (
+          {item.Posts && Object.values(item.Posts)?.map((post, postIndex) => (
 
             <div key={postIndex}>
+
               <h3>Title: {post.Title}</h3>
 
               <p>Author: {item.author}</p>
@@ -128,12 +131,31 @@ function Public() {
               {/* Render other properties as needed */}
               <h4>Comments:</h4>
 
+           
               <button key={postIndex} onClick={e=>{
                 e.preventDefault();
-                console.log(item.Posts.id)
+                // const post = item.Posts[postId]; // Get the post data
+                addComments(post.id,item.author, "WOW THAT IS AWESOME")
+                console.log(String(post.id),String(item.author),"WOW that is awwesome")
               }}>add comments</button>
-              
+
+              {/* Iterate of all Post List */}
+              {post.Comments && Object.values(post.Comments)?.map((comment,index)=>(
+                <div key={index}>
+                  <h3>{comment.Text}</h3>
+                  <p><strong>{comment.Author}</strong></p>
+                  <p>Date: {comment.date[0]} </p>
+                  <p>Time: {comment.date[1]} </p>
+
+                </div>
+          
+              ))}
+              <hr/>
+             
             </div>
+
+         
+
           ))}
 
 
