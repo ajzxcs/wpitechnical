@@ -1,6 +1,9 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+
 
 export const Forum = (props) => {
+  const navigate = useNavigate()
   return (
     <div id="forum">
       <div className="container">
@@ -26,7 +29,7 @@ export const Forum = (props) => {
             : "loading"}
         </div><br></br><br></br><br></br>
         <div className="text-center">
-          <button className="btn-forum">View Forum</button>
+          <button onClick={()=>navigate("/Forum")} className="btn-forum">View Forum</button>
         </div>
       </div>
     </div>
