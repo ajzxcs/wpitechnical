@@ -110,11 +110,70 @@ function LoginForm() {
     }
   }
 
+  // function isAccessFromPCorMac() {
+  //   const userAgent = navigator.userAgent.toLowerCase();
+  //   return userAgent.includes("macintosh") || userAgent.includes("windows");
+  // }
+  
+
+  const [browserInfo, setBrowserInfo] = useState({
+    browser: '',
+    os: '',
+  });
+
+  React.useEffect(() => {
+    const userAgent = navigator.userAgent;
+
+    const os = /Android/i.test(userAgent)
+      ? 'Android'
+      : /Windows/i.test(userAgent)
+      ? 'Windows'
+      : /iPad/i.test(userAgent)
+      ? 'iPadOS'
+      : /iPhone/i.test(userAgent)
+      ? 'iOS'
+      : 'Unknown';
+    const browser = /Chrome/i.test(userAgent)
+      ? 'Chrome'
+      : /Edge/i.test(userAgent)
+      ? 'Edge'
+      : /Safari/i.test(userAgent)
+      ? 'Safari'
+      : 'Unknown';
+
+    setBrowserInfo({ os, browser });
+  }, []);
+
+
   return (
     <div>
       <BoxContainer>
+      <button style={{ padding: '5px' }} onClick={()=>{
 
+// Get the user agent string
+const userAgent = navigator.userAgent;
+
+// Regular expressions to match Chrome and the OS
+const chromeRegex = /chrome\/[\d.]+/i;
+const osRegex = /\(([^;)]+)[;)]/;
+
+// Extract Chrome version
+const chromeMatch = userAgent.match(chromeRegex);
+const chromeVersion = chromeMatch ? chromeMatch[0] : "Not found";
+
+// Extract OS
+const osMatch = userAgent.match(osRegex);
+const os = osMatch ? osMatch[1] : "Not found";
+
+console.log("OS:", os);
+console.log(userAgent)
+  
+
+      }}>User device</button>
         <FormContainer>
+
+<p>{browserInfo.os}</p>
+<p>{browserInfo.browser}</p>
 
         {/* Email */}
           <Input 

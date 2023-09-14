@@ -148,8 +148,9 @@ function Public() {
                   <p>Time: {comment.date[1]} </p>
 
                 </div>
-          
               ))}
+
+              
               <hr/>
              
             </div>

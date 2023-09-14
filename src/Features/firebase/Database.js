@@ -142,3 +142,54 @@ export const addComments = async (postID,author,text) => {
     })
    
 }
+
+
+// workflow for signup user
+// * verify if the user is aleady sign up
+// * add validation before enterinfg
+// * encrypt the password with SALT
+
+
+
+// Pending Sign Up
+export const addpendingSignup = async (Fullname,Designation,Org,Email,Number,Password) =>{
+  return new Promise(async (resolve, reject) => {
+    try {
+
+      const userCommentsRef = ref(databases, `Pending`);
+
+      // for date and time
+      const date = new Date().toLocaleDateString();
+      const time = new Date().toLocaleTimeString();
+      
+      // Push the new comment to the user's "Posts" node and get the unique key
+      const newSignup = push(userCommentsRef);  
+
+      // new sign up
+      const signup = {
+        id: newSignup.key,
+        date: [date,time],
+        Fullname: Fullname,
+        Designation: Designation,
+        Organization: Org,
+        Number: Number,
+        Email: Email,
+        Password
+      };
+      
+      // Prepare updates for the user's "Pending" node
+      const updates = {
+        [`${newSignup.key}`]: signup
+      };
+
+      // Update the user's "Posts" node with the new post data
+      await update(userCommentsRef, updates);
+
+      resolve("Sign up success , and now pending for approval ");
+
+    }catch(error){
+      console.error("Error requesting for an account:", error);
+      reject(error); // Reject the promise with an error
+    }
+  })
+}
