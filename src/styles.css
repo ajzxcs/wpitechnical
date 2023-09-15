@@ -1,0 +1,444 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Ubuntu-Regular;
+}
+
+body {
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: rgb(219, 224, 226);
+  --font-color-1: #212a3e;
+  --font-color-2: #483eff;
+  --font-color-h: #212a3e;
+  --font-color-p: #9ba4b5;
+}
+
+a {
+  text-decoration: none;
+  font-size: 13px;
+}
+
+::placeholder {
+  color: gray;
+  opacity: 0.6;
+}
+
+@font-face {
+  font-family: Ubuntu-Bold;
+  src: url(fonts/Ubuntu-Bold.ttf);
+}
+@font-face {
+  font-family: Ubuntu-Medium;
+  src: url(fonts/Ubuntu-Medium.ttf);
+}
+@font-face {
+  font-family: Ubuntu-Regular;
+  src: url(fonts/Ubuntu-Regular.ttf);
+}
+
+.multi-step-form {
+  height: 550px;
+  width: 860px;
+  background-color: #fff;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  border-radius: 8px;
+}
+
+/* Sidebar  */
+.sidebar {
+  width: 33%;
+  height: 100%;
+  background: url("./images/bg-sidebar-desktop.svg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  padding: 50px 40px;
+  color: #fff;
+  border-radius: 8px;
+}
+.step {
+  margin: 0 0 30px 0;
+  display: flex;
+}
+.step-num {
+  margin-right: 15px;
+  border: 1px solid #fff;
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.8rem;
+}
+.step-info {
+  display: flex;
+  flex-direction: column;
+}
+.step-info span:first-child {
+  opacity: 0.8;
+  font-size: 0.7rem;
+  margin-bottom: 5px;
+}
+.step-info span + span {
+  font-size: 13px;
+  font-family: Ubuntu-Bold;
+}
+
+/* Form  */
+.left-side {
+  width: 62%;
+  padding: 20px 80px 20px 20px;
+  margin-bottom: 80px;
+  position: relative;
+}
+.form-heading {
+  margin: 10px 0 30px 0;
+}
+.form-heading h1 {
+  font-family: Ubuntu-Bold;
+  margin-bottom: 10px;
+  color: #212a3e;
+}
+.form-heading p {
+  font-family: Ubuntu-Regular;
+  color: #9ba4b5;
+  font-size: 14.5px;
+}
+.btn {
+  width: 80%;
+  position: absolute;
+  bottom: 0;
+}
+.prev-btn,
+.next-btn {
+  width: 120px;
+  padding: 10px 15px;
+  font-size: 13px;
+  font-family: Ubuntu-Bold;
+  border: none;
+}
+.prev-btn {
+  background-color: #fff;
+  color: gray;
+}
+.next-btn {
+  float: right;
+  color: #fff;
+  background-color: #002b5b;
+  border-radius: 10px;
+}
+
+/* Personal Info  */
+.personal-info-inputs {
+  display: flex;
+  flex-direction: column;
+  margin: 40px 0;
+}
+.personal-info-inputs div {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 25px;
+}
+.personal-info-inputs div > * {
+  margin-bottom: 7px;
+}
+.personal-info-inputs div label {
+  font-size: 13px;
+  font-family: Ubuntu-Medium;
+}
+.personal-info-inputs div label span {
+  float: right;
+  margin-right: 10px;
+  color: red;
+  font-weight: bold;
+}
+.personal-info-inputs div input {
+  font-size: 0.9rem;
+  font-family: Ubuntu-Bold;
+  border-radius: 4px;
+  padding: 10px 10px;
+  outline: none;
+  border: 1px solid #bacddb;
+  color: #212a3e;
+}
+
+/* Plans  */
+.plans {
+  margin: 40px 0;
+}
+.plan-card-flex {
+  display: flex;
+  justify-content: space-between;
+}
+.plan-card {
+  display: flex;
+  flex-direction: column;
+  flex-basis: 30%;
+  border: 1px solid #9ba4b5;
+  padding: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.plan-card:hover {
+  border-color: #0b285f;
+}
+.icon-img {
+  margin-bottom: 40px;
+}
+.plan-info h5 {
+  font-size: 0.9rem;
+  color: #212a3e;
+}
+.plan-info p {
+  color: #9ba4b5;
+  font-size: 13px;
+  margin-top: 8px;
+}
+.plan-time {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+}
+.plan-time p {
+  color: #9ba4b5;
+  font-size: 15px;
+  margin-top: 8px;
+  margin-right: 10px;
+}
+.plan-select {
+  width: 50px;
+  background: #002b5b;
+  margin-right: 10px;
+  border-radius: 20px;
+  position: relative;
+}
+.ball {
+  position: absolute;
+  width: 20px;
+  height: 70%;
+  background-color: #9ba4b5;
+  border-radius: 50%;
+  top: 4px;
+  left: 5px;
+}
+
+/* AddOns Component Styling  */
+.add-ons {
+  margin: 10px 0;
+}
+.add-item {
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid rgb(167, 161, 161);
+  padding: 14px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.add-item:hover {
+  border-color: #483eff;
+}
+.adds-item-input {
+  flex: 1 1 5%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.adds-on-feature-info {
+  flex: 1 1 60%;
+}
+.adds-on-feature-info h4 {
+  color: #212a3e;
+}
+.adds-on-feature-info p {
+  color: #9ba4b5;
+  font-size: 14px;
+  margin-top: 3px;
+}
+.add-ons-price {
+  flex: 1 1 12%;
+  color: #483eff;
+  opacity: 0.8;
+}
+.add-ons-price p {
+  color: #483eff;
+  font-size: 14px;
+}
+input[type="checkbox"] {
+  position: relative;
+  cursor: pointer;
+}
+input[type="checkbox"]:before {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  top: 0;
+  left: 0;
+  border: 2px solid #555555;
+  border-radius: 3px;
+  background-color: white;
+}
+input[type="checkbox"]:checked:after {
+  content: "";
+  display: block;
+  width: 5px;
+  height: 10px;
+  border: solid black;
+  border-width: 0 1px 1px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+  position: absolute;
+  top: 2px;
+  left: 6px;
+}
+
+/* Summary component styling  */
+.summary-flex {
+  margin: 40px 0;
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.summary-plans {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px;
+}
+.summary-plans .plan-name h4 {
+  color: var(--font-color-h);
+  margin-bottom: 5px;
+}
+.summary-plans .plan-name a {
+  color: var(--font-color-2);
+}
+.summary-plans .plan-name a:hover {
+  text-decoration: underline;
+}
+.summary-plans .plan-price {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.summary-plans .plan-price h4 {
+  color: var(--font-color-h);
+  font-size: 14px;
+  font-family: Ubuntu-Bold;
+}
+.summary-add-ons {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+}
+.service {
+  display: flex;
+  justify-content: space-between;
+  margin: 8px 0;
+}
+.service p:not(p:last-child) {
+  color: var(--font-color-p);
+  font-size: 15px;
+}
+.service p + p {
+  color: var(--font-color-1);
+  font-size: 14px;
+}
+
+.total {
+  margin-top: 30px;
+}
+.total p + p {
+  color: var(--font-color-2);
+  font-size: 20px;
+  font-weight: bold;
+}
+
+/* Confirm component styling  */
+.confirm {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.confirm-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: center;
+}
+.confirm-thank {
+  margin: 20px 0 10px 0;
+}
+.confirm-thank h1 {
+  font-family: Ubuntu-Bold;
+  color: var(--font-color-h);
+}
+.confirm-info p {
+  color: var(--font-color-p);
+  font-size: 14px;
+  word-spacing: 1px;
+  line-height: 1.3;
+}
+.confirm-checkbox span {
+  font-size: 54px;
+}
+
+@media (max-width: 700px) {
+  body {
+    display: block;
+  }
+  .multi-step-form {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    flex-direction: column;
+    background-color: transparent;
+  }
+  .sidebar {
+    height: 100px;
+    width: 100%;
+    border-radius: 0;
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 10%;
+    background-size: 105%;
+    background-position: bottom;
+  }
+  .step {
+    display: inline-block;
+  }
+  .step-info {
+    display: none;
+  }
+  .left-side {
+    position: relative;
+    top: -20px;
+    width: 80%;
+    margin: auto;
+    background-color: #fff;
+    top: -20px;
+    border-radius: 8px;
+    padding: 20px 10px 100px 10px;
+  }
+  .plan-card-flex {
+    flex-direction: column;
+    align-items: center;
+  }
+  .plan-card {
+    width: 80%;
+    margin-bottom: 20px;
+  }
+  .btn {
+    bottom: 50px;
+    width: 90%;
+  }
+}
