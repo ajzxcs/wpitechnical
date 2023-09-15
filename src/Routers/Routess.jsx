@@ -5,6 +5,8 @@ import { statusLogin } from '../Features/Authentication/Authentication'
 const Homepage = React.lazy(()=>import('../Pages/Homepage'))
 const Login = React.lazy(()=>import('../Pages/Login'))
 const Forum = React.lazy(()=>import('../Pages/Forum'))
+const Signup = React.lazy(()=>import('../Pages/Signup'))
+
 const Routess = () => {
   // check the status login
   const [status,setStatus] = React.useState(true)
@@ -30,6 +32,7 @@ const Routess = () => {
 
 
           <Route path="/Forum" element={ <Forum/>}/> 
+          <Route path="/Signup" element={ <Signup/>}/> 
           <Route path="*" element={<Navigate to="/"/>}/>
 
         </Routes>
