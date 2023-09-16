@@ -1,6 +1,7 @@
 import { get, onValue, push, ref, update } from 'firebase/database';
 import { databases } from './Configuration'
 import { userCredentials } from '../Authentication/Authentication'
+import base64 from 'base-64';
 
 // workflow
 // NOTE: When admin creating a user account, it must create a default database strcuture
@@ -147,12 +148,12 @@ export const addComments = async (postID,author,text) => {
 // workflow for signup user
 // * verify if the user is aleady sign up
 // * add validation before enterinfg
-// * encrypt the password with SALT
+// * encrypt the password in base64
 
 
 
 // Pending Sign Up
-export const addpendingSignup = async (Fullname,Designation,Org,Email,Number,Password) =>{
+export const addpendingSignup = async (Fullname,Org,Email,Number,Password,os,browser) =>{
   return new Promise(async (resolve, reject) => {
     try {
 
@@ -165,16 +166,19 @@ export const addpendingSignup = async (Fullname,Designation,Org,Email,Number,Pas
       // Push the new comment to the user's "Posts" node and get the unique key
       const newSignup = push(userCommentsRef);  
 
+      // convert into base64
+      const passwordEncrypted = base64.encode(Password);
+
       // new sign up
       const signup = {
         id: newSignup.key,
         date: [date,time],
         Fullname: Fullname,
-        Designation: Designation,
         Organization: Org,
         Number: Number,
         Email: Email,
-        Password
+        Password: passwordEncrypted,
+        Device: os + ","+ browser
       };
       
       // Prepare updates for the user's "Pending" node
