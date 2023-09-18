@@ -487,9 +487,7 @@ const Signup = () => {
                         transition: 'background-color 0.3s ease'
                     }}
                     onClick={handleforSubmit}
-                    >Register</Button>
-
-       
+                    >Register</Button>       
 
                 </Stack>
            

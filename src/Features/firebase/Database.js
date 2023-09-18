@@ -150,7 +150,35 @@ export const addComments = async (postID,author,text) => {
 // * add validation before enterinfg
 // * encrypt the password in base64
 
+// verify emails first before signup
+export const verifyWEmails = (emails) =>{
+  return new Promise(async (resolve, reject) => {
+    const dbRef = ref(databases, 'Pending/');
 
+    try {
+      const snapshot = await get(dbRef);
+  
+      // the fetch data should convert into array function
+      const data = snapshot.val();
+      Object.entries(data).forEach(([key, value]) => {
+
+        if (value.Email === emails){
+
+          resolve(true)
+        }
+
+        resolve(false)
+
+      })
+
+   
+    } catch (error) {
+      // throw error;
+      console.log(error)
+      reject(false);
+    }
+  })  
+}
 
 // Pending Sign Up
 export const addpendingSignup = async (Fullname,Org,Email,Number,Password,os,browser) =>{
@@ -185,11 +213,23 @@ export const addpendingSignup = async (Fullname,Org,Email,Number,Password,os,bro
       const updates = {
         [`${newSignup.key}`]: signup
       };
+      
+      // verify emails first
+      verifyWEmails(Email).then(
+        async result=>{
+          if (!result){
+            
+          // Update the user's "Posts" node with the new post data
+            await update(userCommentsRef, updates);
 
-      // Update the user's "Posts" node with the new post data
-      await update(userCommentsRef, updates);
+            resolve("Sign up success , and now pending for approval ");
+          }
 
-      resolve("Sign up success , and now pending for approval ");
+          resolve("email is exists");
+        }
+      )
+
+
 
     }catch(error){
       console.error("Error requesting for an account:", error);
