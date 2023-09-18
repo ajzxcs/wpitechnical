@@ -1,28 +1,61 @@
 import React, { useState, useEffect } from "react";
-import Header from "../components/componentsPB/Header";
-import Sidebar from "../components/componentsPB/Sidebar";
-import PostList from "../components/componentsPB/PostList";
-import PostDetail from "../components/componentsPB/PostDetail";
-import SearchBar from "../components/componentsPB/SearchBar";
-import AskQ from "../components/componentsPB/AskQ";
-import PostForm from "../components/componentsPB/PostForm";
+import Header from "../componentsPB/Header";
+import PostList from "../componentsPB/PostList";
+import PostDetail from "../componentsPB/PostDetail";
+import SearchBar from "../componentsPB/SearchBar";
+import AskQ from "../componentsPB/AskQ";
+import PostForm from "../componentsPB/PostForm";
+import FAQ from "../componentsPB/FAQ"; // Import the FAQ component
+import FAQland from "../componentsPB/FAQland";
 import samplePosts from "../data/samplePosts";
 import "../App.css";
 
 function Public() {
   const [posts, setPosts] = useState([]);
-  const [selectedPost, setSelectedPost] = useState(null);
+  const [selectedPost, setSelectedPost] = useState(null); // Add this state variable
   const [commentCounts, setCommentCounts] = useState({});
   const [sortingOrder, setSortingOrder] = useState("newest");
+  const [faqVisible, setFaqVisible] = useState(false); // Add FAQ visibility state
 
   let sortedPosts = [...posts];
 
-  const handleSelectPost = (postId) => {
-    const selected = posts.find((post) => post.id === postId);
-    setSelectedPost(selected);
+  useEffect(() => {
+    // Use the samplePosts data to initialize your posts state
+    const initialPosts = Object.values(samplePosts).flatMap((authorData) =>
+      authorData.Posts.map((post) => ({ ...post, Author: authorData.Author }))
+    );
+
+    setPosts(initialPosts);
+  }, []);
+
+  useEffect(() => {
+    // Apply sorting when the sortingOrder changes
+    let sortedPosts = [...posts];
+
+    if (sortingOrder === "newest") {
+      sortedPosts = sortedPosts.sort((a, b) => {
+        const dateA = new Date(`${a.date} ${a.time}`);
+        const dateB = new Date(`${b.date} ${b.time}`);
+        return dateB - dateA;
+      });
+    } else if (sortingOrder === "oldest") {
+      sortedPosts = sortedPosts.sort((a, b) => {
+        const dateA = new Date(`${a.date} ${a.time}`);
+        const dateB = new Date(`${b.date} ${b.time}`);
+        return dateA - dateB;
+      });
+    }
+
+    setPosts(sortedPosts);
+  }, [sortingOrder, posts]);
+
+  const handleSelectPost = (post) => {
+    // Set the selected post when a post is clicked
+    setSelectedPost(post);
   };
 
   const handleGoBack = () => {
+    // Clear the selected post when going back
     setSelectedPost(null);
   };
 
@@ -50,16 +83,6 @@ function Public() {
     localStorage.setItem("commentCounts", JSON.stringify(updatedCommentCounts));
     setCommentCounts(updatedCommentCounts);
   };
-
-  useEffect(() => {
-    const storedPosts = JSON.parse(localStorage.getItem("posts") || "[]");
-    setPosts([...samplePosts, ...storedPosts]);
-
-    const storedCommentCounts = JSON.parse(
-      localStorage.getItem("commentCounts") || "{}"
-    );
-    setCommentCounts(storedCommentCounts);
-  }, []);
 
   const handleSearch = (searchQuery) => {
     const filteredPosts = posts.filter(
@@ -95,74 +118,85 @@ function Public() {
     setCommentCounts(updatedCommentCounts);
   };
 
-  const handlePopularClick = () => {
-    const sortedPosts = [...posts].sort(
-      (a, b) => b.commentCount - a.commentCount
-    );
-    setPosts(sortedPosts);
+  const handleSort = (newSortingOrder) => {
+    setSortingOrder(newSortingOrder);
   };
 
-  const handleNewestClick = () => {
-    const sortedPosts = [...posts].sort(
-      (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-    );
-    setPosts(sortedPosts);
-  };
-
-  const handleOldestClick = () => {
-    const sortedPosts = [...posts].sort(
-      (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
-    );
-    setPosts(sortedPosts);
+  const toggleFAQVisibility = () => {
+    setFaqVisible(!faqVisible);
   };
 
   return (
     <div className="public">
-      <Header />
-      <ImageBanner />
-      
-      <h1>PUBLIC FORUM</h1>
+      <Header toggleFAQVisibility={toggleFAQVisibility} />
 
-      <a href="/Login">
-        <button>Login</button>
-      </a>
-      <div className="cover-image"></div>
       <div className="main-content">
-        <div className="content">
-          <SearchBar posts={posts} onSearch={handleSearch} />
-          <AskQ onAddPost={handleAddPost} />
-          <Sidebar
-            onSelectPost={handleSelectPost}
-            onNewestClick={() => setSortingOrder("newest")}
-            onOldestClick={() => setSortingOrder("oldest")}
-          />
-          {!selectedPost ? (
-            <>
-              <PostForm onAddPost={handleAddPost} />
-              <PostList posts={sortedPosts} onSelectPost={handleSelectPost} />
-            </>
-          ) : (
-            <PostDetail
-              post={selectedPost}
-              onDeletePost={handleDeletePost}
-              onAddComment={handleAddComment}
-              onGoBack={handleGoBack}
-            />
-          )}
-        </div>
-      </div>
-    </div>
-  );
-}
+        {!faqVisible && (
+          <div className="content">
+            <div className="search-bar-container">
+              <div className="search-bar">
+                <SearchBar
+                  posts={posts}
+                  onSearch={handleSearch}
+                  onSort={handleSort}
+                />
+              </div>
+            </div>
+            <br />
+            <br />
 
-function ImageBanner() {
-  return (
-    <div className="image-container">
-      <img
-        className="cover-image"
-        src="/Healthcare-1.jpg"
-        alt="Healthcare Image"
-      />
+            <div className="flex-container">
+              <div className="left-component">
+                {!selectedPost ? (
+                  <>
+                    <AskQ onAddPost={handleAddPost} />
+                    <PostList
+                      posts={sortedPosts}
+                      onSelectPost={handleSelectPost}
+                    />
+                    <PostForm onAddPost={handleAddPost} />
+                  </>
+                ) : (
+                  <PostDetail
+                    post={selectedPost} // Pass the selected post
+                    onDeletePost={handleDeletePost}
+                    onAddComment={handleAddComment}
+                    onGoBack={handleGoBack}
+                  />
+                )}
+              </div>
+              <div className="right-component">
+                <div
+                  className={`dispFAQ-container ${
+                    faqVisible ? "" : "hide-faqland"
+                  }`}
+                  style={{ width: "400px", marginLeft: "30px" }}
+                >
+                  <FAQland toggleFAQVisibility={toggleFAQVisibility} />
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+      {faqVisible && <FAQ toggleFAQVisibility={toggleFAQVisibility} />}
+      <footer className="footer">
+        <br />
+        <div className="footer-center">WELLNESS PRO INC.</div>
+        <br />
+        <ul className="footer-links">
+          <li className="footer-link">
+            <a href="#">Content Policy</a>
+          </li>
+          <li className="footer-link">
+            <a href="#">Privacy Policy</a>
+          </li>
+          <li className="footer-link">
+            <a href="#">User Agreement</a>
+          </li>
+        </ul>
+        <br />
+      </footer>
     </div>
   );
 }

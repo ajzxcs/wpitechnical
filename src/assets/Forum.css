@@ -247,13 +247,7 @@ header {
 }
 
 /* Cover Image styles */
-.cover-image {
-  background-image: url("/Healthcare-1.jpg"); /* Path to your image in the public folder */
-  background-size: cover;
-  background-position: center;
-  max-width: 100%;
-  height: auto; /* Adjust the height as needed */
-}
+
 
 /* AskQ.css */
 .ask-content {

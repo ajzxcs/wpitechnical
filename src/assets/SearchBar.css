@@ -1,17 +1,8 @@
 /* SearchBar.css */
 
-.search-bar {
-  display: flex;
-  align-items: center;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  padding: 5px;
-  background-color: white;
-}
-
 .search-icon {
   padding: 8px;
-  color: #aaa;
+  color: rgb(37, 37, 37);
 }
 
 .autosuggest-container {

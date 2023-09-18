@@ -1,7 +1,7 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDoubleDown } from "@fortawesome/free-solid-svg-icons";
-import samplePosts from "../Data/samplePosts"; // Import the data
+import samplePosts from "../data/samplePosts"; // Import the data
 
 const PostList = ({ onSelectPost }) => {
   // Access the samplePosts data directly

@@ -49,7 +49,7 @@ function Public() {
 
     <div className="public"style={{ display: 'flex', flexDirection: 'column', marginTop: "20px", justifyContent: 'center', alignItems: 'center' }} >
       <Header />
-      <ImageBanner />
+     
 
     
         <h1>PRIVATE FORUM</h1> 
@@ -148,9 +148,8 @@ function Public() {
                   <p>Time: {comment.date[1]} </p>
 
                 </div>
+          
               ))}
-
-              
               <hr/>
              
             </div>
@@ -167,17 +166,6 @@ function Public() {
   );
 }
 
-function ImageBanner() {
-  return (
-    <div className="image-container">
-      <image
-        className="cover-image"
-        src="/Healthcare-1.jpg"
-        // alt="Healthcare Image"
-      />
-    </div>
-  );
-}
 
 export default Public;
 
