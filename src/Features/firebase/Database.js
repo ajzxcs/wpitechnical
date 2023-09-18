@@ -1,6 +1,7 @@
 import { get, onValue, push, ref, update } from 'firebase/database';
 import { databases } from './Configuration'
 import { userCredentials } from '../Authentication/Authentication'
+import base64 from 'base-64';
 
 // workflow
 // NOTE: When admin creating a user account, it must create a default database strcuture
@@ -141,4 +142,98 @@ export const addComments = async (postID,author,text) => {
  
     })
    
+}
+
+
+// workflow for signup user
+// * verify if the user is aleady sign up
+// * add validation before enterinfg
+// * encrypt the password in base64
+
+// verify emails first before signup
+export const verifyWEmails = (emails) =>{
+  return new Promise(async (resolve, reject) => {
+    const dbRef = ref(databases, 'Pending/');
+
+    try {
+      const snapshot = await get(dbRef);
+  
+      // the fetch data should convert into array function
+      const data = snapshot.val();
+      Object.entries(data).forEach(([key, value]) => {
+
+        if (value.Email === emails){
+
+          resolve(true)
+        }
+
+        resolve(false)
+
+      })
+
+   
+    } catch (error) {
+      // throw error;
+      console.log(error)
+      reject(false);
+    }
+  })  
+}
+
+// Pending Sign Up
+export const addpendingSignup = async (Fullname,Org,Email,Number,Password,os,browser) =>{
+  return new Promise(async (resolve, reject) => {
+    try {
+
+      const userCommentsRef = ref(databases, `Pending`);
+
+      // for date and time
+      const date = new Date().toLocaleDateString();
+      const time = new Date().toLocaleTimeString();
+      
+      // Push the new comment to the user's "Posts" node and get the unique key
+      const newSignup = push(userCommentsRef);  
+
+      // convert into base64
+      const passwordEncrypted = base64.encode(Password);
+
+      // new sign up
+      const signup = {
+        id: newSignup.key,
+        date: [date,time],
+        Fullname: Fullname,
+        Organization: Org,
+        Number: Number,
+        Email: Email,
+        Password: passwordEncrypted,
+        Device: os + ","+ browser
+      };
+      
+      // Prepare updates for the user's "Pending" node
+      const updates = {
+        [`${newSignup.key}`]: signup
+      };
+      
+      // verify emails first
+      verifyWEmails(Email).then(
+        async result=>{
+          if (!result){
+            
+          // Update the user's "Posts" node with the new post data
+            await update(userCommentsRef, updates);
+
+            resolve("Sign up success , and now pending for approval ");
+          }
+
+          resolve("email is exists");
+        }
+      )
+
+
+
+    }catch(error){
+      console.error("Error requesting for an account:", error);
+      reject(error); // Reject the promise with an error
+    }
+  })
 }
