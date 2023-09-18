@@ -1,0 +1,197 @@
+{
+  
+  "Header": {
+    "title": "Welcome",
+    "paragraph": "Wellness Pro is your premier source for top-quality medical supplies. We are dedicated to your well-being, offering a wide range of healthcare products and solutions."
+  },
+  "About": {
+    "paragraph": "A choice of line is a choice of life. Wellness PRO Incorporated is your best choice under any circumstances that arise at present to your future’s stability. Wellness PRO has been in operation for 18 years. Being in line with medical devices distribution was an initial direct interest in proactive health management.  Wellness PRO is making its identity at its best service in the industry. We provide quality homecare, professional care, and institutional healthcare globally leading medical technology solutions.",
+    "Why": [
+      "Proactive Health Management",
+      "Global Healthcare Solutions",
+      "Holistic Approach",
+      "Dedication to Healthcare Advocacy"
+    ],
+    "Why2": [
+      "Innovation",
+      "Commitment to Quality",
+      "Expertise and Knowledge",
+      "Comprehensive Solutions"
+    ]
+  },
+  "Gallery": [
+    {
+      "title": "ERO-SCAN",
+      "largeImage": "./new-image/pic1.jpg",
+      "smallImage": "./new-image/pic1.jpg"
+    },
+    {
+      "title": "MB11 BERAPHONE",
+      "largeImage": "./new-image/pic2.png",
+      "smallImage": "./new-image/pic2.png"
+    },
+    {
+      "title": "SIGHT SAVING",
+      "largeImage": "./new-image/pic3.jpg",
+      "smallImage": "./new-image/pic3.jpg"
+    },
+    {
+      "title": "SECA",
+      "largeImage": "./new-image/pic4.jpg",
+      "smallImage": "./new-image/pic4.jpg"
+    },
+    {
+      "title": "SINAPI",
+      "largeImage": "./new-image/pic5.png",
+      "smallImage": "./new-image/pic5.png"
+    },
+    {
+      "title": "AND",
+      "largeImage": "./new-image/pic6.png",
+      "smallImage": "./new-image/pic6.png"
+    } 
+  ],
+  "Services": [
+    {
+      "icon": "fa fa-calendar",
+      "name": "Efficient Technical Services",
+      "text": "Our primary mission is to provide exceptional technical services. We excel in establishing efficient workflows to ensure your equipment operates at peak performance, minimizing downtime."
+    },
+    {
+      "icon": "fa fa-check",
+      "name": "Robust Maintenance System",
+      "text": "We implement a cutting-edge maintenance management system that keeps your equipment in optimal condition. Our system is designed for reliability and proactive maintenance scheduling."
+    },
+    {
+      "icon": "fa fa-flag",
+      "name": "Community Collaboration",
+      "text": "We foster a collaborative community of Biomedical Equipment Technicians and Practitioners. This network facilitates knowledge sharing, growth, and innovation within the industry."
+    },
+    {
+      "icon": "fa fa-briefcase",
+      "name": "Hub of Excellence",
+      "text": "Our goal is to transform the Technical Service Group into a hub of excellence. We continuously improve workflows and systems to deliver top-notch technical solutions to our clients."
+    },
+    {
+      "icon": "fa fa-globe",
+      "name": "Global Connectivity",
+      "text": "Over the next five years, we aim to connect Biomedical Equipment Technicians and Practitioners globally. This network enables the exchange of insights, news, and information, keeping our community at the forefront of industry advancements."
+    },
+    {
+      "icon": "fa fa-bar-chart",
+      "name": "Lasting Impact",
+      "text": "Our services go beyond immediate fixes. We focus on creating a lasting impact on the field by driving continuous improvement and innovation in biomedical equipment maintenance and management."
+    }
+  ],
+  "Forum": [
+    {
+      "img": "img/img-forum/dr1.jfif",
+      "text": "\"Everything that irritates us about others can lead us to an understanding of ourselves.\"",
+      "name": "Dr. Carl Jung"
+    },
+    {
+      "img": "img/img-forum/dr2.jpg",
+      "text": "\"Success is not the key to happiness. Happiness is the key to success. If you love what you are doing, you will be successful.\"",
+      "name": "Dr. Albert Schweitzer"
+    },
+    {
+      "img": "img/img-forum/dr3.jpg",
+      "text": "\"There are only two sorts of doctors: those who practice with their brains, and those who practice with their tongues.\"",
+      "name": "Dr. William Osler"
+    },
+    {
+      "img": "img/img-forum/dr4.jpg",
+      "text": "\"Let the young know they will never find a more interesting, more instructive book than the patient himself.\"",
+      "name": "Dr. Giorgio Baglivi"
+    },
+    {
+      "img": "img/img-forum/dr5.jpg",
+      "text": "\"The aim of medicine is to prevent disease and prolong life; the ideal of medicine is to eliminate the need of a physician.\"",
+      "name": "Dr. William J. Mayo"
+    },
+    {
+      "img": "img/img-forum/dr6.jfif",
+      "text": "\"Science has everything to say about what is possible. Science has nothing to say about what is permissible.\"",
+      "name": "Dr. Charles Krauthammer"
+    }
+  ],
+  "Team": [
+    {
+      "img": "img/team/01.jpg",
+      "name": "John Doe",
+      "job": "Director"
+    },
+    {
+      "img": "img/team/02.jpg",
+      "name": "Mike Doe",
+      "job": "Senior Designer"
+    },
+    {
+      "img": "img/team/03.jpg",
+      "name": "Jane Doe",
+      "job": "Senior Designer"
+    },
+    {
+      "img": "img/team/04.jpg",
+      "name": "Karen Doe",
+      "job": "Project Manager"
+    }
+  ],
+  "Contact": {
+    "address": "Wellness PRO Tower, 56 San Rafael St, Pasig, 1603 Metro Manila",
+    "phone": "+1 123 456 1234",
+    "email": "info@company.com",
+    "facebook": "fb.com",
+    "twitter": "twitter.com",
+    "youtube": "youtube.com"
+  },
+  "Brand": [
+    {
+      "title": "Brand 1",
+      "image": "img/team/01.jpg"
+    },
+    {
+      "title": "Brand 2",
+      "image": "img/team/02.jpg"
+    },
+    {
+      "title": "Brand 3",
+      "image": "img/team/02.jpg"
+    },
+    {
+      "title": "Brand 4",
+      "image": "img/team/02.jpg"
+    }
+    ,
+    {
+      "title": "Brand 5",
+      "image": "img/team/02.jpg"
+    }
+    ,
+    {
+      "title": "Brand 6",
+      "image": "img/team/02.jpg"
+    }
+    ,
+    {
+      "title": "Brand 8",
+      "image": "img/team/02.jpg"
+    }
+    ,
+    {
+      "title": "Brand 9",
+      "image": "img/team/02.jpg"
+    }
+    ,
+    {
+      "title": "Brand 10",
+      "image": "img/team/02.jpg"
+    }
+    ,
+    {
+      "title": "Brand 11",
+      "image": "img/team/02.jpg"
+    }
+  ]
+}
+
