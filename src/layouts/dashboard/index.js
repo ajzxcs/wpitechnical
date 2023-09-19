@@ -7,24 +7,32 @@ import MDBox from "components/MDBox";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
-import ReportsBarChart from "examples/Charts/BarCharts/ReportsBarChart";
-import ReportsLineChart from "examples/Charts/LineCharts/ReportsLineChart";
+// import ReportsBarChart from "examples/Charts/BarCharts/ReportsBarChart";
+// import ReportsLineChart from "examples/Charts/LineCharts/ReportsLineChart";
 import ComplexStatisticsCard from "examples/Cards/StatisticsCards/ComplexStatisticsCard";
+import { Button } from "@mui/material";
+
 
 // Data
-import reportsBarChartData from "layouts/dashboard/data/reportsBarChartData";
-import reportsLineChartData from "layouts/dashboard/data/reportsLineChartData";
+// import reportsBarChartData from "layouts/dashboard/data/reportsBarChartData";
+// import reportsLineChartData from "layouts/dashboard/data/reportsLineChartData";
 
 // Dashboard components
-import Projects from "layouts/dashboard/components/Projects";
-import OrdersOverview from "layouts/dashboard/components/OrdersOverview";
+// import Projects from "layouts/dashboard/components/Projects";
+// import OrdersOverview from "layouts/dashboard/components/OrdersOverview";
+
+
+// Firebase 
+import { returnPost } from '../../firebase/Database'
 
 function Dashboard() {
-  const { sales, tasks } = reportsLineChartData;
+  // const { sales, tasks } = reportsLineChartData;
 
   return (
     <DashboardLayout>
       <DashboardNavbar />
+
+      {/* Forum Visit today */}
       <MDBox py={3}>
         <Grid container spacing={3}>
           <Grid item xs={12} md={6} lg={3}>
@@ -42,6 +50,8 @@ function Dashboard() {
               />
             </MDBox>
           </Grid>
+          
+          {/* Forum Totla visitor */}
           <Grid item xs={12} md={6} lg={3}>
             <MDBox mb={1.5}>
               <ComplexStatisticsCard
@@ -56,6 +66,8 @@ function Dashboard() {
               />
             </MDBox>
           </Grid>
+
+          {/* Forum Post Today */}
           <Grid item xs={12} md={6} lg={3}>
             <MDBox mb={1.5}>
               <ComplexStatisticsCard
@@ -71,6 +83,8 @@ function Dashboard() {
               />
             </MDBox>
           </Grid>
+
+          {/* Forum Total Post */}
           <Grid item xs={12} md={6} lg={3}>
             <MDBox mb={1.5}>
               <ComplexStatisticsCard
@@ -86,6 +100,8 @@ function Dashboard() {
               />
             </MDBox>
           </Grid>
+
+          {/* Forum Total user */}
           <Grid item xs={12} md={6} lg={3}>
             <MDBox mb={1.5}>
               <ComplexStatisticsCard
@@ -101,6 +117,8 @@ function Dashboard() {
               />
             </MDBox>
           </Grid>
+
+          {/* Pending Tickest */}
           <Grid item xs={12} md={6} lg={3}>
             <MDBox mb={1.5}>
               <ComplexStatisticsCard
@@ -116,6 +134,7 @@ function Dashboard() {
               />
             </MDBox>
           </Grid>
+
           <Grid item xs={12} md={6} lg={3}>
             <MDBox mb={1.5}>
               <ComplexStatisticsCard
@@ -146,6 +165,11 @@ function Dashboard() {
               />
             </MDBox>
           </Grid>
+
+          <Grid item xs={12} md={6} lg={3}>
+            <Button variant="contained" onClick={()=>returnPost()}>Hello Friend</Button>
+          </Grid>
+
         </Grid>
         
        
