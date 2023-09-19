@@ -51,7 +51,7 @@
 .morebutton:hover {
   background-color: slategray;
 }
-.question {
+.HelpIcon {
   display: none;
 }
 
@@ -73,9 +73,8 @@ header {
   width: 100%;
 }
 
-
 .logo {
-  max-width: 200px;
+  max-width: 300px;
   height: auto;
 }
 
@@ -362,7 +361,13 @@ header {
 }
 
 /* Cover Image styles */
-
+.cover-image {
+  background-image: url("/Healthcare-1.jpg"); /* Path to your image in the public folder */
+  background-size: cover;
+  background-position: center;
+  max-width: 100%;
+  height: auto; /* Adjust the height as needed */
+}
 
 /* AskQ.css */
 .ask-content {
@@ -519,7 +524,7 @@ header {
   .hide-faqland {
     display: none;
   }
-  .question {
+  .HelpIcon {
     display: block;
   }
 }
@@ -529,7 +534,7 @@ header {
   .hide-faqland {
     display: none;
   }
-  .question {
+  .HelpIcon {
     display: block;
   }
   .search-bar input[type="text"] {
@@ -630,7 +635,7 @@ header {
   .comment-date {
     font-size: 6px;
   }
-  .question {
+  .HelpIcon {
     display: block;
   }
   .tag {
@@ -712,7 +717,7 @@ header {
 
 @media (max-width: 500px) {
   /* Reset the styles for the post list to make it non-responsive */
-  .question {
+  .HelpIcon {
     display: block;
   }
   .comment-date {
@@ -1491,7 +1496,7 @@ header {
   .morebutton:hover {
     background-color: slategray;
   }
-  .question {
+  .HelpIcon {
     display: none;
   }
 
@@ -1802,7 +1807,13 @@ header {
   }
 
   /* Cover Image styles */
-  
+  .cover-image {
+    background-image: url("/Healthcare-1.jpg"); /* Path to your image in the public folder */
+    background-size: cover;
+    background-position: center;
+    max-width: 100%;
+    height: auto; /* Adjust the height as needed */
+  }
 
   /* AskQ.css */
   .ask-content {
