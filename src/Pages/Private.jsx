@@ -1,171 +1,204 @@
-
 import React, { useState, useEffect } from "react";
-import Header from '../components/componentsPV/Headerpv';
-
-
-import { LogoutSession,userCredentials } from '../Features/Authentication/Authentication'
-import { viewList,createPost,addComments } from '../Features/firebase/Database'
-
+import Header from "../componentsPV/Headerpv";
+import PostList from "../componentsPV/PostListpv";
+import PostDetail from "../componentsPV/PostDetailpv";
+import SearchBar from "../componentsPV/SearchBarpv";
+import AskQ from "../componentsPV/AskQpv";
+import PostForm from "../componentsPV/PostFormpv";
+import FAQ from "../componentsPV/FAQpv"; // Import the FAQ component
+import FAQland from "../componentsPV/FAQlandpv";
+import samplePosts from "../Data/samplePosts";
 import "../App.css";
 
-
-
 function Public() {
+  const [posts, setPosts] = useState([]);
+  const [selectedPost, setSelectedPost] = useState(null); // Add this state variable
+  const [commentCounts, setCommentCounts] = useState({});
+  const [sortingOrder, setSortingOrder] = useState("newest");
+  const [faqVisible, setFaqVisible] = useState(false); // Add FAQ visibility state
 
-  // data from firebase
-  const [showDats,setShowDats] = useState([])
+  let sortedPosts = [...posts];
 
   useEffect(() => {
+    // Use the samplePosts data to initialize your posts state
+    const initialPosts = Object.values(samplePosts).flatMap((authorData) =>
+      authorData.Posts.map((post) => ({ ...post, Author: authorData.Author }))
+    );
 
-    let isMounted = true; // Flag to track whether the component is mounted
+    setPosts(initialPosts);
+  }, []);
 
+  useEffect(() => {
+    // Apply sorting when the sortingOrder changes
+    let sortedPosts = [...posts];
 
-    // update the data from firebase
-    const fetchData = async () => {
-      try {
-        const postsData = await viewList();
-   
-        setShowDats(postsData);
-      } catch (error) {
-        // Handle the error
-        console.log(error)
+    if (sortingOrder === "newest") {
+      sortedPosts = sortedPosts.sort((a, b) => {
+        const dateA = new Date(`${a.date} ${a.time}`);
+        const dateB = new Date(`${b.date} ${b.time}`);
+        return dateB - dateA;
+      });
+    } else if (sortingOrder === "oldest") {
+      sortedPosts = sortedPosts.sort((a, b) => {
+        const dateA = new Date(`${a.date} ${a.time}`);
+        const dateB = new Date(`${b.date} ${b.time}`);
+        return dateA - dateB;
+      });
+    }
+
+    setPosts(sortedPosts);
+  }, [sortingOrder, posts]);
+
+  const handleSelectPost = (post) => {
+    // Set the selected post when a post is clicked
+    setSelectedPost(post);
+  };
+
+  const handleGoBack = () => {
+    // Clear the selected post when going back
+    setSelectedPost(null);
+  };
+
+  const handleAddComment = (postId, comment) => {
+    const updatedPosts = posts.map((post) => {
+      if (post.id === postId) {
+        const updatedComments = [...post.comments, comment];
+        return {
+          ...post,
+          commentCount: updatedComments.length,
+          comments: updatedComments
+        };
       }
-    }
+      return post;
+    });
 
-    // Check if the component is still mounted before updating the state
-    if (isMounted) {
-      fetchData();
-    }
+    localStorage.setItem("posts", JSON.stringify(updatedPosts));
+    setPosts(updatedPosts);
 
+    const updatedCommentCounts = updatedPosts.reduce((acc, post) => {
+      acc[post.id] = post.commentCount;
+      return acc;
+    }, {});
 
-    return () => {
-      isMounted = false; // Set the flag to false when the component unmounts
+    localStorage.setItem("commentCounts", JSON.stringify(updatedCommentCounts));
+    setCommentCounts(updatedCommentCounts);
+  };
+
+  const handleSearch = (searchQuery) => {
+    const filteredPosts = posts.filter(
+      (post) =>
+        post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        post.content.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    setPosts(filteredPosts);
+  };
+
+  const handleDeletePost = (postId) => {
+    const updatedPosts = posts.filter((post) => post.id !== postId);
+    localStorage.setItem("posts", JSON.stringify(updatedPosts));
+    setPosts(updatedPosts);
+    setSelectedPost(null);
+  };
+
+  const handleAddPost = (newPost) => {
+    const updatedPosts = [
+      ...posts,
+      { ...newPost, commentCount: 0, comments: [] }
+    ];
+
+    localStorage.setItem("posts", JSON.stringify(updatedPosts));
+    setPosts(updatedPosts);
+
+    const updatedCommentCounts = {
+      ...commentCounts,
+      [newPost.id]: 0
     };
-  });
 
+    localStorage.setItem("commentCounts", JSON.stringify(updatedCommentCounts));
+    setCommentCounts(updatedCommentCounts);
+  };
 
+  const handleSort = (newSortingOrder) => {
+    setSortingOrder(newSortingOrder);
+  };
+
+  const toggleFAQVisibility = () => {
+    setFaqVisible(!faqVisible);
+  };
 
   return (
+    <div className="public">
+      <Header toggleFAQVisibility={toggleFAQVisibility} />
 
-    <div className="public"style={{ display: 'flex', flexDirection: 'column', marginTop: "20px", justifyContent: 'center', alignItems: 'center' }} >
-      <Header />
-     
-
-    
-        <h1>PRIVATE FORUM</h1> 
-
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-
-
-        <div style={{ padding: '5px' }}> 
-        <button onClick={(event)=>
-        {
-          event.preventDefault();
-          LogoutSession();
-        }
-        }>LOG OUT</button>
-        </div>
-
-<div style={{ padding: '5px' }}> 
-      <button onClick={(event)=>
-      {
-        event.preventDefault();
-        userCredentials()
-        .then(e=>alert("User uniqueID: " + String(e.uniqueID) ))
-        .catch(e=>console.log(e))           
-        // console.log(userCredentials())                                                                            
-      }
-      }>Click me</button>
-      </div>
-
-{/* add post button */}
-      <div style={{ padding: '5px' }}> 
-        <button onClick={
-        event=>{
-          event.preventDefault();
-          // parameters data: Title, Content, Tags
-          createPost("no changes", "this is my second post", "A,B,C")
-            .then(e=>alert(e))
-            .catch(e=>alert(e))}
-        }>
-        add post
-        </button>
-      </div>
-    </div>
-
-
-   {/* Iterate of user posts */}
-      {showDats?.map((item, index) => (
-        <div key={index} style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}} >
-         
-          {/* Iterate through the each Posts of user */}
-          {item.Posts && Object.values(item.Posts)?.map((post, postIndex) => (
-
-            <div key={postIndex}>
-
-              <h3>Title: {post.Title}</h3>
-
-              <p>Author: {item.author}</p>
-              <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>   
-
-                <div style={{padding: "5px"}}> 
-                  <p>Date: {post.date[0]} </p>
-                </div>
-
-              <div style={{padding: "5px"}}> 
-                <p>Time: {post.date[1]}</p> 
-
-                </div>
+      <div className="main-content">
+        {!faqVisible && (
+          <div className="content">
+            <div className="search-bar-container">
+              <div className="search-bar">
+                <SearchBar
+                  posts={posts}
+                  onSearch={handleSearch}
+                  onSort={handleSort}
+                />
               </div>
-
-              <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}> 
-                <p><strong>TAGS: </strong></p>
-                <p>{post.tags}</p>
-              </div>
-
-              <p><strong>Content:</strong> {post.Content}</p>
-
-              <p>Likes: {post.likes}</p>
-              <p>Dislikes: {post.dislikes}</p>
-
-              {/* Render other properties as needed */}
-              <h4>Comments:</h4>
-
-           
-              <button key={postIndex} onClick={e=>{
-                e.preventDefault();
-                // const post = item.Posts[postId]; // Get the post data
-                addComments(post.id,item.author, "WOW THAT IS AWESOME")
-                console.log(String(post.id),String(item.author),"WOW that is awwesome")
-              }}>add comments</button>
-
-              {/* Iterate of all Post List */}
-              {post.Comments && Object.values(post.Comments)?.map((comment,index)=>(
-                <div key={index}>
-                  <h3>{comment.Text}</h3>
-                  <p><strong>{comment.Author}</strong></p>
-                  <p>Date: {comment.date[0]} </p>
-                  <p>Time: {comment.date[1]} </p>
-
-                </div>
-          
-              ))}
-              <hr/>
-             
             </div>
+            <br />
+            <br />
 
-         
-
-          ))}
-
-
-        </div>
-      ))}
-
+            <div className="flex-container">
+              <div className="left-component">
+                {!selectedPost ? (
+                  <>
+                    <AskQ onAddPost={handleAddPost} />
+                    <PostList
+                      posts={sortedPosts}
+                      onSelectPost={handleSelectPost}
+                    />
+                    <PostForm onAddPost={handleAddPost} />
+                  </>
+                ) : (
+                  <PostDetail
+                    post={selectedPost} // Pass the selected post
+                    onDeletePost={handleDeletePost}
+                    onAddComment={handleAddComment}
+                    onGoBack={handleGoBack}
+                  />
+                )}
+              </div>
+              <div className="right-component">
+                <div
+                  className={`dispFAQ-container ${
+                    faqVisible ? "" : "hide-faqland"
+                  }`}
+                  style={{ width: "400px", marginLeft: "30px" }}
+                >
+                  <FAQland toggleFAQVisibility={toggleFAQVisibility} />
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+      {faqVisible && <FAQ toggleFAQVisibility={toggleFAQVisibility} />}
+      <footer className="footer">
+        <br />
+        <div className="footer-center">WELLNESS PRO INC.</div>
+        <br />
+        <ul className="footer-links">
+          <li className="footer-link">
+            <a href="#">Content Policy</a>
+          </li>
+          <li className="footer-link">
+            <a href="#">Privacy Policy</a>
+          </li>
+          <li className="footer-link">
+            <a href="#">User Agreement</a>
+          </li>
+        </ul>
+        <br />
+      </footer>
     </div>
   );
 }
 
-
 export default Public;
-
