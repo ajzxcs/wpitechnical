@@ -1,35 +1,49 @@
 import React, { useState } from "react";
 import Modal from "react-modal";
-import samplePosts from "../../data/samplePosts"; // Import samplePosts/
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import "../assets/public.css";
 
 Modal.setAppElement("#root"); // Set the app element for modal accessibility
 
 const PostForm = ({ isOpen, onRequestClose, onAddPost }) => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [tags, setTags] = useState([]);
+  const [tagInput, setTagInput] = useState("");
 
-  const handleAddPost = () => {
-    if (title && content) {
-      const newPost = {
-        id: Date.now(),
-        title,
-        content,
-        author: "You",
-        date: new Date().toLocaleDateString(),
-        commentCount: 0,
-        comments: []
-      };
-      onAddPost(newPost);
-      setTitle("");
-      setContent("");
-      // You might also want to update the samplePosts array
-      samplePosts.push(newPost);
-      onRequestClose(); // Close the modal after adding the post
+  const handleAddTag = () => {
+    if (tagInput) {
+      const newTag = tagInput.trim();
+      if (!tags.includes(newTag)) {
+        const updatedTags = [...tags, newTag];
+        setTags(updatedTags);
+        setTagInput("");
+        // Store the updated tags in local storage
+        localStorage.setItem("postTags", JSON.stringify(updatedTags));
+      }
     }
   };
+  const handleCreatePost = () => {
+    // Create a new post object
+    const newPost = {
+      title,
+      content,
+      tags,
+      date: new Date().toLocaleString()
+      // Add any other properties you need
+    };
 
+    // Call the onAddPost function to add the post to the list
+    onAddPost(newPost);
+
+    // Clear the form fields
+    setTitle("");
+    setContent("");
+    setTags([]);
+    setTagInput("");
+    onRequestClose();
+  };
   return (
     <Modal
       isOpen={isOpen}
@@ -42,7 +56,7 @@ const PostForm = ({ isOpen, onRequestClose, onAddPost }) => {
         </div>
         <h2>Create a New Post</h2>
         <div className="post-form-details">
-          <p>{new Date().toLocaleString()}</p> {/* Display current time */}
+          <p>{new Date().toLocaleString()}</p>
           <input
             type="text"
             placeholder="Title"
@@ -54,8 +68,28 @@ const PostForm = ({ isOpen, onRequestClose, onAddPost }) => {
             value={content}
             onChange={(e) => setContent(e.target.value)}
           />
+          <div className="tag-input">
+            <input
+              type="text"
+              placeholder="Press Add Tag to Add more... "
+              value={tagInput}
+              onChange={(e) => setTagInput(e.target.value)}
+            />
+            <button onClick={handleAddTag}>Add Tag</button>
+          </div>
+          {tags.length > 0 && (
+            <div className="selected-tags">
+              <strong>Selected Tags:</strong>{" "}
+              {tags.map((tag, index) => (
+                <span key={index} className="tag">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          )}
         </div>
-        <button onClick={handleAddPost}>Create Post</button>
+        <br />
+        <button onClick={handleCreatePost}>Create Post</button>
       </div>
     </Modal>
   );

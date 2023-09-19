@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import PostForm from "./PostFormpv";
-import ask from "../../assets/Thinking face.gif";
-
+import ask from "../assets/Thinking face.gif";
+import "../assets/public.css";
+import Modal from "react-modal";
 
 const AskQ = ({ onAddPost }) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
