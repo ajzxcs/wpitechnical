@@ -10,7 +10,7 @@ import FAQland from "../componentsPV/FAQlandpv";
 import samplePosts from "../Data/samplePosts";
 import "../App.css";
 
-function Public() {
+function Private() {
   const [posts, setPosts] = useState([]);
   const [selectedPost, setSelectedPost] = useState(null); // Add this state variable
   const [commentCounts, setCommentCounts] = useState({});
@@ -201,4 +201,4 @@ function Public() {
   );
 }
 
-export default Public;
+export default Private;
