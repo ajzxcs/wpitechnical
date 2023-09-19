@@ -1,3 +1,5 @@
+import React from "react";
+
 import Grid from "@mui/material/Grid";
 
 // Material Dashboard 2 React components
@@ -25,8 +27,8 @@ import { Button } from "@mui/material";
 // Firebase 
 import { returnPost } from '../../firebase/Database'
 
+
 function Dashboard() {
-  // const { sales, tasks } = reportsLineChartData;
 
   return (
     <DashboardLayout>
@@ -167,7 +169,7 @@ function Dashboard() {
           </Grid>
 
           <Grid item xs={12} md={6} lg={3}>
-            <Button variant="contained" onClick={()=>returnPost()}>Hello Friend</Button>
+            <Button variant="contained" onClick={()=>returnPost().then(e=>console.log(e))}>Hello Friend</Button>
           </Grid>
 
         </Grid>
