@@ -24,15 +24,20 @@ import ComplexStatisticsCard from "examples/Cards/StatisticsCards/ComplexStatist
 
 
 // Firebase 
-import { totalForumPost,totalForumPost_Today } from '../../firebase/Database'
-import { Button } from "@mui/material";
+import { 
+  totalForumPost,
+  totalForumPost_Today,
+  getUsers 
+} from '../../firebase/Database'
+// import { Button } from "@mui/material";
 
 
 function Dashboard() {
 
   const [data,setData] = React.useState({
     totalPost: 0,
-    todayPost: 0
+    todayPost: 0,
+    totalUsers: 0,
   })
 
   React.useEffect(()=>{
@@ -63,6 +68,21 @@ function Dashboard() {
           setData(newData);
         })
         .catch((error) => console.log(error));
+
+      // get total user
+      getUsers()
+      .then((e) => {
+
+        const total = e?.filter((data,key)=> { return data.Status === "Granted" }).length;
+
+        // Merge the new todayPost value with newData
+        newData = { ...newData, totalUsers: total };
+
+        // Update the state with the accumulated changes
+        setData(newData);
+      })
+      .catch((error) => console.log(error));
+
     }
 
     return () => {
@@ -151,7 +171,7 @@ function Dashboard() {
                 color="primary"
                 icon="person"
                 title="Total Users"
-                count="+91"
+                count={data.totalUsers}
                 percentage={{
                   color: "success",
                   amount: "",
@@ -209,9 +229,9 @@ function Dashboard() {
             </MDBox>
           </Grid>
 
-          <Grid item xs={12} md={6} lg={3}>
-            <Button variant="contained" onClick={()=>totalForumPost().then(e=>console.log(e))}>Hello Friend</Button>
-          </Grid>
+          {/* <Grid item xs={12} md={6} lg={3}>
+            <Button variant="contained" onClick={()=>getUsers().then(e=>console.log(e.length))}>Hello Friend</Button>
+          </Grid> */}
 
         </Grid>
         

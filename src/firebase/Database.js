@@ -1,9 +1,6 @@
 import { onValue,ref } from "@firebase/database";
 import { databases } from "./Configuration";
 
-
-
-
 // get the number of post
 export const totalForumPost = async () =>{
   const dbRef = ref(databases, `POSTS/`);
@@ -52,6 +49,24 @@ export const totalForumPost_Today = async () =>{
               })
   
               resolve(0)
+            
+        }, (error) => {
+            reject(error);
+        });
+    });
+   }
+
+//    Get all the users including pending
+export const getUsers = async () =>{
+    const dbRef = ref(databases, `Users/`);
+
+
+    return await new Promise((resolve, reject) => {
+        onValue(dbRef, (snapshot) => {
+
+              const data = snapshot.val();
+  
+              resolve(Object.values(data))
             
         }, (error) => {
             reject(error);
