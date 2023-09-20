@@ -12,7 +12,6 @@ import Footer from "examples/Footer";
 // import ReportsBarChart from "examples/Charts/BarCharts/ReportsBarChart";
 // import ReportsLineChart from "examples/Charts/LineCharts/ReportsLineChart";
 import ComplexStatisticsCard from "examples/Cards/StatisticsCards/ComplexStatisticsCard";
-import { Button } from "@mui/material";
 
 
 // Data
@@ -25,10 +24,52 @@ import { Button } from "@mui/material";
 
 
 // Firebase 
-import { returnPost } from '../../firebase/Database'
+import { totalForumPost,totalForumPost_Today } from '../../firebase/Database'
+import { Button } from "@mui/material";
 
 
 function Dashboard() {
+
+  const [data,setData] = React.useState({
+    totalPost: 0,
+    todayPost: 0
+  })
+
+  React.useEffect(()=>{
+    let isMounted = true; // A flag to track whether the component is still mounted
+
+    if (isMounted) {
+      // Initialize an empty newData object to accumulate changes
+      let newData = { ...data };
+  
+      // Total forum post
+      totalForumPost()
+        .then((e) => {
+          // Merge the new totalPost value with newData
+          newData = { ...newData, totalPost: e };
+  
+          // Update the state with the accumulated changes
+          setData(newData);
+        })
+        .catch((error) => console.log(error));
+  
+      // today forum post
+      totalForumPost_Today()
+        .then((e) => {
+          // Merge the new todayPost value with newData
+          newData = { ...newData, todayPost: e };
+  
+          // Update the state with the accumulated changes
+          setData(newData);
+        })
+        .catch((error) => console.log(error));
+    }
+
+    return () => {
+      isMounted = false;
+    };
+
+  },[])
 
   return (
     <DashboardLayout>
@@ -53,7 +94,7 @@ function Dashboard() {
             </MDBox>
           </Grid>
           
-          {/* Forum Totla visitor */}
+          {/* Forum total visitor */}
           <Grid item xs={12} md={6} lg={3}>
             <MDBox mb={1.5}>
               <ComplexStatisticsCard
@@ -76,7 +117,7 @@ function Dashboard() {
                 color="dark"
                 icon="create_icon"
                 title="Forum Post Today"
-                count="34k"
+                count={String(data.todayPost)}
                 percentage={{
                   color: "success",
                   amount: "+1%",
@@ -93,7 +134,7 @@ function Dashboard() {
                 color="info"
                 icon="create_icon"
                 title="Forum Total Post"
-                count="+91"
+                count={String(data.totalPost)}
                 percentage={{
                   color: "success",
                   amount: "",
@@ -169,7 +210,7 @@ function Dashboard() {
           </Grid>
 
           <Grid item xs={12} md={6} lg={3}>
-            <Button variant="contained" onClick={()=>returnPost().then(e=>console.log(e))}>Hello Friend</Button>
+            <Button variant="contained" onClick={()=>totalForumPost().then(e=>console.log(e))}>Hello Friend</Button>
           </Grid>
 
         </Grid>
