@@ -34,7 +34,7 @@ export default [
   },
   {
     image: marie,
-    name: "Anne Marie",
+    name: "Who are you",
     description: "Awesome work, can you..",
     action: {
       type: "internal",

@@ -21,7 +21,7 @@ function Tables() {
 
   return (
     <DashboardLayout>
-      <DashboardNavbar />
+     
       <MDBox pt={6} pb={3}>
           <Grid item xs={12}>
             <Card>
