@@ -44,6 +44,7 @@ import Notifications from "layouts/notifications";
 import Profile from "layouts/profile";
 import SignIn from "layouts/authentication/sign-in";
 import SignUp from "layouts/authentication/sign-up";
+import Tickets from "layouts/tickets"
 
 // @mui icons
 import Icon from "@mui/material/Icon";
@@ -77,7 +78,7 @@ const routes = [
     type: "collapse",
     name: "Forum Section",
     key: "notifications",
-    icon: <Icon fontSize="small">notifications</Icon>,
+    icon: <Icon fontSize="small">forum</Icon>,
     route: "/notifications",
     component: <Notifications />,
   },
@@ -91,20 +92,37 @@ const routes = [
   },
   {
     type: "collapse",
-    name: "Sign In",
-    key: "sign-in",
-    icon: <Icon fontSize="small">login</Icon>,
-    route: "/authentication/sign-in",
-    component: <SignIn />,
+    name: "Tickets",
+    key: "tickets",
+    icon: <Icon fontSize="small">EventIcon</Icon>,
+    route: "/tickets",
+    component: <Tickets />,
   },
   {
     type: "collapse",
     name: "Sign Up",
     key: "sign-up",
-    icon: <Icon fontSize="small">assignment</Icon>,
+    icon: <Icon fontSize="small">login</Icon>,
     route: "/authentication/sign-up",
     component: <SignUp />,
   },
+  // {
+  //   type: "collapse",
+  //   name: "Sign In",
+  //   key: "sign-in",
+  //   icon: <Icon fontSize="small">assignment</Icon>,
+  //   route: "/authentication/sign-in",
+  //   component: <SignIn />,
+  // },
+  {
+    type: "collapse",
+    name: "Log Out",
+    key: "logout",
+    icon: <Icon fontSize="small">logout</Icon>,
+    route: "/authentication/sign-in",
+    component: <SignUp />,
+  },
+
 ];
 
 export default routes;

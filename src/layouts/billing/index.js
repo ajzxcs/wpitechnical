@@ -1,89 +1,85 @@
-/**
-=========================================================
-* Material Dashboard 2 React - v2.2.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/material-dashboard-react
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
-// @mui material components
-import Grid from "@mui/material/Grid";
-
-// Material Dashboard 2 React components
-import MDBox from "components/MDBox";
-
-// Material Dashboard 2 React examples
+import React, { useState } from "react";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
-import MasterCard from "examples/Cards/MasterCard";
-import DefaultInfoCard from "examples/Cards/InfoCards/DefaultInfoCard";
+import MDBox from "components/MDBox";
+import MDTypography from "components/MDTypography";
+import MDButton from "components/MDButton";
+import { AppBar, Toolbar } from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
+import TitlebarImageList from "./TitlebarImageList";
 
-// Billing page components
-import PaymentMethod from "layouts/billing/components/PaymentMethod";
-import Invoices from "layouts/billing/components/Invoices";
-import BillingInformation from "layouts/billing/components/BillingInformation";
-import Transactions from "layouts/billing/components/Transactions";
+function Brands() {
+  const [selectedFile, setSelectedFile] = useState(null);
 
-function Billing() {
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    setSelectedFile(file);
+  };
+
+  const handleDeleteBrand = () => {
+    if (selectedFile) {
+      console.log(`Deleting brand: ${selectedFile.name}`);
+      // Add your deletion logic here
+    }
+  };
+
   return (
     <DashboardLayout>
-      <DashboardNavbar absolute isMini />
-      <MDBox mt={8}>
-        <MDBox mb={3}>
-          <Grid container spacing={3}>
-            <Grid item xs={12} lg={8}>
-              <Grid container spacing={3}>
-                <Grid item xs={12} xl={6}>
-                  <MasterCard number={4562112245947852} holder="jack peterson" expires="11/22" />
-                </Grid>
-                <Grid item xs={12} md={6} xl={3}>
-                  <DefaultInfoCard
-                    icon="account_balance"
-                    title="salary"
-                    description="Belong Interactive"
-                    value="+$2000"
-                  />
-                </Grid>
-                <Grid item xs={12} md={6} xl={3}>
-                  <DefaultInfoCard
-                    icon="paypal"
-                    title="paypal"
-                    description="Freelance Payment"
-                    value="$455.00"
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <PaymentMethod />
-                </Grid>
-              </Grid>
-            </Grid>
-            <Grid item xs={12} lg={4}>
-              <Invoices />
-            </Grid>
-          </Grid>
+     
+      <AppBar position="static" color="primary">
+        <Toolbar>
+        <MDTypography variant="h6" color="white">Brands</MDTypography>
+        </Toolbar>
+      </AppBar>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "flex-start",
+          height: "100vh",
+        }}
+      >
+        <MDBox p={4}>
+          <input
+            type="file"
+            accept=".jpg, .png, .jpeg"
+            style={{ display: "none" }}
+            onChange={handleFileChange}
+            id="fileInput"
+          />
+          <label htmlFor="fileInput">
+            <MDButton
+              variant="outlined"
+              color="primary"
+              component="span"
+            >
+              Upload Photo 
+            </MDButton>&nbsp;&nbsp;&nbsp;&nbsp;
+          </label>
+          {selectedFile && (
+            <MDBox mt={2}>
+              <MDTypography variant="body2">
+                Selected File: {selectedFile.name}
+              </MDTypography>
+            </MDBox>
+          )}
+          
+          <MDButton
+          variant="outlined"  // Set the variant to "outlined"
+          color="primary"    // Set the color to "primary"
+          onClick={handleDeleteBrand}
+          mt={2}
+          >
+          Delete a Brand
+        </MDButton>
         </MDBox>
-        <MDBox mb={3}>
-          <Grid container spacing={3}>
-            <Grid item xs={12} md={7}>
-              <BillingInformation />
-            </Grid>
-            <Grid item xs={12} md={5}>
-              <Transactions />
-            </Grid>
-          </Grid>
-        </MDBox>
-      </MDBox>
+        <TitlebarImageList />
+      </div>
       <Footer />
     </DashboardLayout>
   );
 }
 
-export default Billing;
+export default Brands;
