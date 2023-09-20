@@ -153,14 +153,18 @@ export const addComments = async (postID,author,text) => {
 // verify emails first before signup
 export const verifyWEmails = (emails) =>{
   return new Promise(async (resolve, reject) => {
-    const dbRef = ref(databases, 'Pending/');
+    const dbRef = ref(databases, 'Users/');
 
     try {
       const snapshot = await get(dbRef);
   
       // the fetch data should convert into array function
       const data = snapshot.val();
-      Object.entries(data).forEach(([key, value]) => {
+
+      console.log(data)
+      if (data) {
+
+      Object.entries(data)?.forEach(([key, value]) => {
 
         if (value.Email === emails){
 
@@ -171,7 +175,10 @@ export const verifyWEmails = (emails) =>{
 
       })
 
-   
+              
+    }
+
+    resolve(false)
     } catch (error) {
       // throw error;
       console.log(error)
@@ -185,7 +192,7 @@ export const addpendingSignup = async (Fullname,Org,Email,Number,Password,os,bro
   return new Promise(async (resolve, reject) => {
     try {
 
-      const userCommentsRef = ref(databases, `Pending`);
+      const userCommentsRef = ref(databases, `Users`);
 
       // for date and time
       const date = new Date().toLocaleDateString();
@@ -206,7 +213,8 @@ export const addpendingSignup = async (Fullname,Org,Email,Number,Password,os,bro
         Number: Number,
         Email: Email,
         Password: passwordEncrypted,
-        Device: os + ","+ browser
+        Device: os + ","+ browser,
+        Status: "Pending"
       };
       
       // Prepare updates for the user's "Pending" node
