@@ -314,7 +314,7 @@ const Signup = () => {
                     margin="normal"
                     variant='standard' 
                     label='Full Name' 
-                    placeholder='Enter your fullname' 
+                    placeholder='First Name M.I Last Name' 
                     fullWidth 
                     inputProps={{style: {fontSize: 16}}} // font size of input text
                     InputLabelProps={{style: {fontSize: 16,color: '#6969696'}}} // font size of input label
