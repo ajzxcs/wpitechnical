@@ -8,16 +8,39 @@ import MDTypography from "components/MDTypography";
 
 // Material Dashboard 2 React example components
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
-import DashboardNavbar from "examples/Navbars/DashboardNavbar";
+// import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
 import DataTable from "examples/Tables/DataTable";
 
 // Data
 import authorsTableData from "layouts/tables/data/authorsTableData";
-import projectsTableData from "layouts/tables/data/projectsTableData";
+import React from "react";
+// import projectsTableData from "layouts/tables/data/projectsTableData";
+
+// firebase
+import { getUsers } from "../../firebase/Database"
 
 function Tables() {
-  const { columns, rows } = authorsTableData();
+
+  const [Rows,setRows] = React.useState()
+
+  // React.useEffect(() => {
+  //   // Define an async function within useEffect
+  //    const fetchData = async () => {
+  //     try {
+  //       const data = await getUsers();
+  //       setRows(data);
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   }
+  
+  //   // Call the async function
+  //   fetchData();
+  // }, []);
+  
+
+  const { columns, rows } = authorsTableData(Rows);
 
   return (
     <DashboardLayout>
@@ -38,15 +61,23 @@ function Tables() {
                 <MDTypography variant="h6" color="white">
                   User Info
                 </MDTypography>
+
               </MDBox>
               <MDBox pt={3}>
-                <DataTable
+
+
+
+              {/* {rows ? alert("may laman") : alert("walang laman")} */}
+              {rows && <DataTable
                   table={{ columns, rows }}
                   isSorted={false}
                   entriesPerPage={false}
                   showTotalEntries={false}
                   noEndBorder
-                />
+                />}
+                
+
+
               </MDBox>
             </Card>
         

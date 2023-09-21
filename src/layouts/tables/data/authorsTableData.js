@@ -22,11 +22,26 @@ import MDAvatar from "components/MDAvatar";
 import MDBadge from "components/MDBadge";
 
 // Images
-import team2 from "assets/images/team-2.jpg";
-import team3 from "assets/images/team-3.jpg";
-import team4 from "assets/images/team-4.jpg";
+import pending from "assets/images/pending.png";
+import Users from "assets/images/user.png";
+import React from "react";
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
 
-export default function data() {
+import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+// import team3 from "assets/images/team-3.jpg";
+// import team4 from "assets/images/team-4.jpg";
+
+// firebase
+import { pendingToGranted } from '../../../firebase/Database'
+
+// dummy darta
+import jsonData from './dumm.json';
+
+
+
+export default function data(rowrow) {
   const User = ({ image, name, email }) => (
     <MDBox display="flex" alignItems="center" lineHeight={1}>
       <MDAvatar src={image} name={name} size="sm" />
@@ -48,225 +63,146 @@ export default function data() {
     </MDBox>
   );
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+
+  const handleClick = (event) => {
+    console.log(event.currentTarget)
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   return {
+
+      
     columns: [
       { Header: "User", accessor: "user", width: "45%", align: "left" },
-      { Header: "Institution", accessor: "institution", align: "left" },
+      { Header: "Number", accessor: "number", align: "center" },
+      { Header: "Organization", accessor: "organization", align: "center" },
+      { Header: "Device", accessor: "device", align: "center" },
       { Header: "Status", accessor: "status", align: "center" },
-      { Header: "Email", accessor: "email", align: "center" },
+      { Header: "Date", accessor: "date", align: "center" },
       { Header: "Action", accessor: "action", align: "center" },
     ],
 
-    rows: [
-      {
-        user: <User image={team2} name="John Michael" email="john@creative-tim.com" />,
-        institution: <Institution title="Hospital" description="Doctor" />,
-        status: (
-          <MDBox ml={-1}>
-            <MDBadge badgeContent="granted" color="success" variant="gradient" size="sm" />
-          </MDBox>
-        ),
-        email: (
-          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-            john@creative-tim.com
-          </MDTypography>
-        ),
-        action: (
-          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-            Edit
-          </MDTypography>
-        ),
-      },
-      {
-        user: <User image={team3} name="Alexa Liras" email="alexa@creative-tim.com" />,
-        institution: <Institution title="Hospital" description="Pediatrician" />,
-        status: (
-          <MDBox ml={-1}>
-            <MDBadge badgeContent="pending" color="dark" variant="gradient" size="sm" />
-          </MDBox>
-        ),
-        email: (
-          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-            alexa@creative-tim.com
-          </MDTypography>
-        ),
-        action: (
-          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-            Edit
-          </MDTypography>
-        ),
-      },
-      {
-        user: <User image={team4} name="Laurent Perrier" email="laurent@creative-tim.com" />,
-        institution: <Institution title="Hospital" description="Surgeon" />, // Updated to medical field
-        status: (
-          <MDBox ml={-1}>
-            <MDBadge badgeContent="granted" color="success" variant="gradient" size="sm" />
-          </MDBox>
-        ),
-        email: (
-          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-            laurent@creative-tim.com
-          </MDTypography>
-        ),
-        action: (
-          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-            Edit
-          </MDTypography>
-        ),
-      },
-      {
-        user: <User image={team3} name="Michael Levi" email="michael@creative-tim.com" />,
-        institution: <Institution title="Medical Center" description="Doctor" />, // Updated to medical field
-        status: (
-          <MDBox ml={-1}>
-            <MDBadge badgeContent="granted" color="success" variant="gradient" size="sm" />
-          </MDBox>
-        ),
-        email: (
-          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-            michael@creative-tim.com
-          </MDTypography>
-        ),
-        action: (
-          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-            Edit
-          </MDTypography>
-        ),
-      },
-      {
-        user: <User image={team3} name="Richard Gran" email="richard@creative-tim.com" />,
-        institution: <Institution title="Medical Clinic" description="Nurse" />, // Updated to medical field
-        status: (
-          <MDBox ml={-1}>
-            <MDBadge badgeContent="pending" color="dark" variant="gradient" size="sm" />
-          </MDBox>
-        ),
-        email: (
-          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-            richard@creative-tim.com
-          </MDTypography>
-        ),
-        action: (
-          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-            Edit
-          </MDTypography>
-        ),
-      },
-      {
-        user: <User image={team4} name="Miriam Eric" email="miriam@creative-tim.com" />,
-        institution: <Institution title="Medical Center" description="Nurse" />, // Updated to medical field
-        status: (
-          <MDBox ml={-1}>
-            <MDBadge badgeContent="pending" color="dark" variant="gradient" size="sm" />
-          </MDBox>
-        ),
-        email: (
-          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-            miriam@creative-tim.com
-          </MDTypography>
-        ),
-        action: (
-          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-            Edit
-          </MDTypography>
-        ),
-      },
-      {
-        user: <User image={team2} name="John Doe" email="johndoe@example.com" />,
-        institution: <Institution title="Hospital" description="Nurse" />,
-        status: (
-          <MDBox ml={-1}>
-            <MDBadge badgeContent="granted" color="success" variant="gradient" size="sm" />
-          </MDBox>
-        ),
-        email: (
-          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-            johndoe@example.com
-          </MDTypography>
-        ),
-        action: (
-          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-            Edit
-          </MDTypography>
-        ),
-      },
-      {
-        user: <User image={team3} name="Jane Smith" email="janesmith@example.com" />,
-        institution: <Institution title="Medical Clinic" description="Nurse" />,
-        status: (
-          <MDBox ml={-1}>
-            <MDBadge badgeContent="pending" color="dark" variant="gradient" size="sm" />
-          </MDBox>
-        ),
-        email: (
-          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-            janesmith@example.com
-          </MDTypography>
-        ),
-        action: (
-          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-            Edit
-          </MDTypography>
-        ),
-      },
-      {
-        user: <User image={team4} name="Sarah Johnson" email="sarahjohnson@example.com" />,
-        institution: <Institution title="Medical Center" description="Doctor" />,
-        status: (
-          <MDBox ml={-1}>
-            <MDBadge badgeContent="granted" color="success" variant="gradient" size="sm" />
-          </MDBox>
-        ),
-        email: (
-          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-            sarahjohnson@example.com
-          </MDTypography>
-        ),
-        action: (
-          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-            Edit
-          </MDTypography>
-        ),
-      },
-      {
-        user: <User image={team2} name="Tom Williams" email="tomwilliams@example.com" />,
-        institution: <Institution title="Hospital" description="Doctor" />,
-        status: (
-          <MDBox ml={-1}>
-            <MDBadge badgeContent="pending" color="dark" variant="gradient" size="sm" />
-          </MDBox>
-        ),
-        email: (
-          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-            tomwilliams@example.com
-          </MDTypography>
-        ),
-        action: (
-          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-            Edit
-          </MDTypography>
-        ),
-      },
-      {
-        user: <User image={team3} name="Emily Davis" email="emilydavis@example.com" />,
-        institution: <Institution title="Medical Clinic" description="Nurse" />,
-        status: (
-          <MDBox ml={-1}>
-            <MDBadge badgeContent="granted" color="success" variant="gradient" size="sm" />
-          </MDBox>
-        ),
-        email: (
-          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-            emilydavis@example.com
-          </MDTypography>
-        ),
-        action: (
-          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-            Edit
-          </MDTypography>
-        ),
-      },
-    ],
+    rows: Object.values(jsonData)?.map((user, index) => ({
+      
+      // Email and Fullname
+      user: (
+        <User key={index} image={user.Status === "Granted" ? Users : pending} name={user.Fullname} email={user.Email} />
+      ),
+
+      // Number
+      number: (
+        <MDTypography
+        key={index}
+        component="a"
+        href="#"
+        variant="caption"
+        color="text"
+        fontWeight="medium"
+      >
+        {user.Number}
+      </MDTypography>
+      ),
+
+      // Organization
+      organization: (
+        <Institution key={index} title={user.Organization} description="" />
+      ),
+
+      // device
+      device: (
+        <MDTypography
+          key={index}
+          component="a"
+          href="#"
+          variant="caption"
+          color="text"
+          fontWeight="medium"
+        >
+          {user.Device}
+        </MDTypography>
+      ),
+
+      // status
+      status: (
+        <MDBox key={index} ml={-1}>
+          <MDBadge badgeContent={user.Status} color={user.Status === "Granted" ? "success" : "dark"} variant="gradient" size="sm" />
+        </MDBox>
+      ),
+
+      // date
+      date: (
+        <MDTypography
+          key={index}
+          component="a"
+          href="#"
+          variant="caption"
+          color="text"
+          fontWeight="medium"
+        >
+          {user.date[0]}
+        </MDTypography>
+      ),
+
+      // action
+      action: (
+
+        <div key={index}>
+          {
+            user.Status === "Granted" ?     
+        <MDTypography
+          key={index}
+          component="a"
+          href="#"
+          variant="caption"
+          color="text"
+          fontWeight="medium"
+        >
+          <DeleteOutlineOutlinedIcon fontSize="medium" />
+        </MDTypography>
+        
+        :         
+        <MDTypography
+          key={index}
+          component="a"
+          href="#"
+          variant="caption"
+          color="text"
+          fontWeight="medium"
+          onClick={handleClick}
+        >
+          <EditOutlinedIcon fontSize="medium" />
+        </MDTypography>
+          }
+
+          <Menu
+        id="basic-menu"
+        // anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        MenuListProps={{
+          'aria-labelledby': 'basic-button',
+        }}
+      >
+        <MenuItem onClick={handleClose}>Profile</MenuItem>
+        <MenuItem onClick={handleClose}>My account</MenuItem>
+        <MenuItem onClick={handleClose}>Logout</MenuItem>
+      </Menu>
+        </div>
+
+
+    
+      )
+      
+    })
+    )
+
   };
 }
+
+
