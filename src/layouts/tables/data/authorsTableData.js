@@ -36,7 +36,7 @@ import CheckCircleOutlineOutlinedIcon from '@mui/icons-material/CheckCircleOutli
 import { pendingToGranted,rejectUser} from '../../../firebase/Database'
 
 // dummy darta
-import jsonData from './dumm.json';
+// import jsonData from './dumm.json';
 
 import { IconButton, Tooltip } from "@mui/material";
 
