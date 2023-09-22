@@ -24,20 +24,20 @@ function Tables() {
 
   const [Rows,setRows] = React.useState()
 
-  // React.useEffect(() => {
-  //   // Define an async function within useEffect
-  //    const fetchData = async () => {
-  //     try {
-  //       const data = await getUsers();
-  //       setRows(data);
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   }
+  React.useEffect(() => {
+    // Define an async function within useEffect
+     const fetchData = async () => {
+      try {
+        const data = await getUsers();
+        setRows(data);
+      } catch (error) {
+        console.error(error);
+      }
+    }
   
-  //   // Call the async function
-  //   fetchData();
-  // }, []);
+    // Call the async function
+    fetchData();
+  }, []);
   
 
   const { columns, rows } = authorsTableData(Rows);
@@ -70,7 +70,7 @@ function Tables() {
               {/* {rows ? alert("may laman") : alert("walang laman")} */}
               {rows && <DataTable
                   table={{ columns, rows }}
-                  isSorted={false}
+                  isSorted={true}
                   entriesPerPage={false}
                   showTotalEntries={false}
                   noEndBorder

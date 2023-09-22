@@ -25,19 +25,20 @@ import MDBadge from "components/MDBadge";
 import pending from "assets/images/pending.png";
 import Users from "assets/images/user.png";
 import React from "react";
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
+
 
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
-import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import CheckCircleOutlineOutlinedIcon from '@mui/icons-material/CheckCircleOutlineOutlined';
 // import team3 from "assets/images/team-3.jpg";
 // import team4 from "assets/images/team-4.jpg";
 
 // firebase
-import { pendingToGranted } from '../../../firebase/Database'
+import { pendingToGranted,rejectUser} from '../../../firebase/Database'
 
 // dummy darta
 import jsonData from './dumm.json';
+
+import { IconButton, Tooltip } from "@mui/material";
 
 
 
@@ -63,17 +64,7 @@ export default function data(rowrow) {
     </MDBox>
   );
 
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const open = Boolean(anchorEl);
 
-  const handleClick = (event) => {
-    console.log(event.currentTarget)
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
 
   return {
 
@@ -88,7 +79,7 @@ export default function data(rowrow) {
       { Header: "Action", accessor: "action", align: "center" },
     ],
 
-    rows: Object.values(jsonData)?.map((user, index) => ({
+    rows: rowrow?.map((user, index) => ({
       
       // Email and Fullname
       user: (
@@ -151,53 +142,36 @@ export default function data(rowrow) {
 
       // action
       action: (
-
+        user.Status !== "Granted" &&
         <div key={index}>
-          {
-            user.Status === "Granted" ?     
-        <MDTypography
-          key={index}
-          component="a"
-          href="#"
-          variant="caption"
-          color="text"
-          fontWeight="medium"
-        >
-          <DeleteOutlineOutlinedIcon fontSize="medium" />
-        </MDTypography>
-        
-        :         
-        <MDTypography
-          key={index}
-          component="a"
-          href="#"
-          variant="caption"
-          color="text"
-          fontWeight="medium"
-          onClick={handleClick}
-        >
-          <EditOutlinedIcon fontSize="medium" />
-        </MDTypography>
+
+        {/* Approved */}
+        <Tooltip title="Approve" arrow>
+          <IconButton aria-label="delete" 
+          onClick={e=>{
+            e.preventDefault()
+            pendingToGranted(user.Email,user.Password,user.id)
           }
+          }
+          
+          color="success">
+            <CheckCircleOutlineOutlinedIcon  />
+          </IconButton>
+        </Tooltip>
+        
+        {/* Delete */}
+        <Tooltip title="Delete" arrow>
+          <IconButton aria-label="delete" onClick={e=>{
 
-          <Menu
-        id="basic-menu"
-        // anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-        MenuListProps={{
-          'aria-labelledby': 'basic-button',
-        }}
-      >
-        <MenuItem onClick={handleClose}>Profile</MenuItem>
-        <MenuItem onClick={handleClose}>My account</MenuItem>
-        <MenuItem onClick={handleClose}>Logout</MenuItem>
-      </Menu>
-        </div>
+            e.preventDefault()
+            rejectUser(user.id)
+            
+            }} color="error">
+            <DeleteOutlineOutlinedIcon  />
+          </IconButton>
+        </Tooltip>
 
-
-    
-      )
+        </div>)
       
     })
     )

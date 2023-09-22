@@ -1,6 +1,7 @@
 import { onValue,ref,set, remove } from "@firebase/database";
 import { databases } from "./Configuration";
 import { createAccount,LogoutSession } from './Authentication'
+import base64 from 'base-64';
 
 // get the number of post
 export const totalForumPost = async () =>{
@@ -82,50 +83,97 @@ export const getUsers = async () =>{
 // NOTE: decode the password
 
 // convert pending to granted
-export const pendingToGranted = async (Email,Password,Oldkey) =>{
-
-    // create and account and user data
-   const uid = await createAccount(Email, Password).then(e=>console.log("Create account: ",e))
-
-    // old and new uid
-    const oldref = ref(databases, `/Users/${Oldkey}`);
-    const newRef = ref(databases, `/Users/${uid}`);
-
-    // for date and time
-    const date = new Date().toLocaleDateString();
-    const time = new Date().toLocaleTimeString();
-
-    onValue(oldref,(snapshot)=>{
-
-        // Old data
-        const data = snapshot.val();
-
-        // the updated data
-        const newData = {
-            "Device": data.Device,
-            "Email": data.Email,
-            "Fullname": data.Fullname,
-            "Number": data.Number,
-            "Organization": data.Organization,
+export const pendingToGranted = async (Email, Password, Oldkey) => {
+    try {
+      // decrypt the password first
+      const decryptPassword = base64.decode(Password);
+  
+      // create an account and user data
+      const uid = await createAccount(Email, decryptPassword);
+  
+      // old and new uid
+      const oldref = ref(databases, `/Users/${Oldkey}`);
+      const newRef = ref(databases, `/Users/${uid.uid}`);
+  
+      // for date and time
+      const date = new Date().toLocaleDateString();
+      const time = new Date().toLocaleTimeString();
+  
+      onValue(oldref, (snapshot) => {
+        if (snapshot.exists()) { // Check if data exists
+          // Old data
+          const data = snapshot.val();
+  
+          // the updated data
+          const newData = {
+            "Device": data.Device || "", // Use a default value or handle this case appropriately
+            "Email": data.Email || "",
+            "Fullname": data.Fullname || "",
+            "Number": data.Number || "",
+            "Organization": data.Organization || "",
             "Status": "Granted",
-            "date": [date,time],
-            "id": uid
-        }
+            "date": [date, time],
+            "id": Oldkey,
+          };
+          
+        //   replace data
+          replaceNewData(newRef, newData)
+            .then(() => {
 
-        // replace the new data
-        set(newRef,newData).then(res=>{
-            console.log("replace Data: ",res)
+            console.log("data repalce")
 
-            // if sucess delete old data
-            remove(oldref)
-            .then(res=>{
-                console.log("delete old data: ",res)
-                LogoutSession();
             })
-            .catch(Error=>console.log("delete old data: ",Error))
+            .catch((error) => {
+                console.log("replace new data error: ", error);
+                return 
+            });
+        } else {
+          console.log("Data does not exist at oldref");
+        }
+      });
 
-        }).catch(err=>console.log("replace Data: ",err))
-
-
+        // if success, delete old data
+        remove(oldref)
+        .then(() => {
+            console.log("delete old data success");
+            LogoutSession();
+            alert("Approve granted");
+            window.location.reload()
+        })
+        .catch((error) => console.log("delete old data error: ", error));
+      
+    } catch (error) {
+      console.log(error);
+      return 
+    }
+  };
+  
+const replaceNewData = (newRef,newData) =>{
+    return new Promise((resolve, reject) => {
+       // replace the new data
+        set(newRef,newData).then(res=>{
+            console.log("replace Data sucess: ",res)
+            resolve(res) 
+        })
+        .catch(err=>{
+            console.log("replace Data error: ",err)
+            reject(err)
+        })
     })
+}
+
+// reject user 
+export const rejectUser = (pendingKey) =>{
+  const pendingRef = ref(databases, `/Users/${pendingKey}`);
+
+        // if success, delete old data
+    remove(pendingRef)
+    .then(() => {
+        console.log("delete old data success");
+   
+            alert("Reject User");
+            window.location.reload()
+        })
+        .catch((error) => alert("delete old data error: ", error));
+      
 }
