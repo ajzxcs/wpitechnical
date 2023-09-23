@@ -1,6 +1,12 @@
-import { createUserWithEmailAndPassword, signOut } from "firebase/auth";
+import { 
+  browserSessionPersistence, 
+  createUserWithEmailAndPassword, 
+  setPersistence, 
+  signInWithEmailAndPassword, 
+  signOut } from "firebase/auth";
 import { auth } from "./Configuration"
 
+import { verifyAdmin } from "./Database"
 
  // create account
  export const createAccount = (email, password) => {
@@ -35,7 +41,55 @@ import { auth } from "./Configuration"
   export const LogoutSession = async () => {
     await signOut(auth).then(()=>{
         console.log("Succesfull signout")
+        sessionStorage.clear();
+        window.location.reload();
 
     }).catch((err)=>console.log(err))
   
 }
+
+// Login 
+export const LoginSession = (user) => {
+  
+  return new Promise((resolve, reject) => {
+
+    setPersistence(auth, browserSessionPersistence)
+
+      .then(() => {
+        signInWithEmailAndPassword(auth, user.Email, user.Password)
+
+          .then((userCredential) => {
+            
+            verifyAdmin(Object.values(userCredential)[0].uid)
+            .then(result =>{
+                if (result) {
+                  sessionStorage.setItem('TOKEN',"Login")   
+                  resolve(result);
+                }else{
+                  sessionStorage.clear()
+                  resolve(result);
+                }
+              }
+            )
+    
+              // window.location.reload();
+
+          //     
+
+
+
+          })
+          .catch((error) => {
+            console.log(error);
+            const errorMessage = error.message.match(/\((.*?)\)/)[1];
+            const errorMessages = errorMessage.replace('auth/', '').replace(/-/g, ' ');
+
+            reject(errorMessages);
+          });
+      })
+      .catch((error) => {
+        console.log(error);
+        reject("An error occurred during login.");
+      });
+  });
+};
