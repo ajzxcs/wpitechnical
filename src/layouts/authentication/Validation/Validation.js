@@ -11,3 +11,13 @@ export const userSchema = yup.object().shape({
             .required("Please enter a password")
             .min(6,"Password should be 6 char long")
 });
+
+export const passwordUpdates = yup.object().shape({
+        oldPassword : yup.string()
+                .required("Please enter your old password")
+                .min(6,"Password should be 6 char long"),
+        newPassword: yup.string()
+                // .matches(passwordRules, { message: "Please create a stronger password" })
+                .required("Please enter your new password")
+                .min(6,"Password should be 6 char long")
+    });

@@ -3,10 +3,18 @@ import {
   createUserWithEmailAndPassword, 
   setPersistence, 
   signInWithEmailAndPassword, 
-  signOut } from "firebase/auth";
+  signOut, 
+  updateEmail, 
+  updateProfile
+} from "firebase/auth";
 import { auth } from "./Configuration"
-
 import { verifyAdmin } from "./Database"
+
+
+
+
+
+
 
  // create account
  export const createAccount = (email, password) => {
@@ -71,13 +79,6 @@ export const LoginSession = (user) => {
                 }
               }
             )
-    
-              // window.location.reload();
-
-          //     
-
-
-
           })
           .catch((error) => {
             console.log(error);
@@ -93,3 +94,68 @@ export const LoginSession = (user) => {
       });
   });
 };
+
+// get user details
+export const getUserDetails = () => {
+  const user = auth.currentUser;
+  return new Promise((resolve, reject) => {
+  
+    const userDetails = {
+      email : user.email,
+      name : user.displayName
+    } 
+
+    resolve(userDetails)
+ 
+
+
+  });
+};
+
+// update user details
+export const updateUserDetails = (Name,Email) =>{
+  updateProfile(auth.currentUser, { displayName: Name })
+  .then(() => { console.log("updated") })
+  .catch((error) => 
+  { console.log(error)
+    alert("We cooul not update name")
+  });
+
+  updateEmail(auth.currentUser, Email).then(() => {
+    alert("User details is updated!")
+  }).catch((error) => {
+    alert(error)
+  });
+}
+
+
+// update passwords
+// 1. reauthenticate first
+// 2. update password
+
+export const updatePassword = (oldPassword,newPassword) => {
+
+  LoginSession({
+    Email: auth.currentUser.email,
+    Password: oldPassword
+  }).then(e=>{
+    if(e){
+      updatePassword(auth.currentUser, newPassword).then(() => {
+        alert("Password Updated please login again")
+        LogoutSession()
+      }).catch((error) => {
+        // An error ocurred
+        // ...
+
+        alert(error)
+      });
+    }else{
+      alert("Please enter your old password correctly")
+    }
+  }
+
+  )
+
+
+
+}

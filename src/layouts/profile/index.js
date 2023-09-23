@@ -41,6 +41,7 @@ import Header from "layouts/profile/components/Header";
 // Data
 // import profilesListData from "layouts/profile/data/profilesListData";
 import MDButton from "components/MDButton";
+import MDInput from "components/MDInput";
 
 // Images
 // import homeDecor1 from "assets/images/home-decor-1.jpg";
@@ -54,48 +55,192 @@ import MDButton from "components/MDButton";
 
 // ... (your existing imports and code)
 
+// firebase
+import { 
+  getUserDetails,
+  updateUserDetails,
+  updatePassword
+} from '../../firebase/Authentication'
+import React from "react";
+
+import { passwordUpdates } from '../authentication/Validation/Validation'
+
 function Overview() {
-  const inputStyle = {
-    width: "100%",
-    padding: "12px", // Increase padding for a larger input
-    fontSize: "16px", // Increase font size
-    fontFamily: "Segoe UI, sans-serif", // Use Segoe UI font
-    border: "1px solid #ccc", // Add a border for clarity
-    borderRadius: "4px", // Add rounded corners
-    boxSizing: "border-box", // Include padding and border in width
-  };
+
+  // const inputStyle = {
+  //   width: "100%",
+  //   padding: "12px", // Increase padding for a larger input
+  //   fontSize: "16px", // Increase font size
+  //   fontFamily: "Segoe UI, sans-serif", // Use Segoe UI font
+  //   border: "1px solid #ccc", // Add a border for clarity
+  //   borderRadius: "4px", // Add rounded corners
+  //   boxSizing: "border-box", // Include padding and border in width
+  // };
+
+  // User profile settings
+  const [userProfile, setUserProfile] = React.useState(
+    {
+      email: "",
+      name: ""
+    }
+  )
+
+    // Login Details
+  const email = (e) => {
+    setUserProfile({...userProfile, email: e.target.value})
+   }
+
+  const name = (e) => {
+    setUserProfile({...userProfile, name: e.target.value})
+  }
+
+  React.useEffect(()=>{
+
+    getUserDetails()
+    .then(e=>setUserProfile(
+      {
+        email: e.email,
+        name: e.name
+      }
+    ))
+
+  },[])
+
+    // User profile settings
+  const [userCredentials, setCredentials] = React.useState(
+    {
+      oldPassword: "",
+      newPassword: ""
+    }
+   )
+
+  const oldPassword = (e) => {
+    setCredentials({...userCredentials, oldPassword: e.target.value})
+   }
+
+  const newPassword = (e) => {
+    setCredentials({...userCredentials, newPassword: e.target.value})
+  }
+
+  // User Update password
+  const changePassword = async () =>{
+
+    try {
+     
+      await passwordUpdates.validate({ oldPassword: userCredentials.oldPassword, newPassword: userCredentials.newPassword }, { abortEarly: false });
+      updatePassword(userCredentials.oldPassword, userCredentials.newPassword)
+    } catch (validationError) {
+
+      // Extract specific error messages for email and password
+      const emailError = validationError.inner.find((error) => error.path === 'oldPassword');
+      const passwordError = validationError.inner.find((error) => error.path === 'newPassword');
+
+      alert(emailError && emailError.message)
+      alert(passwordError && passwordError.message)
+
+      
+
+    } 
+  }
 
   return (
     <DashboardLayout>
       <DashboardNavbar />
       <MDBox mb={2} />
-      <Header> <br></br><br></br>
+      <Header> <br/>
+
+
         {/* Input Boxes */}
         <Grid container spacing={2}>
+      
           <Grid item xs={12} sm={6}>
-            <input type="text" placeholder="Email" style={inputStyle} />
+
+            <Grid container spacing={2}>
+
+              <Grid item xs={12} sm={12}>
+                {/* Name */}
+                <MDInput 
+                type="text" 
+                label="Name" 
+                fullWidth
+                value={userProfile.name}
+                onChange={name}
+                />
+
+              </Grid>
+
+              <Grid item xs={12} sm={12}>
+
+                {/* email */}
+                <MDInput 
+                type="email" 
+                label="Email" 
+                fullWidth
+                value={userProfile.email}
+                onChange={email}
+                />
+
+              </Grid>
+            </Grid>
+
           </Grid>
+
+       
           <Grid item xs={12} sm={6}>
-            <input type="text" placeholder="Old Password" style={inputStyle} />
+
+            <Grid container spacing={2}>
+
+              {/* Old Password */}
+              <Grid item xs={12} sm={12}>
+                <MDInput 
+                type="text" 
+                label="Old Password" 
+                fullWidth
+                value={userCredentials.oldPassword}
+                onChange={oldPassword}
+                />
+              </Grid>
+
+              {/* new Password */}
+              <Grid item xs={12} sm={12}>
+                <MDInput 
+                type="text" 
+                label="New Password" 
+                fullWidth
+                value={userCredentials.newPassword}
+                onChange={newPassword}
+                />
+              </Grid>
+
+            </Grid>
           </Grid>
-          <Grid item xs={12} sm={6}>
-            <input type="text" placeholder="Number" style={inputStyle} />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <input type="text" placeholder="New Password" style={inputStyle} />
-          </Grid>
+        
         </Grid>
         
         {/* Buttons */}
         <MDBox mt={2}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
-              <MDButton variant="contained" color="primary">
+
+            {/* Update Info */}
+              <MDButton variant="contained" color="primary"
+              onClick={e=>{
+                e.preventDefault()
+                updateUserDetails(userProfile.name,userProfile.email)
+              }}
+              >
                 Update Info
               </MDButton>
             </Grid>
             <Grid item xs={12} sm={6}>
-              <MDButton variant="contained" color="secondary">
+
+            {/* Change Password */}
+              <MDButton variant="contained" color="secondary"
+              onClick={e=>{
+                e.preventDefault()
+                changePassword()
+              }}
+              >
                 Change Password
               </MDButton>
             </Grid>
