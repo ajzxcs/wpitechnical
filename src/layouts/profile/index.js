@@ -128,7 +128,12 @@ function Overview() {
     try {
      
       await passwordUpdates.validate({ oldPassword: userCredentials.oldPassword, newPassword: userCredentials.newPassword }, { abortEarly: false });
+      
+      console.log(userCredentials)
       updatePassword(userCredentials.oldPassword, userCredentials.newPassword)
+      .then(e=>console.log(e))
+      .catch(err=>console.log(err))
+
     } catch (validationError) {
 
       // Extract specific error messages for email and password

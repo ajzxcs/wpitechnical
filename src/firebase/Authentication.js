@@ -1,6 +1,8 @@
 import { 
+  EmailAuthProvider,
   browserSessionPersistence,
   createUserWithEmailAndPassword, 
+  reauthenticateWithCredential, 
   setPersistence, 
   signInWithEmailAndPassword, 
   signOut, 
@@ -135,27 +137,50 @@ export const updateUserDetails = (Name,Email) =>{
 
 export const updatePassword = (oldPassword,newPassword) => {
 
-  LoginSession({
-    Email: auth.currentUser.email,
-    Password: oldPassword
-  }).then(e=>{
-    if(e){
-      updatePassword(auth.currentUser, newPassword).then(() => {
-        alert("Password Updated please login again")
-        LogoutSession()
-      }).catch((error) => {
-        // An error ocurred
-        // ...
+  return new Promise((resolve, reject) => {
+    const credential = EmailAuthProvider.credential(auth.currentUser.email, oldPassword);
 
+    reauthenticateWithCredential(auth.currentUser, credential)
+      .then((e) => {
+
+        console.log(e)
+
+        console.log("udpated npassword")
+
+        updatePassword(auth.currentUser, newPassword)
+          .then(e => {
+            console.log("Password changed successfully");
+
+            alert("Password changed successfully")
+            
+            resolve({
+              oldPassword: false,
+              oldPasswordMessage: "Invalid password",
+              newPassword: false,
+              newPasswordMessage: ""
+            });
+          })
+          .catch((error) => {
+            alert("Error updating password:");
+            reject({
+              oldPassword: true,
+              oldPasswordMessage: "",
+              newPassword: true,
+              newPasswordMessage: "An error occurred while updating the password."
+              
+            });
+          });
+
+      })
+      .catch((error) => {
         alert(error)
+
+        reject({
+          oldPassword: true,
+          oldPasswordMessage: "Invalid password",
+          newPassword: true,
+          newPasswordMessage: ""
+        });
       });
-    }else{
-      alert("Please enter your old password correctly")
-    }
-  }
-
-  )
-
-
-
+  });
 }
