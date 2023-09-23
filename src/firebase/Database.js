@@ -1,4 +1,4 @@
-import { onValue,ref,set, remove } from "@firebase/database";
+import { onValue,ref,set, remove , update,push,get} from "@firebase/database";
 import { databases } from "./Configuration";
 import { createAccount,LogoutSession } from './Authentication'
 import base64 from 'base-64';
@@ -176,4 +176,38 @@ export const rejectUser = (pendingKey) =>{
         })
         .catch((error) => alert("delete old data error: ", error));
       
+}
+
+// create admin
+export const adminCreate = async(uid) =>{
+  const adminRef = ref(databases, `Admin/`);
+
+    // Push the new post to the user's "Posts" node and get the unique key
+    const newPostRef = push(adminRef);
+
+  const updates = {
+    [`${newPostRef.key}`]: uid
+  };
+  console.log(adminRef.key)
+  await update(adminRef, updates);
+
+}
+
+// verify admin
+export const verifyAdmin = async (uid) => {
+  const dbRef = ref(databases, 'Admin/');
+
+  try {
+    const snapshot = await get(dbRef);
+    const data = snapshot.val();
+
+    // Use the some function to check if any item matches the condition
+    const hasMatch = Object.values(data)?.some(item => Boolean(item === uid));
+
+    return hasMatch;
+
+
+  } catch (error) {
+    throw error;
+  }
 }

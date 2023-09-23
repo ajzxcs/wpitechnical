@@ -13,7 +13,7 @@ Coded by www.creative-tim.com
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 
-import { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 
 // react-router components
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
@@ -52,6 +52,7 @@ import { useMaterialUIController, setMiniSidenav, setOpenConfigurator } from "co
 // Images
 import brandWhite from "assets/images/adminlogo.png";
 import brandDark from "assets/images/adminlogo.png";
+import SignIn from "layouts/authentication/sign-in";
 
 export default function App() {
   const [controller, dispatch] = useMaterialUIController();
@@ -146,6 +147,14 @@ export default function App() {
     </MDBox>
   );
 
+    const [hasLogin,setHasLogin] = React.useState()
+
+    React.useEffect(()=>{
+      const isLoggedIn = sessionStorage.getItem('TOKEN');
+      setHasLogin(isLoggedIn)
+      console.log(isLoggedIn)
+    },[])
+
   return direction === "rtl" ? (
     <CacheProvider value={rtlCache}>
       <ThemeProvider theme={darkMode ? themeDarkRTL : themeRTL}>
@@ -189,10 +198,26 @@ export default function App() {
         </>
       )}
       {layout === "vr" && <Configurator />}
-      <Routes>
-        {getRoutes(routes)}
+
+
+      
+      
+
+        {hasLogin ? 
+        <Routes>
+          {getRoutes(routes)}
         <Route path="*" element={<Navigate to="/dashboard" />} />
-      </Routes>
+          </Routes>
+        :
+
+        <Routes>
+          <Route path="/sign-in" element={<SignIn/>}/>
+          <Route path="*" element={<Navigate to="/sign-in" />} />
+        </Routes>
+}
+   
+
+    
     </ThemeProvider>
   );
 }

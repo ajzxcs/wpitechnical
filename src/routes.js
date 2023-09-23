@@ -39,12 +39,12 @@ Coded by www.creative-tim.com
 import Dashboard from "layouts/dashboard";
 import Tables from "layouts/tables";
 import Billing from "layouts/billing";
-import RTL from "layouts/rtl";
+// import RTL from "layouts/rtl";
 import Notifications from "layouts/notifications";
 import Profile from "layouts/profile";
-import SignIn from "layouts/authentication/sign-in";
 import SignUp from "layouts/authentication/sign-up";
 import Tickets from "layouts/tickets"
+import SignOut from "layouts/authentication/sign-out";
 
 // @mui icons
 import Icon from "@mui/material/Icon";
@@ -120,7 +120,7 @@ const routes = [
     key: "logout",
     icon: <Icon fontSize="small">logout</Icon>,
     route: "/authentication/sign-in",
-    component: <SignUp />,
+    component: <SignOut />,
   },
 
 ];
