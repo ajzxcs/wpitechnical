@@ -1,5 +1,5 @@
 import { 
-  browserSessionPersistence, 
+  browserSessionPersistence,
   createUserWithEmailAndPassword, 
   setPersistence, 
   signInWithEmailAndPassword, 

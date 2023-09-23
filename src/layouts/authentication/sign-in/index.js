@@ -25,12 +25,23 @@ import BasicLayout from "layouts/authentication/components/BasicLayout";
 
 // Images
 import bgImage from "assets/images/bg-sign-in-basic.jpeg";
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 // validation & firebase
 import { userSchema } from '../Validation/Validation'
 import { LoginSession } from '../../../firebase/Authentication'
+import { IconButton, InputAdornment } from "@mui/material";
 
 function Basic() {
+
+  const [showPasswordCheckbox, setShowPasswordCheckbox] = React.useState(false);
+
+  const handleClickShowPassword = () => setShowPasswordCheckbox(!showPasswordCheckbox);
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+};
+
   const [users,setUsers] = React.useState({
     Email: "",
     Password: ""
@@ -183,7 +194,21 @@ function Basic() {
             {/* Password */}
             <MDBox mb={2}>
               <MDInput 
-              type="text" 
+              type={showPasswordCheckbox ? "text" : "password"}
+
+              InputProps={{
+                        endAdornment: 
+                        <InputAdornment disableTypography position="end">
+                            <IconButton
+                            color="inherit"
+                            aria-label="toggle password visibility"
+                            onClick={handleClickShowPassword}
+                            onMouseDown={handleMouseDownPassword}
+                            edge="end">
+                                {showPasswordCheckbox ? <VisibilityOffIcon fontSize="small" /> : <VisibilityIcon fontSize="small"  />}
+                            </IconButton>
+                        </InputAdornment>
+                    }}
               label="Password" 
           
               fullWidth 
