@@ -69,9 +69,9 @@ const routes = [
   {
     type: "collapse",
     name: "Brands",
-    key: "billing",
+    key: "brands",
     icon: <Icon fontSize="small">receipt_long</Icon>,
-    route: "/billing",
+    route: "/brands",
     component: <Billing />,
   },
   {

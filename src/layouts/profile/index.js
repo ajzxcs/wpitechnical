@@ -59,7 +59,7 @@ import MDInput from "components/MDInput";
 import { 
   getUserDetails,
   updateUserDetails,
-  updatePassword
+  updatePasswords
 } from '../../firebase/Authentication'
 import React from "react";
 
@@ -129,10 +129,10 @@ function Overview() {
      
       await passwordUpdates.validate({ oldPassword: userCredentials.oldPassword, newPassword: userCredentials.newPassword }, { abortEarly: false });
       
-      console.log(userCredentials)
-      updatePassword(userCredentials.oldPassword, userCredentials.newPassword)
-      .then(e=>console.log(e))
-      .catch(err=>console.log(err))
+      // console.log(userCredentials)
+      updatePasswords(userCredentials.oldPassword, userCredentials.newPassword)
+      // .then(e=>console.log(e))
+      // .catch(err=>console.log(err))
 
     } catch (validationError) {
 

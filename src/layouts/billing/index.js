@@ -1,6 +1,6 @@
 import React from "react";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
-// import DashboardNavbar from "examples/Navbars/DashboardNavbar";
+import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
@@ -47,21 +47,21 @@ function Brands() {
 
 
   React.useEffect(()  => {
-    let isMounted = true; // A flag to track whether the component is mounted
+    // let isMounted = true; // A flag to track whether the component is mounted
     const loadImages = async () => {
       const urls = await getAllImages();
       setImageUrls(urls);
     };
 
-   if (isMounted){
+  //  if (isMounted){
     loadImages()
-   }
+  //  }
 
     // Cleanup function
     return () => {
-      isMounted = false; // Mark the component as unmounted
+      // isMounted = false; // Mark the component as unmounted
     };
-  }, [imageUrls]);
+  }, []);
 
   const handleDeleteBrand = e => {
     e.preventDefault();
@@ -78,6 +78,8 @@ const onlickImage = (index) =>{
 
   return (
     <DashboardLayout>
+    
+    <DashboardNavbar/>
      
       <AppBar position="static" color="primary">
         <Toolbar>
