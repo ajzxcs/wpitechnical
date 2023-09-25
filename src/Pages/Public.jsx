@@ -34,15 +34,15 @@ function Public() {
           Author: author.Author, // Add the Author field to each post
         }))
       )
-
-      console.log(initialPosts)
+      setPosts(initialPosts);
+      console.log("may data: ", initialPosts)
     }
     // Use the samplePosts data to initialize your posts state
     const initialPosts = Object.values(samplePosts).flatMap((authorData) =>
       authorData.Posts.map((post) => ({ ...post, Author: authorData.Author }))
     );
-
-    setPosts(initialPosts);
+    // console.log("sample data: ", initialPosts)
+    // setPosts(initialPosts);
 
     if (mounted){
       data()
@@ -57,14 +57,14 @@ function Public() {
 
     if (sortingOrder === "newest") {
       sortedPosts = sortedPosts.sort((a, b) => {
-        const dateA = new Date(`${a.date} ${a.time}`);
-        const dateB = new Date(`${b.date} ${b.time}`);
+        const dateA = new Date(a.date).getTime();
+        const dateB = new Date(b.date).getTime();
         return dateB - dateA;
       });
     } else if (sortingOrder === "oldest") {
       sortedPosts = sortedPosts.sort((a, b) => {
-        const dateA = new Date(`${a.date} ${a.time}`);
-        const dateB = new Date(`${b.date} ${b.time}`);
+        const dateA = new Date(a.date).getTime();
+        const dateB = new Date(b.date).getTime();
         return dateA - dateB;
       });
     }
@@ -108,10 +108,10 @@ function Public() {
   };
 
   const handleSearch = (searchQuery) => {
-    const filteredPosts = posts.filter(
+    const filteredPosts = posts?.filter(
       (post) =>
-        post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        post.content.toLowerCase().includes(searchQuery.toLowerCase())
+        post.Title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        post.Content.toLowerCase().includes(searchQuery.toLowerCase())
     );
     setPosts(filteredPosts);
   };
@@ -154,20 +154,28 @@ function Public() {
       <Header toggleFAQVisibility={toggleFAQVisibility} />
 
       <div className="main-content">
+
+      {/* Search Bar */}
         {!faqVisible && (
           <div className="content">
             <div className="search-bar-container">
               <div className="search-bar">
+
+
                 <SearchBar
                   posts={posts}
                   onSearch={handleSearch}
                   onSort={handleSort}
+                  samplePosts={posts}
                 />
+
+
               </div>
             </div>
             <br />
             <br />
-
+          
+          {/* Post and Post Details */}
             <div className="flex-container">
               <div className="left-component">
                 {!selectedPost ? (

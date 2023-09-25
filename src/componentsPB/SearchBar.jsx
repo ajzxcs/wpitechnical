@@ -4,9 +4,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import "../assets/SearchBar.css";
 import "../assets/public.css";
-import samplePosts from "../data/samplePosts";
 
-const SearchBar = ({ posts, onSearch }) => {
+
+const SearchBar = ({ posts, onSearch, samplePosts }) => {
   const [value, setValue] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [sortingOrder, setSortingOrder] = useState("newest"); // Default to "newest"
@@ -16,7 +16,8 @@ const SearchBar = ({ posts, onSearch }) => {
     onSearch(newValue); // Pass the search query to the parent component
   };
 
-  const getSuggestions = (searchTerm) => {
+  // GET SUGGESTIONS
+const getSuggestions = (searchTerm) => {
     // Flatten and filter posts based on sorting order
     const filteredPosts = Object.values(posts)
       .filter(
@@ -39,8 +40,8 @@ const SearchBar = ({ posts, onSearch }) => {
       )
       .map((postObject) => postObject.title);
 
-    // Include titles from samplePosts as suggestions
-    const samplePostTitles = Object.values(samplePosts)
+// Include titles from samplePosts as suggestions
+const samplePostTitles = Object.values(samplePosts)
       .filter(
         (postObject) =>
           postObject && postObject.Posts && postObject.Posts.length > 0
@@ -93,6 +94,7 @@ const SearchBar = ({ posts, onSearch }) => {
 
   return (
     <div className="search-bar">
+    <button onClick={()=>console.log(samplePostTitles)}>click</button>
       <div className="search-icon">
         <FontAwesomeIcon icon={faSearch} />
       </div>

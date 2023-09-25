@@ -28,7 +28,9 @@ const PostList = ({ onSelectPost }) => {
             const dateB = new Date(b.date).getTime();
             return dateB - dateA; // Sort by date in descending order (newest to oldest)
           });
-          console.log(posts)
+
+
+          // console.log(posts)
 
           setDatas(posts);
         
@@ -58,13 +60,14 @@ const PostList = ({ onSelectPost }) => {
   return (
     <div className="post-list">
 
-    {datas && datas.map((post, outerKey) => (
+    {datas && datas?.map((post, outerKey) => (
 
       // Second Iteration (Inner map)
       <div key={outerKey} className="post">
         <div className="tags">
           <h3>Tags:</h3>{" "}
-          {Object.values(post.tags.split(",")).map((tag, index) => (
+
+          {String(post?.tags)?.split(",").map((tag, index) => (
             <span key={index} className="tag">
               {tag}
             </span>
@@ -72,7 +75,9 @@ const PostList = ({ onSelectPost }) => {
         </div>
         <h2>{post.Title}</h2>
         <p>
-          By <strong>{post.Author}</strong> - {post.date[0]}, {post.date[1]}
+          By <strong>{post.Author}</strong> - 
+          {post.date && post.date[0]}, {post.date && post.date[1]}
+          {/* {post.date && post.date[0]} */}
         </p>
         <p>{post.Content}</p>
         <div className="comment-count" onClick={() => onSelectPost(post)}>
