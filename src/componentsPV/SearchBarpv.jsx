@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import "../assets/SearchBar.css";
 import "../assets/public.css";
-import samplePosts from "../Data/samplePosts";
+import samplePosts from "../data/samplePosts";
 
 const SearchBar = ({ posts, onSearch }) => {
   const [value, setValue] = useState("");
