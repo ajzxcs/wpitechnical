@@ -343,20 +343,20 @@ function FormStructure({ step, setStep }) {
 
             }
             if(step===3){
-
-              createTickets({
+              const data = {
                 "name": name,
                 "address": address,
                 "institution": institution,
-                "contactNumber": phone,
+                "contactNumber": String(phone),
                 "brand": brand,
                 "model": model,
                 "email": email,
                 "serialNumber": serialNumber,
-                "issue": issueDescription,
-                "schedule":date,
+                "issue": String(issueDescription),
+                "schedule": String(date),
                 "status": "pending"
-              })
+              }
+              createTickets(data)
 
               // console.log({
               //   "name": name,
