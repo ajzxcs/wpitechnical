@@ -1,5 +1,6 @@
 import "./styles.css";
 import { useState } from "react";
+import { createTickets } from "./firebase/Database"
 
 // step heading and instruction array
 const stepInfo = [
@@ -237,9 +238,13 @@ function FormStructure({ step, setStep }) {
   // Part 2
   const [address, setAddress] = useState("");
   const [institution, setInstitution] = useState("");
+
+  // Part 3
   const [brand, setBrand] = useState("");
   const [model, setModel] = useState("");
   const [serialNumber, setSerialNumber] = useState("");
+
+  // Part 4
   const [issueDescription, setIssueDescription] = useState("");
   const [date, setDate] = useState("");
 
@@ -322,7 +327,53 @@ function FormStructure({ step, setStep }) {
             const check = checkNonEmpty();
             if (check && step >= 0 && step <= 3) {
               setStep(step + 1);
+
+              // console.log({
+              //   "name": name,
+              //   "email": email,
+              //   "phone": phone,
+              //   "address": address,
+              //   "institution": institution,
+              //   "brand": brand,
+              //   "model": model,
+              //   "serialNumber": serialNumber,
+              //   "issueDescription": issueDescription,
+              //   "date":date
+              // })
+
             }
+            if(step===3){
+
+              createTickets({
+                "name": name,
+                "address": address,
+                "institution": institution,
+                "contactNumber": phone,
+                "brand": brand,
+                "model": model,
+                "email": email,
+                "serialNumber": serialNumber,
+                "issue": issueDescription,
+                "schedule":date,
+                "status": "pending"
+              })
+
+              // console.log({
+              //   "name": name,
+              //   "address": address,
+              //   "institution": institution,
+              //   "contactNumber": phone,
+              //   "brand": brand,
+              //   "model": model,
+              //   "email": email,
+              //   "serialNumber": serialNumber,
+              //   "issue": issueDescription,
+              //   "schedule":date,
+              //   "status": "pending"
+              // })
+            }
+
+      
           }}
         >
           {step !== 3 ? "Next Step" : "Confirm"}
