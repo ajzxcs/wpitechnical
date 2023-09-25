@@ -277,6 +277,7 @@ export const forumVisitToday = () =>{
   })
 }
 
+// view total forum visit
 export const totalForumVisit = () =>{
   return new Promise(async (resolve, reject) => {
     try{  
@@ -316,6 +317,42 @@ export const viewTickets = () =>{
   
     }catch(error){
       reject(error)
+    }
+  })
+}
+
+// pendeing to grants
+export const GRANTED_FROM_PENDING = (ID) =>{
+  return new Promise(async (resolve, reject) => {
+    try{
+      const dbRef = ref(databases, `/Tickets/${ID}/`);
+
+      const result = await update(dbRef,  {
+        status: "granted",
+      });
+      resolve(result)
+
+    }catch(erroir){
+      reject(erroir)
+    }
+  })
+}
+
+// delete data
+export const DELETE_TICKET_SUBMIT = (ID) =>{
+  return new Promise(async (resolve, reject) => {
+    try{
+      const dbRef = ref(databases, `/Tickets/${ID}/`);
+
+     // if success, delete old data
+     await remove(dbRef)
+     .then(() => {
+        alert("data has been deleted")
+     })
+     .catch((error) => console.log("delete old data error: ", error));
+
+    }catch(erroir){
+      reject(erroir)
     }
   })
 }

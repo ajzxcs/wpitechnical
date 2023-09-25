@@ -30,6 +30,8 @@ import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined
 import CheckCircleOutlineOutlinedIcon from '@mui/icons-material/CheckCircleOutlineOutlined';
 import { IconButton, Tooltip } from "@mui/material";
 
+import { GRANTED_FROM_PENDING , DELETE_TICKET_SUBMIT} from '../../../firebase/Database'
+
 export default function data(rowss) {
   // const User = ({ image, name, email }) => (
   //   <MDBox display="flex" alignItems="center" lineHeight={1}>
@@ -107,6 +109,11 @@ export default function data(rowss) {
                 onClick={e=>{
                   e.preventDefault()
                   // pendingToGranted(user.Email,user.Password,user.id)
+                  GRANTED_FROM_PENDING(data.id)
+                  .then(e=>{
+                    console.log(e) 
+                    window.location.reload()
+                  })
                 }
                 }
                 
@@ -120,7 +127,7 @@ export default function data(rowss) {
                 <IconButton aria-label="delete" onClick={e=>{
       
                   e.preventDefault()
-                  // rejectUser(user.id)
+                  DELETE_TICKET_SUBMIT(data.id)
                   
                   }} color="error">
                   <DeleteOutlineOutlinedIcon  />

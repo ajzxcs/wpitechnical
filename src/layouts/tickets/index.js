@@ -45,9 +45,6 @@ function Tickets() {
   const [excelData, setExcelData] = React.useState([]);
   const [columnsDta, setColumnsDta] = React.useState([]);
 
-
-
-
   React.useState(()=>{
 
     let mounted = true;
