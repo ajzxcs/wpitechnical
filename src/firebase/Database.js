@@ -301,3 +301,21 @@ export const totalForumVisit = () =>{
     }
   })
 }
+
+// view zoho tickets
+export const viewTickets = () =>{
+  return new Promise(async (resolve, reject) => {
+    try{  
+      const dbRef = ref(databases, 'Tickets/');
+      const snapshot = await get(dbRef);
+
+      const data = snapshot.val();
+      
+      resolve(data && Object.values(data))
+     
+  
+    }catch(error){
+      reject(error)
+    }
+  })
+}

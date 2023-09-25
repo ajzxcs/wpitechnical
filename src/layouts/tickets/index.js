@@ -22,9 +22,16 @@ import ticketdata from "layouts/tickets/data/ticketdata";
 import * as XLSX from 'xlsx';
 import React from "react";
 
-import { importZoho, viewZOHO } from '../../firebase/Database'
+import { importZoho, viewZOHO, viewTickets } from '../../firebase/Database'
+
+
+
 function Tickets() {
-  const { columns, rows } = ticketdata();
+
+  const [rowss,setROws] = React.useState([])
+
+  const { columns, rows } = ticketdata(rowss);
+
   // const { columns: columns2, rows: rows2 } = data2(); // Use the second data source
 
   const handleSearchTable1 = (event) => {
@@ -39,15 +46,38 @@ function Tickets() {
   const [columnsDta, setColumnsDta] = React.useState([]);
 
 
+
+
   React.useState(()=>{
 
     let mounted = true;
+
+    // Define an async function within useEffect
+     const fetchData = async () => {
+      try {
+        const data = await viewTickets();
+        setROws(data);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  
     
     if(mounted)
     {
       viewZOHO().then(E=>{
         setColumnsDta(E.column);
         setExcelData(E.data)
+      })
+
+      viewTickets().then(E=>{
+        E?.map((data,key)=>{
+          setROws(data);
+          console.log(data)
+        })
+
+        fetchData();
+       
       })
     }
   
@@ -121,6 +151,9 @@ function Tickets() {
                   ),
                 }}
               />
+
+            <MDButton
+              variant="outlined" onClick={()=>viewTickets().then(e=>console.log(e))}>Hello Friend</MDButton>
             </MDBox>
             <MDBox pt={3}>
               <DataTable
@@ -165,7 +198,7 @@ function Tickets() {
                   </MDTypography>
                 </Grid>
 
-                              <Grid item xs={12} md={3} sm={12}>
+              <Grid item xs={12} md={3} sm={12}>
               <TextField
                 variant="outlined"
                 size="small"

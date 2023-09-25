@@ -18,40 +18,44 @@ Coded by www.creative-tim.com
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
-import MDAvatar from "components/MDAvatar";
+// import MDAvatar from "components/MDAvatar";
 import MDBadge from "components/MDBadge";
 
 // Images
-import team2 from "assets/images/team-2.jpg";
-import team3 from "assets/images/team-3.jpg";
-import team4 from "assets/images/team-4.jpg";
+// import team2 from "assets/images/team-2.jpg";
+// import team3 from "assets/images/team-3.jpg";
+// import team4 from "assets/images/team-4.jpg";
 
-export default function data() {
-  const User = ({ image, name, email }) => (
-    <MDBox display="flex" alignItems="center" lineHeight={1}>
-      <MDAvatar src={image} name={name} size="sm" />
-      <MDBox ml={2} lineHeight={1}>
-        <MDTypography display="block" variant="button" fontWeight="medium">
-          {name}
-        </MDTypography>
-        <MDTypography variant="caption">{email}</MDTypography>
-      </MDBox>
-    </MDBox>
-  );
+import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
+import CheckCircleOutlineOutlinedIcon from '@mui/icons-material/CheckCircleOutlineOutlined';
+import { IconButton, Tooltip } from "@mui/material";
 
-  const Institution = ({ title, description }) => (
-    <MDBox lineHeight={1} textAlign="left">
-      <MDTypography display="block" variant="caption" color="text" fontWeight="medium">
-        {title}
-      </MDTypography>
-      <MDTypography variant="caption">{description}</MDTypography>
-    </MDBox>
-  );
+export default function data(rowss) {
+  // const User = ({ image, name, email }) => (
+  //   <MDBox display="flex" alignItems="center" lineHeight={1}>
+  //     <MDAvatar src={image} name={name} size="sm" />
+  //     <MDBox ml={2} lineHeight={1}>
+  //       <MDTypography display="block" variant="button" fontWeight="medium">
+  //         {name}
+  //       </MDTypography>
+  //       <MDTypography variant="caption">{email}</MDTypography>
+  //     </MDBox>
+  //   </MDBox>
+  // );
+
+  // const Institution = ({ title, description }) => (
+  //   <MDBox lineHeight={1} textAlign="left">
+  //     <MDTypography display="block" variant="caption" color="text" fontWeight="medium">
+  //       {title}
+  //     </MDTypography>
+  //     <MDTypography variant="caption">{description}</MDTypography>
+  //   </MDBox>
+  // );
 
   return {
     columns: [
       { Header: "Full Name", accessor: "name", width: "45%", align: "left" },
-      { Header: "Address", accessor: "address", align: "left" },
+      { Header: "Address", accessor: "address", align: "center" },
       { Header: "Institution", accessor: "institution", align: "left" },
       { Header: "Contact Number", accessor: "contactNumber", align: "center" },
       { Header: "Brand", accessor: "brand", align: "center" },
@@ -64,192 +68,67 @@ export default function data() {
       { Header: "Action", accessor: "action", align: "center" },
     ],
 
-    rows: [
-      {
-        name: "John Michael",
-        address: "123 Main St",
-        institution: "Hospital",
-        contactNumber: "123-456-7890",
-        brand: "Brand A",
-        model: "Model X",
-        serialNumber: "SN-12345",
-        issue: "Technical Issue",
-        schedule: "12/15/2023",
-        status: (
-          <MDBox ml={-1}>
-            <MDBadge badgeContent="granted" color="success" variant="gradient" size="sm" />
-          </MDBox>
-        ),
-        email: (
-          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-            john@creative-tim.com
-          </MDTypography>
-        ),
-        action: (
-          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-            Edit
-          </MDTypography>
-        ),
-      },
-      {
-        name: "Alexa Liras",
-        address: "456 Elm St",
-        institution: "Hospital",
-        contactNumber: "987-654-3210",
-        brand: "Brand B",
-        model: "Model Y",
-        serialNumber: "SN-54321",
-        issue: "Hardware Issue",
-        schedule: "12/18/2023",
-        status: (
-          <MDBox ml={-1}>
-            <MDBadge badgeContent="pending" color="dark" variant="gradient" size="sm" />
-          </MDBox>
-        ),
-        email: (
-          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-            alexa@creative-tim.com
-          </MDTypography>
-        ),
-        action: (
-          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-            Edit
-          </MDTypography>
-        ),
-      },
-      {
-        name: "Laurent Perrier",
-        address: "789 Oak St",
-        institution: "Hospital",
-        contactNumber: "555-555-5555",
-        brand: "Brand C",
-        model: "Model Z",
-        serialNumber: "SN-98765",
-        issue: "Software Issue",
-        schedule: "12/20/2023",
-        status: (
-          <MDBox ml={-1}>
-            <MDBadge badgeContent="granted" color="success" variant="gradient" size="sm" />
-          </MDBox>
-        ),
-        email: (
-          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-            laurent@creative-tim.com
-          </MDTypography>
-        ),
-        action: (
-          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-            Edit
-          </MDTypography>
-        ),
-      },
-      {
-        name: "Michael Levi",
-        address: "101 Pine St",
-        institution: "Medical Center",
-        contactNumber: "111-222-3333",
-        brand: "Brand D",
-        model: "Model M",
-        serialNumber: "SN-55555",
-        issue: "Network Issue",
-        schedule: "12/22/2023",
-        status: (
-          <MDBox ml={-1}>
-            <MDBadge badgeContent="granted" color="success" variant="gradient" size="sm" />
-          </MDBox>
-        ),
-        email: (
-          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-            michael@creative-tim.com
-          </MDTypography>
-        ),
-        action: (
-          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-            Edit
-          </MDTypography>
-        ),
-      },
-      {
-        name: "Richard Gran",
-        address: "246 Maple St",
-        institution: "Medical Clinic",
-        contactNumber: "777-888-9999",
-        brand: "Brand E",
-        model: "Model N",
-        serialNumber: "SN-98765",
-        issue: "Battery Issue",
-        schedule: "12/25/2023",
-        status: (
-          <MDBox ml={-1}>
-            <MDBadge badgeContent="pending" color="dark" variant="gradient" size="sm" />
-          </MDBox>
-        ),
-        email: (
-          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-            richard@creative-tim.com
-          </MDTypography>
-        ),
-        action: (
-          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-            Edit
-          </MDTypography>
-        ),
-      },
-      {
-        name: "Miriam Eric",
-        address: "333 Cedar St",
-        institution: "Medical Center",
-        contactNumber: "444-555-6666",
-        brand: "Brand F",
-        model: "Model O",
-        serialNumber: "SN-24680",
-        issue: "Display Issue",
-        schedule: "12/28/2023",
-        status: (
-          <MDBox ml={-1}>
-            <MDBadge badgeContent="pending" color="dark" variant="gradient" size="sm" />
-          </MDBox>
-        ),
-        email: (
-          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-            miriam@creative-tim.com
-          </MDTypography>
-        ),
-        action: (
-          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-            Edit
-          </MDTypography>
-        ),
-      },
-      {
-        name: "John Doe",
-        address: "999 Oak St",
-        institution: "Hospital",
-        contactNumber: "123-123-1234",
-        brand: "Brand G",
-        model: "Model P",
-        serialNumber: "SN-13579",
-        issue: "Audio Issue",
-        schedule: "01/02/2024",
-        status: (
-          <MDBox ml={-1}>
-            <MDBadge badgeContent="granted" color="success" variant="gradient" size="sm" />
-          </MDBox>
-        ),
-        email: (
-          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-            johndoe@example.com
-          </MDTypography>
-        ),
-        action: (
-          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-            Edit
-          </MDTypography>
-        ),
-      },
+    rows: Object.values(rowss)?.map((data,key)=>({
+      name: data.name,
+      address: data.address,
+      institution: data.institution,
+      contactNumber: data.contactNumber,
+      brand: data.brand,
+      model: data.model,
+      serialNumber: data.serialNumber,
+      issue: data.issue,
+      schedule: data.schedule,
+
+      // status
+      status: (
+        <MDBox ml={-1} key={key}>
+
+          <MDBadge 
+          badgeContent={data.status} 
+          color={data.status==="pending" ?"dark" : "success"} 
+          variant="gradient" size="sm" />
+
+        </MDBox>
+      ),
+
+      email: (
+        <MDTypography key={key} component="a" href="#" variant="caption" color="text" fontWeight="medium">
+          {data.email}
+        </MDTypography>
+      ),
+            // action
+      action: (
+        data.status !== "granted" &&
+              <div key={key}>
       
-     
+              {/* Approved */}
+              <Tooltip title="Granted" arrow>
+                <IconButton aria-label="delete" 
+                onClick={e=>{
+                  e.preventDefault()
+                  // pendingToGranted(user.Email,user.Password,user.id)
+                }
+                }
+                
+                color="success">
+                  <CheckCircleOutlineOutlinedIcon  />
+                </IconButton>
+              </Tooltip>
+              
+              {/* Delete */}
+              <Tooltip title="Delete" arrow>
+                <IconButton aria-label="delete" onClick={e=>{
       
-    ],
+                  e.preventDefault()
+                  // rejectUser(user.id)
+                  
+                  }} color="error">
+                  <DeleteOutlineOutlinedIcon  />
+                </IconButton>
+              </Tooltip>
+      
+              </div>)
+    })),
   };
 }
+
