@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "../assets/FAQland.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
-import { FaqData3 } from "../Data/FaqData";
+import { FaqData3 } from "../data/FaqData";
 
 const FAQland = ({ toggleFAQVisibility }) => {
   const [faqs3, setFaqs3] = useState(FaqData3);
