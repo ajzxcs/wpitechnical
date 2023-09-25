@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "../assets/FAQ.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown, faArrowLeft } from "@fortawesome/free-solid-svg-icons"; // Import the back arrow icon
-import { FaqData, FaqData2 } from "../Data/FaqData";
+import { FaqData, FaqData2 } from "../data/FaqData";
 import "../assets/PostDetail.css";
 
 const FAQ = ({ toggleFAQVisibility }) => {
