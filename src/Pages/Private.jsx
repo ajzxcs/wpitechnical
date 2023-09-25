@@ -7,7 +7,7 @@ import AskQ from "../componentsPV/AskQpv";
 import PostForm from "../componentsPV/PostFormpv";
 import FAQ from "../componentsPV/FAQpv"; // Import the FAQ component
 import FAQland from "../componentsPV/FAQlandpv";
-import samplePosts from "../Data/samplePosts";
+import samplePosts from "../data/samplePosts";
 import "../App.css";
 
 function Private() {
