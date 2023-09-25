@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
-import StarRatings from "react-star-ratings";
+import React from "react";
+// import StarRatings from "react-star-ratings";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faTrash,
+  // faTrash,
   faThumbsUp,
   faThumbsDown,
   faArrowLeft,
-  faCommentAlt
+  // faCommentAlt
 } from "@fortawesome/free-solid-svg-icons";
 import "../assets/PostDetail.css";
 import "../assets/public.css";
@@ -36,54 +36,57 @@ const Comment = ({ comment, onLikeDislike }) => (
 );
 
 const PostDetail = ({ post, onDeletePost, onGoBack }) => {
-  const [rating, setRating] = useState(0);
-  const [totalRatings, setTotalRatings] = useState(0);
+  // const [rating, setRating] = useState(0);
+  // const [totalRatings, setTotalRatings] = useState(0);
 
-  useEffect(() => {
-    if (post) {
-      const storedRating =
-        parseFloat(localStorage.getItem(`post-${post.id}-rating`)) || 0;
-      setRating(storedRating);
-      setTotalRatings(post.comments ? post.comments.length : 0);
-    }
-  }, [post]);
+  // useEffect(() => {
+  //   if (post) {
+  //     const storedRating =
+  //       parseFloat(localStorage.getItem(`post-${post.id}-rating`)) || 0;
+  //     setRating(storedRating);
+  //     setTotalRatings(post.comments ? post.comments.length : 0);
+  //   }
+  // }, [post]);
 
-  useEffect(() => {
-    if (post) {
-      localStorage.setItem(`post-${post.id}-rating`, rating.toString());
-    }
-  }, [rating, post]);
+  // useEffect(() => {
+  //   if (post) {
+  //     localStorage.setItem(`post-${post.id}-rating`, rating.toString());
+  //   }
+  // }, [rating, post]);
 
-  const handleRatingChange = (newRating) => {
-    setRating(newRating);
-    setTotalRatings(totalRatings + 1);
-  };
+  // const handleRatingChange = (newRating) => {
+  //   setRating(newRating);
+  //   setTotalRatings(totalRatings + 1);
+  // };
 
-  const handleLikeDislike = (commentId, action) => {
-    const updatedComments = post.comments.map((comment) => {
-      if (comment.id === commentId) {
-        if (action === "like") {
-          return { ...comment, likes: comment.likes + 1 };
-        } else if (action === "dislike") {
-          return { ...comment, dislikes: comment.dislikes + 1 };
-        }
-      }
-      return comment;
-    });
+  // const handleLikeDislike = (commentId, action) => {
+  //   const updatedComments = post.comments.map((comment) => {
+  //     if (comment.id === commentId) {
+  //       if (action === "like") {
+  //         return { ...comment, likes: comment.likes + 1 };
+  //       } else if (action === "dislike") {
+  //         return { ...comment, dislikes: comment.dislikes + 1 };
+  //       }
+  //     }
+  //     return comment;
+  //   });
 
-    // Update the post object with the modified comments
-    const updatedPost = { ...post, comments: updatedComments };
+  //   // Update the post object with the modified comments
+  //   const updatedPost = { ...post, comments: updatedComments };
 
-    // You may want to update the state or send this updatedPost to your backend API.
-    // For now, let's just log it.
-    console.log("Updated Post with Likes/Dislikes:", updatedPost);
-  };
-  const handleDeletePost = () => {
-    // Call the onDeletePost function passed as a prop to delete the post
-    if (post) {
-      onDeletePost(post.id);
-    }
-  };
+  //   // You may want to update the state or send this updatedPost to your backend API.
+  //   // For now, let's just log it.
+  //   console.log("Updated Post with Likes/Dislikes:", updatedPost);
+  // };
+
+
+
+  // const handleDeletePost = () => {
+  //   // Call the onDeletePost function passed as a prop to delete the post
+  //   if (post) {
+  //     onDeletePost(post.id);
+  //   }
+  // };
 
   return (
     <div className="post-detail">
@@ -94,10 +97,10 @@ const PostDetail = ({ post, onDeletePost, onGoBack }) => {
       </div>
       <div className="title-and-delete">
         <h2>{post ? post.title : "Post Not Found"}</h2>
-
+{/* 
         <button onClick={handleDeletePost}>
           <FontAwesomeIcon icon={faTrash} />
-        </button>
+        </button> */}
       </div>
 
       <p>{post ? `${post.Author} - ${post.date}` : "Author Not Found"}</p>
@@ -113,7 +116,7 @@ const PostDetail = ({ post, onDeletePost, onGoBack }) => {
               <Comment
                 key={comment.id}
                 comment={comment}
-                onLikeDislike={handleLikeDislike}
+                // onLikeDislike={handleLikeDislike}
               />
             ))}
           </div>

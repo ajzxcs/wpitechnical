@@ -96,7 +96,7 @@ export const viewList = async () => {
     // the fetch data should convert into array function
     const data = snapshot.val();
 
-    return Object.values(data);
+    return data;
   } catch (error) {
     throw error;
   }

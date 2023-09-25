@@ -9,6 +9,7 @@ import FAQ from "../componentsPB/FAQ"; // Import the FAQ component
 import FAQland from "../componentsPB/FAQland";
 import samplePosts from "../data/samplePosts";
 import "../App.css";
+import { viewList } from "../Features/firebase/Database"
 
 function Public() {
   const [posts, setPosts] = useState([]);
@@ -20,12 +21,34 @@ function Public() {
   let sortedPosts = [...posts];
 
   useEffect(() => {
+
+    let mounted = true;
+
+    const data = async () =>{
+      const datas = await viewList()
+
+      const initialPosts = Object.values(datas)
+            .flatMap((author) =>
+      Object.values(author.Posts).map((post) => ({
+          ...post,
+          Author: author.Author, // Add the Author field to each post
+        }))
+      )
+
+      console.log(initialPosts)
+    }
     // Use the samplePosts data to initialize your posts state
     const initialPosts = Object.values(samplePosts).flatMap((authorData) =>
       authorData.Posts.map((post) => ({ ...post, Author: authorData.Author }))
     );
 
     setPosts(initialPosts);
+
+    if (mounted){
+      data()
+    }
+
+    return ()=>mounted=false
   }, []);
 
   useEffect(() => {
@@ -179,6 +202,8 @@ function Public() {
           </div>
         )}
       </div>
+
+      {/* FAQs */}
       {faqVisible && <FAQ toggleFAQVisibility={toggleFAQVisibility} />}
       <footer className="footer">
         <br />
