@@ -22,6 +22,7 @@ import ticketdata from "layouts/tickets/data/ticketdata";
 import * as XLSX from 'xlsx';
 import React from "react";
 
+import { importZoho, viewZOHO } from '../../firebase/Database'
 function Tickets() {
   const { columns, rows } = ticketdata();
   // const { columns: columns2, rows: rows2 } = data2(); // Use the second data source
@@ -36,6 +37,22 @@ function Tickets() {
 
   const [excelData, setExcelData] = React.useState([]);
   const [columnsDta, setColumnsDta] = React.useState([]);
+
+
+  React.useState(()=>{
+
+    let mounted = true;
+    
+    if(mounted)
+    {
+      viewZOHO().then(E=>{
+        setColumnsDta(E.column);
+        setExcelData(E.data)
+      })
+    }
+  
+    return(()=>mounted=false)
+  },[])
 
   const handleFileUpload = (e) => {
     const file = e.target.files[0];
@@ -60,10 +77,9 @@ function Tickets() {
         }
       }
 
-      setExcelData(sheetData);
-      setColumnsDta(extractedColumns);
+      importZoho(sheetData,extractedColumns)
 
-      console.log(extractedColumns)
+      // console.log(sheetData)
     };
 
     reader.readAsArrayBuffer(file);
@@ -140,9 +156,16 @@ function Tickets() {
               borderRadius="lg"
               coloredShadow="info"
             >
-              <MDTypography variant="h6" color="white">
-                Tickets from Zoho
-              </MDTypography>
+              <Grid container>
+
+                <Grid item xs={12} md={12} spacing={2}>
+    
+                  <MDTypography variant="h6" color="white">
+                    Tickets from Zoho
+                  </MDTypography>
+                </Grid>
+
+                              <Grid item xs={12} md={3} sm={12}>
               <TextField
                 variant="outlined"
                 size="small"
@@ -157,9 +180,9 @@ function Tickets() {
                 }}
               />
               
-             
+              </Grid>
 
-
+              <Grid item xs={12} md={3} sm={12}>
           {/* upload */}
           <input
             type="file"
@@ -177,7 +200,9 @@ function Tickets() {
          Import excel file
             </MDButton>&nbsp;&nbsp;&nbsp;&nbsp;
           </label>
+          </Grid>
 
+          </Grid>
 
             </MDBox>
             <MDBox pt={3}>

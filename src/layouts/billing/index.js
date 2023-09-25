@@ -58,9 +58,9 @@ function Brands() {
   //  }
 
     // Cleanup function
-    return () => {
-      // isMounted = false; // Mark the component as unmounted
-    };
+    // return () => {
+    //   // isMounted = false; // Mark the component as unmounted
+    // };
   }, []);
 
   const handleDeleteBrand = e => {

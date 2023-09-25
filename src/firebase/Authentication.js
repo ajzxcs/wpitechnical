@@ -11,23 +11,38 @@ import {
   updateProfile
 } from "firebase/auth";
 import { auth } from "./Configuration"
-import { verifyAdmin } from "./Database"
-
-
-
-
+import { verifyAdmin,adminCreate } from "./Database"
 
 
 
  // create account
- export const createAccount = (email, password) => {
+ export const createAccount = (Name, email, password) => {
     return new Promise((resolve, reject) => {
       createUserWithEmailAndPassword(auth, email, password)
         .then((res) => {
+
+          updateProfile(auth.currentUser, { displayName: Name })
+          .then(() => { 
+            alert("account created! please login again") 
+
+            adminCreate(res.user.uid)
+            LogoutSession()
+
+            
+            window.location.reload()
           resolve({
             uid: res.user.uid,
             result: true
         }); // Resolve the promise with the response from createUserWithEmailAndPassword
+
+          })
+          .catch((error) => 
+          { alert(error)
+            reject(error)
+          });
+
+
+
         })
         .catch((error) => {
           console.log(error);
@@ -37,6 +52,8 @@ import { verifyAdmin } from "./Database"
           const errorMessages = errorMessage.replace('auth/', '').replace(/-/g, ' ');
 
           console.log(errorMessages)
+
+          alert(errorMessages)
 
           reject(
             {
@@ -117,6 +134,8 @@ export const getUserDetails = () => {
 
 // update user details
 export const updateUserDetails = (Name,Email) =>{
+
+
   updateProfile(auth.currentUser, { displayName: Name })
   .then(() => { console.log("updated") })
   .catch((error) => 

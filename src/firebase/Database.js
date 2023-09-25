@@ -3,6 +3,7 @@ import { databases } from "./Configuration";
 import { createAccount,LogoutSession } from './Authentication'
 import base64 from 'base-64';
 
+
 // get the number of post
 export const totalForumPost = async () =>{
   const dbRef = ref(databases, `POSTS/`);
@@ -210,4 +211,93 @@ export const verifyAdmin = async (uid) => {
   } catch (error) {
     throw error;
   }
+}
+
+// create Tickets from ZOHO
+export const importZoho = (Data,Column) =>{
+
+  return new Promise((resolve, reject) => {
+    const dbRef = ref(databases, 'TicketZOHO/');
+
+    // for date and time
+    const date = new Date().toLocaleDateString();
+  
+    set(dbRef, { column:Column, date: date,  data: Data })
+    .then(e=>{
+      alert("uploaded the ticket ")
+      window.location.reload()
+      resolve("uploaded the ticket")
+    })
+    .catch(error=>{
+      alert(error)
+      reject(error)
+    });
+  })
+
+}
+
+// view zoho tickets
+export const viewZOHO = () =>{
+  return new Promise(async (resolve, reject) => {
+    try{  
+      const dbRef = ref(databases, 'TicketZOHO/');
+      const snapshot = await get(dbRef);
+
+      const data = snapshot.val();
+
+      resolve(data)
+  
+    }catch(error){
+      reject(error)
+    }
+  })
+}
+
+// get forum visit 
+export const forumVisitToday = () =>{
+  return new Promise(async (resolve, reject) => {
+    try{  
+
+      // for date and time
+      const date = new Date().toLocaleDateString();
+      const dateFormated = date.replaceAll("/","-")
+
+      const dbRef = ref(databases, `/ForumVisit/${dateFormated}`);
+      const snapshot = await get(dbRef);
+
+      const data = snapshot.val();
+
+      data ?  resolve(data) :  resolve(0)
+
+     
+  
+    }catch(error){
+      reject(error)
+    }
+  })
+}
+
+export const totalForumVisit = () =>{
+  return new Promise(async (resolve, reject) => {
+    try{  
+
+      const dbRef = ref(databases, `ForumVisit`);
+      const snapshot = await get(dbRef);
+
+      const data = snapshot.val();
+
+      let val = 0;
+      // eslint-disable-next-line array-callback-return
+      Object.values(data)?.map((key,data)=>{
+        val += key;
+        console.log(key)
+      } 
+      )
+
+      resolve(val)
+  
+    }catch(error){
+      reject(error)
+    }
+  })
 }

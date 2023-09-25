@@ -27,7 +27,10 @@ import ComplexStatisticsCard from "examples/Cards/StatisticsCards/ComplexStatist
 import { 
   totalForumPost,
   totalForumPost_Today,
-  getUsers 
+  getUsers,
+  viewZOHO,
+  forumVisitToday,
+  totalForumVisit
 } from '../../firebase/Database'
 // import { Button } from "@mui/material";
 
@@ -38,14 +41,50 @@ function Dashboard() {
     totalPost: 0,
     todayPost: 0,
     totalUsers: 0,
+    totalPending: 0,
+    visitToday: 0,
+    totalVisit: 0
   })
+
+  const [date,setaDte] = React.useState("1/1/2000")
+
+  const months = [
+    'January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December'
+  ];
+  
+
 
   React.useEffect(()=>{
     let isMounted = true; // A flag to track whether the component is still mounted
+    
 
     if (isMounted) {
+
       // Initialize an empty newData object to accumulate changes
       let newData = { ...data };
+
+      // Forum Visit today
+      forumVisitToday().then(e=>{
+        
+        // Merge the new totalPost value with newData
+        newData = { ...newData, visitToday: e };
+  
+        // Update the state with the accumulated changes
+        setData(newData);
+      })
+
+      // totalVisit
+      totalForumVisit().then(e=>{
+        
+        // Merge the new totalPost value with newData
+        newData = { ...newData, totalVisit: e };
+  
+        // Update the state with the accumulated changes
+        setData(newData);
+      })
+
+
   
       // Total forum post
       totalForumPost()
@@ -78,11 +117,27 @@ function Dashboard() {
         // Merge the new todayPost value with newData
         newData = { ...newData, totalUsers: total };
 
-        // Update the state with the accumulated changes
-        setData(newData);
       })
       .catch((error) => console.log(error));
 
+      // get the pending tickets
+      viewZOHO()
+      .then((e) => {
+
+        const total = e?.data.length;
+
+        // Merge the new todayPost value with newData
+        newData = { ...newData, totalPending: total };
+
+        // Update the state with the accumulated changes
+        setData(newData);
+
+
+        const [month, day, year] = e?.date.split('/');
+        const formattedDate = `${months[parseInt(month) - 1]} ${parseInt(day)} ${year}`;
+        setaDte(formattedDate)
+      })
+      .catch((error) => console.log(error));
     }
 
     return () => {
@@ -104,7 +159,7 @@ function Dashboard() {
                 color="dark"
                 icon="face"
                 title="Forum Visitor Today"
-                count={281}
+                count={data.visitToday}
                 percentage={{
                   color: "success",
                   amount: "+55%",
@@ -120,10 +175,10 @@ function Dashboard() {
               <ComplexStatisticsCard
                 icon="face"
                 title="Forum Total Visitor"
-                count="2,300"
+                count={data.totalVisit}
                 percentage={{
                   color: "success",
-                  amount: "+3%",
+                  amount: "",
                   label: "than last month",
                 }}
               />
@@ -140,8 +195,8 @@ function Dashboard() {
                 count={String(data.todayPost)}
                 percentage={{
                   color: "success",
-                  amount: "+1%",
-                  label: "than yesterday",
+                  amount: "",
+                  label: "",
                 }}
               />
             </MDBox>
@@ -175,7 +230,7 @@ function Dashboard() {
                 percentage={{
                   color: "success",
                   amount: "",
-                  label: "Just updated",
+                  label: "Just Updated",
                 }}
               />
             </MDBox>
@@ -188,6 +243,22 @@ function Dashboard() {
                 color="primary"
                 icon="attach_file"
                 title="Pending Tickets"
+                count={data.totalPending}
+                percentage={{
+                  color: "success",
+                  amount: "",
+                  label:  date,
+                }}
+              />
+            </MDBox>
+          </Grid>
+
+          <Grid item xs={12} md={6} lg={3}>
+            <MDBox mb={1.5}>
+              <ComplexStatisticsCard
+                color="primary"
+                icon="person_add"
+                title="Followers"
                 count="+91"
                 percentage={{
                   color: "success",
@@ -213,24 +284,9 @@ function Dashboard() {
               />
             </MDBox>
           </Grid>
+{/* 
           <Grid item xs={12} md={6} lg={3}>
-            <MDBox mb={1.5}>
-              <ComplexStatisticsCard
-                color="primary"
-                icon="person_add"
-                title="Followers"
-                count="+91"
-                percentage={{
-                  color: "success",
-                  amount: "",
-                  label: "Just updated",
-                }}
-              />
-            </MDBox>
-          </Grid>
-
-          {/* <Grid item xs={12} md={6} lg={3}>
-            <Button variant="contained" onClick={()=>getUsers().then(e=>console.log(e.length))}>Hello Friend</Button>
+            <Button variant="contained" onClick={()=>totalForumVisit().then(e=>console.log(e))}>Hello Friend</Button>
           </Grid> */}
 
         </Grid>
