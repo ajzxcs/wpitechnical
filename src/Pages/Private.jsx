@@ -24,7 +24,7 @@ function Public() {
     const fetchData = async () => {
       try {
         const postsData = await viewList();
-   
+
         setShowDats(postsData);
       } catch (error) {
         // Handle the error
@@ -105,15 +105,18 @@ function Public() {
 
               <h3>Title: {post.Title}</h3>
 
-              <p>Author: {item.author}</p>
+              <p>Author: {item.Author}</p>
               <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>   
 
-                <div style={{padding: "5px"}}> 
-                  <p>Date: {post.date[0]} </p>
-                </div>
-
+                {/* {Object.values(post.date).map((key,index)=>(
+                  
+                  <div key={index} style={{padding: "5px"}}> 
+                    <p>Date: {key} </p>
+                  </div>
+                ))} */}
+      
               <div style={{padding: "5px"}}> 
-                <p>Time: {post.date[1]}</p> 
+                {/* <p>Time: {post.date[1]}</p>  */}
 
                 </div>
               </div>
@@ -135,8 +138,8 @@ function Public() {
               <button key={postIndex} onClick={e=>{
                 e.preventDefault();
                 // const post = item.Posts[postId]; // Get the post data
-                addComments(post.id,item.author, "WOW THAT IS AWESOME")
-                console.log(String(post.id),String(item.author),"WOW that is awwesome")
+                addComments(post.id,item.Author, "WOW THAT IS AWESOME")
+                console.log(String(post.id),String(item.Author),"WOW that is awwesome")
               }}>add comments</button>
 
               {/* Iterate of all Post List */}
@@ -149,13 +152,10 @@ function Public() {
 
                 </div>
               ))}
-
-              
               <hr/>
              
             </div>
 
-         
 
           ))}
 
