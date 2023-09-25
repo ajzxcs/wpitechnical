@@ -149,8 +149,7 @@ function Tickets() {
                 }}
               />
 
-            <MDButton
-              variant="outlined" onClick={()=>viewTickets().then(e=>console.log(e))}>Hello Friend</MDButton>
+
             </MDBox>
             <MDBox pt={3}>
               <DataTable
