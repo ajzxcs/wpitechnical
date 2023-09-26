@@ -99,11 +99,6 @@ const renderSuggestion = (suggestion) => (
         <FontAwesomeIcon icon={faSearch} />
       </div>
 
-      {/* <button onClick={()=>{
-        getSuggestions("p")
-        console.log(suggestions)
-      }}>test</button> */}
-
       <Autosuggest
         suggestions={suggestions}
         onSuggestionsFetchRequested={onSuggestionsFetchRequested}

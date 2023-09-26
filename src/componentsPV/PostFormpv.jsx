@@ -19,18 +19,16 @@ const PostForm = ({ isOpen, onRequestClose, onAddPost }) => {
         const updatedTags = [...tags, newTag];
         setTags(updatedTags);
         setTagInput("");
-        // Store the updated tags in local storage
-        localStorage.setItem("postTags", JSON.stringify(updatedTags));
       }
     }
   };
   const handleCreatePost = () => {
+    const newTags = String(tags)
     // Create a new post object
     const newPost = {
       title,
       content,
-      tags,
-      date: new Date().toLocaleString()
+      newTags,
       // Add any other properties you need
     };
 
@@ -68,6 +66,21 @@ const PostForm = ({ isOpen, onRequestClose, onAddPost }) => {
             value={content}
             onChange={(e) => setContent(e.target.value)}
           />
+          <br/>
+          <br/>
+          {/* Tags */}
+          {tags.length > 0 && (
+            <div className="selected-tags">
+              <strong>Selected Tags:</strong>{" "}
+              {tags.map((tag, index) => (
+                <span key={index} className="tag">
+                  {tag}
+                </span>
+              ))}
+              
+            </div>
+          )}
+            <br/>
           <div className="tag-input">
             <input
               type="text"
@@ -77,16 +90,8 @@ const PostForm = ({ isOpen, onRequestClose, onAddPost }) => {
             />
             <button onClick={handleAddTag}>Add Tag</button>
           </div>
-          {tags.length > 0 && (
-            <div className="selected-tags">
-              <strong>Selected Tags:</strong>{" "}
-              {tags.map((tag, index) => (
-                <span key={index} className="tag">
-                  {tag}
-                </span>
-              ))}
-            </div>
-          )}
+
+      
         </div>
         <br />
         <button onClick={handleCreatePost}>Create Post</button>

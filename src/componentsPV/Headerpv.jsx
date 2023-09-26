@@ -2,17 +2,16 @@ import React, { useState } from "react";
 import {
   AppBar,
   Toolbar,
-  Typography,
-  Button,
   IconButton,
   Tooltip,
   Menu,
   MenuItem
 } from "@mui/material"; // Import Material-UI components
 import SettingsIcon from "@mui/icons-material/Settings"; // Import the Settings icon
-import QuestionAnswerIcon from "@mui/icons-material/QuestionAnswer"; // Import the QuestionAnswer icon
 import HelpIcon from "@mui/icons-material/Help"; // Import the Help icon
 import "../assets/public.css";
+ 
+import { LogoutSession } from "../Features/Authentication/Authentication"
 
 const Header = ({ toggleFAQVisibility, onGoBack }) => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -23,13 +22,20 @@ const Header = ({ toggleFAQVisibility, onGoBack }) => {
 
   const handleClose = () => {
     setAnchorEl(null);
+
   };
+
+  const handleCloseLogout = () => {
+    setAnchorEl(null);
+    LogoutSession()
+  };
+
 
   return (
     <AppBar position="static" style={{ backgroundColor: "#93b4d3" }}>
       <Toolbar className="toolbar">
         <div className="logo-container">
-          <img className="logo" src="wellness-logov2.png" alt="Wellness Logo" />
+          <img className="logo" src="WPI 1.png" alt="Wellness Logo" />
         </div>
         <div className="button-container">
           {/* FAQ icon button */}
@@ -42,7 +48,7 @@ const Header = ({ toggleFAQVisibility, onGoBack }) => {
               aria-controls="settings-menu"
               aria-haspopup="true"
             >
-              <HelpIcon />
+              <HelpIcon style={{fontSize: '200%'}}/>
             </IconButton>
           </Tooltip>
 
@@ -53,7 +59,7 @@ const Header = ({ toggleFAQVisibility, onGoBack }) => {
               aria-controls="settings-menu"
               aria-haspopup="true"
             >
-              <SettingsIcon />
+              <SettingsIcon style={{fontSize: '200%'}}/>
             </IconButton>
           </Tooltip>
           <Menu
@@ -62,8 +68,8 @@ const Header = ({ toggleFAQVisibility, onGoBack }) => {
             open={Boolean(anchorEl)}
             onClose={handleClose}
           >
-            <MenuItem onClick={handleClose}>Logout</MenuItem>
-            <MenuItem onClick={handleClose}>Change Password</MenuItem>
+            <MenuItem onClick={handleCloseLogout}>Logout</MenuItem>
+            {/* <MenuItem onClick={handleClose}>Change Password</MenuItem> */}
           </Menu>
         </div>
       </Toolbar>

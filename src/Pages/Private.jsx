@@ -7,44 +7,83 @@ import AskQ from "../componentsPV/AskQpv";
 import PostForm from "../componentsPV/PostFormpv";
 import FAQ from "../componentsPV/FAQpv"; // Import the FAQ component
 import FAQland from "../componentsPV/FAQlandpv";
-import samplePosts from "../data/samplePosts";
+
 import "../App.css";
+
+// Database
+import { viewList, createPost,getuserID } from "../Features/firebase/Database"
 
 function Private() {
   const [posts, setPosts] = useState([]);
+  // backup data
+  const [postData, setPostData] = React.useState([])
+
   const [selectedPost, setSelectedPost] = useState(null); // Add this state variable
-  const [commentCounts, setCommentCounts] = useState({});
   const [sortingOrder, setSortingOrder] = useState("newest");
   const [faqVisible, setFaqVisible] = useState(false); // Add FAQ visibility state
 
   let sortedPosts = [...posts];
 
   useEffect(() => {
-    // Use the samplePosts data to initialize your posts state
-    const initialPosts = Object.values(samplePosts).flatMap((authorData) =>
-      authorData.Posts.map((post) => ({ ...post, Author: authorData.Author }))
-    );
+    let mounted = true;
 
-    setPosts(initialPosts);
+    const fetchData = async () => {
+      try {
+        // data to be fetch
+        const Data = await viewList(); // Assuming viewList is an async function that fetches data
+
+        // sorted out the data
+        const posts = Data.flatMap((author) =>
+
+            // rewrite the data with author
+            Object.values(author.Posts).map((post) => ({
+                ...post,
+                Author: author.Author, // Add the Author field to each post
+            }))
+          )
+          .sort((a, b) => {
+
+            // Sort by date in descending order (newest to oldest)
+            const dateA = new Date(a.date).getTime();
+            const dateB = new Date(b.date).getTime();
+            return dateB - dateA; 
+          });
+
+          // set the sorted data to PostData
+          setPostData(posts);
+          setPosts(posts)
+      } catch (error) {
+        console.error("Error fetching data: ", error);
+      }
+    };
+
+    // Clean Up function
+    if (mounted) {
+      fetchData();
+    }
+
+    return () => (mounted = false);
   }, []);
 
   useEffect(() => {
     // Apply sorting when the sortingOrder changes
-    let sortedPosts = [...posts];
+    let sortedPosts = posts;
 
     if (sortingOrder === "newest") {
       sortedPosts = sortedPosts.sort((a, b) => {
-        const dateA = new Date(`${a.date} ${a.time}`);
-        const dateB = new Date(`${b.date} ${b.time}`);
+        const dateA = new Date(a.date).getTime();
+        const dateB = new Date(b.date).getTime();
         return dateB - dateA;
       });
     } else if (sortingOrder === "oldest") {
       sortedPosts = sortedPosts.sort((a, b) => {
-        const dateA = new Date(`${a.date} ${a.time}`);
-        const dateB = new Date(`${b.date} ${b.time}`);
+        const dateA = new Date(a.date).getTime();
+        const dateB = new Date(b.date).getTime();
         return dateA - dateB;
       });
     }
+
+    console.log(sortedPosts)
 
     setPosts(sortedPosts);
   }, [sortingOrder, posts]);
@@ -60,37 +99,39 @@ function Private() {
   };
 
   const handleAddComment = (postId, comment) => {
-    const updatedPosts = posts.map((post) => {
-      if (post.id === postId) {
-        const updatedComments = [...post.comments, comment];
-        return {
-          ...post,
-          commentCount: updatedComments.length,
-          comments: updatedComments
-        };
-      }
-      return post;
-    });
+    // const updatedPosts = posts.map((post) => {
+    //   if (post.id === postId) {
+    //     const updatedComments = [...post.comments, comment];
+    //     return {
+    //       ...post,
+    //       commentCount: updatedComments.length,
+    //       comments: updatedComments
+    //     };
+    //   }
+    //   return post;
+    // });
 
-    localStorage.setItem("posts", JSON.stringify(updatedPosts));
-    setPosts(updatedPosts);
+    // localStorage.setItem("posts", JSON.stringify(updatedPosts));
+    // setPosts(updatedPosts);
 
-    const updatedCommentCounts = updatedPosts.reduce((acc, post) => {
-      acc[post.id] = post.commentCount;
-      return acc;
-    }, {});
+    // const updatedCommentCounts = updatedPosts.reduce((acc, post) => {
+    //   acc[post.id] = post.commentCount;
+    //   return acc;
+    // }, {});
 
-    localStorage.setItem("commentCounts", JSON.stringify(updatedCommentCounts));
-    setCommentCounts(updatedCommentCounts);
+    // localStorage.setItem("commentCounts", JSON.stringify(updatedCommentCounts));
+    // setCommentCounts(updatedCommentCounts);
   };
 
   const handleSearch = (searchQuery) => {
     const filteredPosts = posts.filter(
       (post) =>
-        post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        post.content.toLowerCase().includes(searchQuery.toLowerCase())
+        String(post.Title)?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        String(post.Content)?.toLowerCase().includes(searchQuery.toLowerCase())
     );
-    setPosts(filteredPosts);
+
+    searchQuery ?
+    setPostData(filteredPosts) : setPostData(postData) 
   };
 
   const handleDeletePost = (postId) => {
@@ -101,21 +142,14 @@ function Private() {
   };
 
   const handleAddPost = (newPost) => {
-    const updatedPosts = [
-      ...posts,
-      { ...newPost, commentCount: 0, comments: [] }
-    ];
+    console.log()
 
-    localStorage.setItem("posts", JSON.stringify(updatedPosts));
-    setPosts(updatedPosts);
-
-    const updatedCommentCounts = {
-      ...commentCounts,
-      [newPost.id]: 0
-    };
-
-    localStorage.setItem("commentCounts", JSON.stringify(updatedCommentCounts));
-    setCommentCounts(updatedCommentCounts);
+    createPost(newPost.title, newPost.content, newPost.newTags)
+    .then(e=>{
+      alert(e)
+      window.location.reload();
+    })
+    .catch(e=>alert(e))
   };
 
   const handleSort = (newSortingOrder) => {
@@ -129,17 +163,21 @@ function Private() {
   return (
     <div className="public">
       <Header toggleFAQVisibility={toggleFAQVisibility} />
+      <button onClick={()=>getuserID().then(e=>console.log(e)).catch(e=>console.log(e))}>click</button>
 
+      {/* Search bar */}
       <div className="main-content">
         {!faqVisible && (
           <div className="content">
             <div className="search-bar-container">
               <div className="search-bar">
+
                 <SearchBar
                   posts={posts}
                   onSearch={handleSearch}
                   onSort={handleSort}
                 />
+
               </div>
             </div>
             <br />
@@ -149,6 +187,7 @@ function Private() {
               <div className="left-component">
                 {!selectedPost ? (
                   <>
+                  {/* Post List */}
                     <AskQ onAddPost={handleAddPost} />
                     <PostList
                       posts={sortedPosts}
@@ -157,6 +196,8 @@ function Private() {
                     <PostForm onAddPost={handleAddPost} />
                   </>
                 ) : (
+
+                  /* Post Details */      
                   <PostDetail
                     post={selectedPost} // Pass the selected post
                     onDeletePost={handleDeletePost}
@@ -165,6 +206,8 @@ function Private() {
                   />
                 )}
               </div>
+
+              {/* FAQS */}
               <div className="right-component">
                 <div
                   className={`dispFAQ-container ${
@@ -179,22 +222,14 @@ function Private() {
           </div>
         )}
       </div>
+
+      {/* fOOTER */}
       {faqVisible && <FAQ toggleFAQVisibility={toggleFAQVisibility} />}
       <footer className="footer">
         <br />
+        <br />
         <div className="footer-center">WELLNESS PRO INC.</div>
         <br />
-        <ul className="footer-links">
-          <li className="footer-link">
-            <a href="#">Content Policy</a>
-          </li>
-          <li className="footer-link">
-            <a href="#">Privacy Policy</a>
-          </li>
-          <li className="footer-link">
-            <a href="#">User Agreement</a>
-          </li>
-        </ul>
         <br />
       </footer>
     </div>

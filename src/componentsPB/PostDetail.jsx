@@ -35,7 +35,7 @@ const PostDetail = ({ post, onGoBack }) => {
       </div>
 
       {/* Author, Date, Time */}
-      <p>{post ? `${post.Author} - ${post.date[0]} - ${post.date[1]}` : "Author Not Found"}</p>
+      <p>By <strong>{post?.Author}</strong> - {post.date && post.date[0]}, {post.date && post.date[1]}</p>
       <br/>
       
       {/* Posted Content */}

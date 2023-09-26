@@ -1,41 +1,51 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDoubleDown } from "@fortawesome/free-solid-svg-icons";
-import samplePosts from "../data/samplePosts"; // Import the data
 
-const PostList = ({ onSelectPost }) => {
+
+const PostList = ({ onSelectPost, posts }) => {
   // Access the samplePosts data directly
-  const posts = Object.values(samplePosts)
-    .flatMap((author) => author.Posts)
-    .sort((a, b) => {
-      const dateA = new Date(a.date).getTime();
-      const dateB = new Date(b.date).getTime();
-      return dateB - dateA; // Sort by date in descending order (newest to oldest)
-    });
+  // const posts = Object.values(samplePosts)
+  //   .flatMap((author) => author.Posts)
+  //   .sort((a, b) => {
+  //     const dateA = new Date(a.date).getTime();
+  //     const dateB = new Date(b.date).getTime();
+  //     return dateB - dateA; // Sort by date in descending order (newest to oldest)
+  //   });
 
   return (
     <div className="post-list">
-      {posts.map((post) => (
-        <div key={post.id} className="post">
-          {post && post.tags && post.tags.length > 0 && (
-            <div className="tags">
-              <h3>Tags:</h3>{" "}
-              {post.tags.map((tag, index) => (
-                <span key={index} className="tag">
-                  {tag}
-                </span>
-              ))}
-            </div>
-          )}
+      {posts && posts.map((postedData,outerKey) => (
 
-          <h2>{post.title}</h2>
+        <div key={outerKey} className="post">
+
+          {/* Tags */}
+          <div className="tags">
+            <h3>Tags:</h3>{" "}
+
+            {String(postedData?.tags)?.split(",").map((tag, index) => (
+              <span key={index} className="tag">
+                {tag}
+              </span>
+            ))}
+          </div>
+          
+          {/* Title */}
+          <h2>{postedData.Title}</h2>
+
+          {/* Author,date and time */}
           <p>
-            By {post.Author} - {post.date} , {post.time}
+          By <strong>{postedData?.Author}</strong> - {postedData.date && postedData.date[0]}, {postedData.date && postedData.date[1]}
           </p>
-          <p>{post.content}</p>
-          <div className="comment-count" onClick={() => onSelectPost(post)}>
+
+          {/* Content */}
+          <p>{postedData.Content}</p>
+
+          {/* add more */}
+          <div className="comment-count" onClick={() => onSelectPost(postedData)}>
             <FontAwesomeIcon icon={faAngleDoubleDown} /> Read More
           </div>
+
         </div>
       ))}
     </div>
