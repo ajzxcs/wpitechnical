@@ -1,158 +1,183 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import "../App.css";
+
+// Components
 import Header from "../componentsPB/Header";
 import PostList from "../componentsPB/PostList";
 import PostDetail from "../componentsPB/PostDetail";
 import SearchBar from "../componentsPB/SearchBar";
 import AskQ from "../componentsPB/AskQ";
-import PostForm from "../componentsPB/PostForm";
 import FAQ from "../componentsPB/FAQ"; // Import the FAQ component
 import FAQland from "../componentsPB/FAQland";
-import samplePosts from "../data/samplePosts";
-import "../App.css";
+
+// Database
 import { viewList } from "../Features/firebase/Database"
 
 function Public() {
-  const [posts, setPosts] = useState([]);
-  const [selectedPost, setSelectedPost] = useState(null); // Add this state variable
-  const [commentCounts, setCommentCounts] = useState({});
-  const [sortingOrder, setSortingOrder] = useState("newest");
+
   const [faqVisible, setFaqVisible] = useState(false); // Add FAQ visibility state
 
-  let sortedPosts = [...posts];
+  // posted data
+  const [postData, setPostData] = React.useState([])
+  const [backupData, setBackupData] = React.useState([])
+  const [selectedPost, setSelectedPost] = useState(null); 
 
-  useEffect(() => {
-
+  React.useEffect(() => {
     let mounted = true;
 
-    const data = async () =>{
-      const datas = await viewList()
+    const fetchData = async () => {
+      try {
+        // data to be fetch
+        const Data = await viewList(); // Assuming viewList is an async function that fetches data
 
-      const initialPosts = Object.values(datas)
-            .flatMap((author) =>
-      Object.values(author.Posts).map((post) => ({
-          ...post,
-          Author: author.Author, // Add the Author field to each post
-        }))
-      )
-      setPosts(initialPosts);
-      console.log("may data: ", initialPosts)
+        // sorted out the data
+        const posts = Data.flatMap((author) =>
+
+            // rewrite the data with author
+            Object.values(author.Posts).map((post) => ({
+                ...post,
+                Author: author.Author, // Add the Author field to each post
+            }))
+          )
+          .sort((a, b) => {
+
+            // Sort by date in descending order (newest to oldest)
+            const dateA = new Date(a.date).getTime();
+            const dateB = new Date(b.date).getTime();
+            return dateB - dateA; 
+          });
+
+          // set the sorted data to PostData
+          setPostData(posts);
+          setBackupData(posts)
+      } catch (error) {
+        console.error("Error fetching data: ", error);
+      }
+    };
+
+    // Clean Up function
+    if (mounted) {
+      fetchData();
     }
-    // Use the samplePosts data to initialize your posts state
-    const initialPosts = Object.values(samplePosts).flatMap((authorData) =>
-      authorData.Posts.map((post) => ({ ...post, Author: authorData.Author }))
-    );
-    // console.log("sample data: ", initialPosts)
-    // setPosts(initialPosts);
 
-    if (mounted){
-      data()
-    }
-
-    return ()=>mounted=false
+    return () => (mounted = false);
   }, []);
 
-  useEffect(() => {
-    // Apply sorting when the sortingOrder changes
-    let sortedPosts = [...posts];
 
-    if (sortingOrder === "newest") {
-      sortedPosts = sortedPosts.sort((a, b) => {
-        const dateA = new Date(a.date).getTime();
-        const dateB = new Date(b.date).getTime();
-        return dateB - dateA;
-      });
-    } else if (sortingOrder === "oldest") {
-      sortedPosts = sortedPosts.sort((a, b) => {
-        const dateA = new Date(a.date).getTime();
-        const dateB = new Date(b.date).getTime();
-        return dateA - dateB;
-      });
-    }
+  // ************ For Post List and Show Details
 
-    setPosts(sortedPosts);
-  }, [sortingOrder, posts]);
-
+  // Set the selected post when a post is clicked
   const handleSelectPost = (post) => {
-    // Set the selected post when a post is clicked
     setSelectedPost(post);
   };
 
+  // Back button function
   const handleGoBack = () => {
     // Clear the selected post when going back
     setSelectedPost(null);
   };
 
-  const handleAddComment = (postId, comment) => {
-    const updatedPosts = posts.map((post) => {
-      if (post.id === postId) {
-        const updatedComments = [...post.comments, comment];
-        return {
-          ...post,
-          commentCount: updatedComments.length,
-          comments: updatedComments
-        };
-      }
-      return post;
-    });
+  //   // Apply sorting when the sortingOrder changes
+  //   let sortedPosts = [...posts];
 
-    localStorage.setItem("posts", JSON.stringify(updatedPosts));
-    setPosts(updatedPosts);
+  //   if (sortingOrder === "newest") {
+  //     sortedPosts = sortedPosts.sort((a, b) => {
+  //       const dateA = new Date(a.date).getTime();
+  //       const dateB = new Date(b.date).getTime();
+  //       return dateB - dateA;
+  //     });
+  //   } else if (sortingOrder === "oldest") {
+  //     sortedPosts = sortedPosts.sort((a, b) => {
+  //       const dateA = new Date(a.date).getTime();
+  //       const dateB = new Date(b.date).getTime();
+  //       return dateA - dateB;
+  //     });
+  //   }
 
-    const updatedCommentCounts = updatedPosts.reduce((acc, post) => {
-      acc[post.id] = post.commentCount;
-      return acc;
-    }, {});
+  //   setPosts(sortedPosts);
+  // }, [sortingOrder, posts]);
 
-    localStorage.setItem("commentCounts", JSON.stringify(updatedCommentCounts));
-    setCommentCounts(updatedCommentCounts);
-  };
 
-  const handleSearch = (searchQuery) => {
-    const filteredPosts = posts?.filter(
-      (post) =>
-        post.Title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        post.Content.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-    setPosts(filteredPosts);
-  };
+  // const handleAddComment = (postId, comment) => {
+  //   const updatedPosts = posts.map((post) => {
+  //     if (post.id === postId) {
+  //       const updatedComments = [...post.comments, comment];
+  //       return {
+  //         ...post,
+  //         commentCount: updatedComments.length,
+  //         comments: updatedComments
+  //       };
+  //     }
+  //     return post;
+  //   });
 
-  const handleDeletePost = (postId) => {
-    const updatedPosts = posts.filter((post) => post.id !== postId);
-    localStorage.setItem("posts", JSON.stringify(updatedPosts));
-    setPosts(updatedPosts);
-    setSelectedPost(null);
-  };
+  //   localStorage.setItem("posts", JSON.stringify(updatedPosts));
+  //   setPosts(updatedPosts);
 
-  const handleAddPost = (newPost) => {
-    const updatedPosts = [
-      ...posts,
-      { ...newPost, commentCount: 0, comments: [] }
-    ];
+  //   const updatedCommentCounts = updatedPosts.reduce((acc, post) => {
+  //     acc[post.id] = post.commentCount;
+  //     return acc;
+  //   }, {});
 
-    localStorage.setItem("posts", JSON.stringify(updatedPosts));
-    setPosts(updatedPosts);
+  //   localStorage.setItem("commentCounts", JSON.stringify(updatedCommentCounts));
+  //   setCommentCounts(updatedCommentCounts);
+  // };
 
-    const updatedCommentCounts = {
-      ...commentCounts,
-      [newPost.id]: 0
-    };
+  // const handleDeletePost = (postId) => {
+  //   const updatedPosts = posts.filter((post) => post.id !== postId);
+  //   localStorage.setItem("posts", JSON.stringify(updatedPosts));
+  //   setPosts(updatedPosts);
+  //   setSelectedPost(null);
+  // };
 
-    localStorage.setItem("commentCounts", JSON.stringify(updatedCommentCounts));
-    setCommentCounts(updatedCommentCounts);
-  };
+  // const handleAddPost = (newPost) => {
+  //   const updatedPosts = [
+  //     ...posts,
+  //     { ...newPost, commentCount: 0, comments: [] }
+  //   ];
 
-  const handleSort = (newSortingOrder) => {
-    setSortingOrder(newSortingOrder);
-  };
+  //   localStorage.setItem("posts", JSON.stringify(updatedPosts));
+  //   setPosts(updatedPosts);
+
+  //   const updatedCommentCounts = {
+  //     ...commentCounts,
+  //     [newPost.id]: 0
+  //   };
+
+  //   localStorage.setItem("commentCounts", JSON.stringify(updatedCommentCounts));
+  //   setCommentCounts(updatedCommentCounts);
+  // };
 
   const toggleFAQVisibility = () => {
     setFaqVisible(!faqVisible);
   };
 
+
+  // onSearch
+  const handleSearch = (searchQuery) => {
+
+
+    const filteredPosts = postData?.filter(
+      (post) => {
+        return (
+          String(post.Title)?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          String(post.Content)?.toLowerCase().includes(searchQuery.toLowerCase())
+        )
+    }
+    )
+    
+    searchQuery ?
+    setPostData(filteredPosts) : setPostData(backupData) 
+  };
+
+
   return (
     <div className="public">
+
       <Header toggleFAQVisibility={toggleFAQVisibility} />
 
+
+      {/* <button onClick={()=>console.log(postData)}>click</button> */}
       <div className="main-content">
 
       {/* Search Bar */}
@@ -161,12 +186,11 @@ function Public() {
             <div className="search-bar-container">
               <div className="search-bar">
 
-
+   
                 <SearchBar
-                  posts={posts}
+                  posts={postData}
                   onSearch={handleSearch}
-                  onSort={handleSort}
-                  samplePosts={posts}
+         
                 />
 
 
@@ -180,22 +204,26 @@ function Public() {
               <div className="left-component">
                 {!selectedPost ? (
                   <>
-                    <AskQ onAddPost={handleAddPost} />
+
+                    {/* This components to show the List of posted question */}
+                    <AskQ />
                     <PostList
-                      posts={sortedPosts}
-                      onSelectPost={handleSelectPost}
+                    posts={postData}
+                    onSelectPost={handleSelectPost}
                     />
-                    <PostForm onAddPost={handleAddPost} />
+
                   </>
                 ) : (
+
+                  // this components show the details of each post
                   <PostDetail
                     post={selectedPost} // Pass the selected post
-                    onDeletePost={handleDeletePost}
-                    onAddComment={handleAddComment}
                     onGoBack={handleGoBack}
                   />
                 )}
               </div>
+
+              {/* FAQS */}
               <div className="right-component">
                 <div
                   className={`dispFAQ-container ${
@@ -206,28 +234,19 @@ function Public() {
                   <FAQland toggleFAQVisibility={toggleFAQVisibility} />
                 </div>
               </div>
+
             </div>
           </div>
         )}
       </div>
 
-      {/* FAQs */}
+      {/* Footer */}
       {faqVisible && <FAQ toggleFAQVisibility={toggleFAQVisibility} />}
       <footer className="footer">
         <br />
+        <br />
         <div className="footer-center">WELLNESS PRO INC.</div>
         <br />
-        <ul className="footer-links">
-          <li className="footer-link">
-            <a href="#">Content Policy</a>
-          </li>
-          <li className="footer-link">
-            <a href="#">Privacy Policy</a>
-          </li>
-          <li className="footer-link">
-            <a href="#">User Agreement</a>
-          </li>
-        </ul>
         <br />
       </footer>
     </div>
