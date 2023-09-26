@@ -11,7 +11,7 @@ import FAQland from "../componentsPV/FAQlandpv";
 import "../App.css";
 
 // Database
-import { viewList, createPost,getuserID } from "../Features/firebase/Database"
+import { viewList, createPost } from "../Features/firebase/Database"
 
 function Private() {
   const [posts, setPosts] = useState([]);
@@ -29,6 +29,7 @@ function Private() {
 
     const fetchData = async () => {
       try {
+        
         // data to be fetch
         const Data = await viewList(); // Assuming viewList is an async function that fetches data
 
@@ -98,30 +99,6 @@ function Private() {
     setSelectedPost(null);
   };
 
-  const handleAddComment = (postId, comment) => {
-    // const updatedPosts = posts.map((post) => {
-    //   if (post.id === postId) {
-    //     const updatedComments = [...post.comments, comment];
-    //     return {
-    //       ...post,
-    //       commentCount: updatedComments.length,
-    //       comments: updatedComments
-    //     };
-    //   }
-    //   return post;
-    // });
-
-    // localStorage.setItem("posts", JSON.stringify(updatedPosts));
-    // setPosts(updatedPosts);
-
-    // const updatedCommentCounts = updatedPosts.reduce((acc, post) => {
-    //   acc[post.id] = post.commentCount;
-    //   return acc;
-    // }, {});
-
-    // localStorage.setItem("commentCounts", JSON.stringify(updatedCommentCounts));
-    // setCommentCounts(updatedCommentCounts);
-  };
 
   const handleSearch = (searchQuery) => {
     const filteredPosts = posts.filter(
@@ -129,9 +106,9 @@ function Private() {
         String(post.Title)?.toLowerCase().includes(searchQuery.toLowerCase()) ||
         String(post.Content)?.toLowerCase().includes(searchQuery.toLowerCase())
     );
-
+    
     searchQuery ?
-    setPostData(filteredPosts) : setPostData(postData) 
+    setPosts(filteredPosts) : setPosts(postData) 
   };
 
   const handleDeletePost = (postId) => {
@@ -142,7 +119,6 @@ function Private() {
   };
 
   const handleAddPost = (newPost) => {
-    console.log()
 
     createPost(newPost.title, newPost.content, newPost.newTags)
     .then(e=>{
@@ -163,7 +139,6 @@ function Private() {
   return (
     <div className="public">
       <Header toggleFAQVisibility={toggleFAQVisibility} />
-      <button onClick={()=>getuserID().then(e=>console.log(e)).catch(e=>console.log(e))}>click</button>
 
       {/* Search bar */}
       <div className="main-content">
@@ -201,7 +176,6 @@ function Private() {
                   <PostDetail
                     post={selectedPost} // Pass the selected post
                     onDeletePost={handleDeletePost}
-                    onAddComment={handleAddComment}
                     onGoBack={handleGoBack}
                   />
                 )}

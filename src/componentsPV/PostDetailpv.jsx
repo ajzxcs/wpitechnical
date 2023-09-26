@@ -6,7 +6,7 @@ import "../assets/PostDetail.css";
 import "../assets/public.css";
 
 // database
-import { deletePost,addComment,getuserID } from '../Features/firebase/Database'
+import { deletePost,addComment } from '../Features/firebase/Database'
 
 
 const Comment = ({ comment }) => (
@@ -83,9 +83,6 @@ const PostDetail = ({ post, onGoBack }) => {
 
       {/* Comment Section */}
       <div className="comment-section">
-
-      <button onClick={()=>getuserID(post.Author)}>test</button>
-
 
         {/* List of Comments */}
         <h3>Comments:</h3>

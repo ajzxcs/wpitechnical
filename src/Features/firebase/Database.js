@@ -145,7 +145,7 @@ export const viewList = async () => {
 };
 
 // get user email
-export const getuserID = (email) => {
+const getuserID = (email) => {
   return new Promise(async (resolve, reject) => {
     try {
       // Create a reference to the location where you want to search for the user's email
