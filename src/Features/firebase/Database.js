@@ -1,4 +1,4 @@
-import { get, onValue, push, ref, update } from 'firebase/database';
+import { get, onValue, push, ref, remove, update } from 'firebase/database';
 import { databases } from './Configuration'
 import { userCredentials } from '../Authentication/Authentication'
 import base64 from 'base-64';
@@ -19,6 +19,48 @@ import base64 from 'base-64';
 
 // View the list of Posted question in propered array format
 
+// delete data
+export const deletePost = (ID) =>{
+  return new Promise(async (resolve, reject) => {
+    try{
+        // Get the user's unique ID
+      const user = await userCredentials();
+  
+      const dbRef = ref(databases, `POSTS/${user.uniqueID}/Posts/${ID}`);
+
+          // Attempt to delete data
+        try {
+
+          onValue(dbRef,async (snapshot) => {
+
+            if(snapshot.val()){
+              
+              await remove(dbRef);
+              alert("Data has been deleted")
+              window.location.reload()
+              resolve("Data has been deleted")
+            }
+            else{
+              alert("this is not your post you cant delete this")
+              reject("this is not your post you cant delete this")
+            }
+          });
+
+          // resolve("Data has been deleted");
+        } catch (error) {
+          console.log("Delete old data error: " + error.message);
+          reject("Delete old data error: " + error.message)
+        }
+
+
+
+
+    }catch(erroir){
+      console.log(erroir)
+      reject(erroir)
+    }
+  })
+}
 
 // get the number of post
 export const returnPost = async () =>{
@@ -95,54 +137,82 @@ export const viewList = async () => {
 
     // the fetch data should convert into array function
     const data = snapshot.val();
-
+    console.log(data)
     return Object.values(data);
   } catch (error) {
     throw error;
   }
 };
 
-// add comments
-export const addComments = async (postID,author,text) => {
+// get user email
+export const getuserID = (email) => {
   return new Promise(async (resolve, reject) => {
     try {
-      // Get the user's unique ID
-      const user = await userCredentials();
+      // Create a reference to the location where you want to search for the user's email
+      const postsRef = ref(databases, `POSTS/`);
 
-      const userCommentsRef = ref(databases, `POSTS/${user.uniqueID}/Posts/${postID}/Comments`);
+      const snapshot = await get(postsRef);
 
-        // for date and time
-        const date = new Date().toLocaleDateString();
-        const time = new Date().toLocaleTimeString();
-  
-        // Create a new post
-        const newComment = {
-          Author: author,
-          Text: text,
-          date: [date, time]
-        };
-  
-        // Push the new comment to the user's "Posts" node and get the unique key
-        const newCommentRef = push(userCommentsRef);      
+      // The fetched data should be converted into an array or object
+      const data = snapshot.val();
 
-        // Prepare updates for the user's "Posts" node
-        const updates = {
-          [`${newCommentRef.key}`]: newComment
-        };
+      if (data) {
+        // Iterate through the data to find a matching email
+        const userId = Object.keys(data).find((key) => data[key].Author === email);
 
-        // Update the user's "Posts" node with the new post data
-        await update(userCommentsRef, updates);
-
-        resolve("comment created successfully"); // Resolve the promise with a success message
-
+        if (userId) {
+          resolve(userId); // Resolve with the user's unique ID
+        } else {
+          reject("Email not found");
+        }
+      } else {
+        reject("Data not found");
+      }
     } catch (error) {
-      console.error("Error creating cooment:", error);
+      console.error("Error fetching user ID:", error);
       reject(error); // Reject the promise with an error
     }
- 
-    })
-   
+  });
+};
+
+// add comments
+export const addComment = async (postID, author, text) => {
+  return new Promise(async (resolve, reject) => {
+
+    try {
+      // Get the user's unique ID
+      const user = await getuserID(author);
+
+      // Create a reference to the existing location where you want to add comments
+      const postCommentsRef = ref(databases, `POSTS/${user}/Posts/${postID}/Comments`);
+
+      // for date and time
+      const date = new Date().toLocaleDateString();
+      const time = new Date().toLocaleTimeString();
+
+      // Create a new comment
+      const newComment = {
+        Author: author,
+        Text: text,
+        date: [date, time]
+      };
+
+      // // Push the new comment to a unique key under "Comments"
+      const newCommentRef = push(postCommentsRef);
+
+      // Set the new comment data at the generated key
+      await update(newCommentRef, newComment);
+
+      resolve("Comment created successfully"); // Resolve the promise with a success message
+
+    } catch (error) {
+      console.error("Error creating comment:", error);
+      reject(error); // Reject the promise with an error
+    }
+  });
 }
+
+
 
 
 // workflow for signup user

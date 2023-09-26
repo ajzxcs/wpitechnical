@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import PostForm from "./PostForm";
-import ask from "../../assets/Thinking face.gif";
-
+import ask from "../assets/Thinking face.gif";
+import "../assets/public.css";
+import Modal from "react-modal";
 
 const AskQ = ({ onAddPost }) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -28,21 +29,17 @@ const AskQ = ({ onAddPost }) => {
       <button className="ask-button" onClick={handleAskClick}>
         <h3>Ask a Question</h3>
       </button>
-      
-      <PostForm
-  isOpen={modalIsOpen}
-  onRequestClose={closeModal}
-  onAddPost={(newPost) => {
-    onAddPost(newPost); // Assuming you have an onAddPost function in the parent component
-    closeModal();
-  }}
-/>
 
-        
+      <PostForm
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        onAddPost={(newPost) => {
+          onAddPost(newPost); // Assuming you have an onAddPost function in the parent component
+          closeModal();
+        }}
+      />
     </div>
   );
 };
 
 export default AskQ;
-
-

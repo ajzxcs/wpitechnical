@@ -5,50 +5,62 @@ import {
   faTrash,
   faThumbsUp,
   faThumbsDown,
-  faArrowLeft
+  faArrowLeft,
+  faCommentAlt
 } from "@fortawesome/free-solid-svg-icons";
-import "../../assets/PostDetail.css";
+import "../assets/PostDetail.css";
+import "../assets/public.css";
 
-const PostDetail = ({ post, onDeletePost, onAddComment, onGoBack }) => {
+const Comment = ({ comment, onLikeDislike }) => (
+  <div className="comment">
+    <div className="comment-header">
+      <p className="comment-author">{comment.author}</p>
+      <p className="comment-date">{comment["date and time"]}</p>
+    </div>
+    <p className="comment-text">{comment.text}</p>
+    <div className="comment-buttons">
+      <button
+        className="like"
+        onClick={() => onLikeDislike(comment.id, "like")}
+      >
+        <FontAwesomeIcon icon={faThumbsUp} /> Like ({comment.likes})
+      </button>
+      <button
+        className="dislike"
+        onClick={() => onLikeDislike(comment.id, "dislike")}
+      >
+        <FontAwesomeIcon icon={faThumbsDown} /> Dislike ({comment.dislikes})
+      </button>
+    </div>
+  </div>
+);
+
+const PostDetail = ({ post, onDeletePost, onGoBack }) => {
   const [rating, setRating] = useState(0);
   const [totalRatings, setTotalRatings] = useState(0);
-  const [commentText, setCommentText] = useState("");
-  const [comments, setComments] = useState(post.comments); // Use post.comments
-  const [commentCount, setCommentCount] = useState(post.commentCount); // Use post.commentCount
 
   useEffect(() => {
-    const storedRating =
-      parseFloat(localStorage.getItem(`post-${post.id}-rating`)) || 0;
-    setRating(storedRating);
-    setTotalRatings(post.commentCount);
-  }, [post.id, post.commentCount]);
+    if (post) {
+      const storedRating =
+        parseFloat(localStorage.getItem(`post-${post.id}-rating`)) || 0;
+      setRating(storedRating);
+      setTotalRatings(post.comments ? post.comments.length : 0);
+    }
+  }, [post]);
 
   useEffect(() => {
-    localStorage.setItem(`post-${post.id}-rating`, rating.toString()); // Save the rating to local storage
-  }, [rating, post.id]);
+    if (post) {
+      localStorage.setItem(`post-${post.id}-rating`, rating.toString());
+    }
+  }, [rating, post]);
 
   const handleRatingChange = (newRating) => {
     setRating(newRating);
     setTotalRatings(totalRatings + 1);
   };
 
-  const handleAddComment = () => {
-    if (commentText.trim() !== "") {
-      const newComment = {
-        id: comments.length + 1,
-        text: commentText,
-        likes: 0,
-        dislikes: 0
-      };
-
-      setComments([...comments, newComment]);
-      setCommentText("");
-      setCommentCount(commentCount + 1);
-    }
-  };
-
   const handleLikeDislike = (commentId, action) => {
-    const updatedComments = comments.map((comment) => {
+    const updatedComments = post.comments.map((comment) => {
       if (comment.id === commentId) {
         if (action === "like") {
           return { ...comment, likes: comment.likes + 1 };
@@ -59,7 +71,18 @@ const PostDetail = ({ post, onDeletePost, onAddComment, onGoBack }) => {
       return comment;
     });
 
-    setComments(updatedComments);
+    // Update the post object with the modified comments
+    const updatedPost = { ...post, comments: updatedComments };
+
+    // You may want to update the state or send this updatedPost to your backend API.
+    // For now, let's just log it.
+    console.log("Updated Post with Likes/Dislikes:", updatedPost);
+  };
+  const handleDeletePost = () => {
+    // Call the onDeletePost function passed as a prop to delete the post
+    if (post) {
+      onDeletePost(post.id);
+    }
   };
 
   return (
@@ -70,50 +93,36 @@ const PostDetail = ({ post, onDeletePost, onAddComment, onGoBack }) => {
         </button>
       </div>
       <div className="title-and-delete">
-        <h2>{post.title}</h2>
+        <h2>{post ? post.title : "Post Not Found"}</h2>
 
-        <button onClick={() => onDeletePost(post.id)}>
+        <button onClick={handleDeletePost}>
           <FontAwesomeIcon icon={faTrash} />
         </button>
       </div>
 
-      <p>
-        {post.author} - {post.date}
-      </p>
-      <div className="star-rating">
-        <StarRatings
-          rating={rating}
-          starRatedColor="gold"
-          starDimension="20px"
-          starHoverColor="gold"
-          changeRating={handleRatingChange}
-          numberOfStars={5}
-        />
-        <p>{rating} / 5</p>
+      <p>{post ? `${post.Author} - ${post.date}` : "Author Not Found"}</p>
+<br/>
+      
+      <p>{post ? post.content : "Post Content Not Found"}</p>
+
+      <div className="comment-section">
+        <h3>Comments:</h3>
+        {post && post.comments ? (
+          <div className="comment-list">
+            {post.comments.map((comment) => (
+              <Comment
+                key={comment.id}
+                comment={comment}
+                onLikeDislike={handleLikeDislike}
+              />
+            ))}
+          </div>
+        ) : (
+          <p>No comments available.</p>
+        )}
       </div>
-      <p>{post.content}</p>
 
       <br />
-
-      <div className="comments-section">
-        <h3>Comments</h3>
-
-        <div className="comment-container">
-          {comments.map((comment) => (
-            <div key={comment.id} className="comment">
-              <p>{comment.text}</p>
-              <div className="comment-buttons">
-                <button className="like">
-                  <FontAwesomeIcon icon={faThumbsUp} /> {comment.likes}
-                </button>
-                <button className="dislike">
-                  <FontAwesomeIcon icon={faThumbsDown} /> {comment.dislikes}
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
     </div>
   );
 };
