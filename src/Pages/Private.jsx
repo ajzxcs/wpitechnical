@@ -1,183 +1,239 @@
-
 import React, { useState, useEffect } from "react";
-import Header from '../components/componentsPV/Headerpv';
-
-
-import { LogoutSession,userCredentials } from '../Features/Authentication/Authentication'
-import { viewList,createPost,addComments } from '../Features/firebase/Database'
+import Header from "../componentsPV/Headerpv";
+import PostList from "../componentsPV/PostListpv";
+import PostDetail from "../componentsPV/PostDetailpv";
+import SearchBar from "../componentsPV/SearchBarpv";
+import AskQ from "../componentsPV/AskQpv";
+import PostForm from "../componentsPV/PostFormpv";
+import FAQ from "../componentsPV/FAQpv"; // Import the FAQ component
+import FAQland from "../componentsPV/FAQlandpv";
 
 import "../App.css";
 
+// Database
+import { viewList, createPost,getuserID } from "../Features/firebase/Database"
 
+function Private() {
+  const [posts, setPosts] = useState([]);
+  // backup data
+  const [postData, setPostData] = React.useState([])
 
-function Public() {
+  const [selectedPost, setSelectedPost] = useState(null); // Add this state variable
+  const [sortingOrder, setSortingOrder] = useState("newest");
+  const [faqVisible, setFaqVisible] = useState(false); // Add FAQ visibility state
 
-  // data from firebase
-  const [showDats,setShowDats] = useState([])
+  let sortedPosts = [...posts];
 
   useEffect(() => {
+    let mounted = true;
 
-    let isMounted = true; // Flag to track whether the component is mounted
-
-
-    // update the data from firebase
     const fetchData = async () => {
       try {
-        const postsData = await viewList();
+        // data to be fetch
+        const Data = await viewList(); // Assuming viewList is an async function that fetches data
 
-        setShowDats(postsData);
+        // sorted out the data
+        const posts = Data.flatMap((author) =>
+
+            // rewrite the data with author
+            Object.values(author.Posts).map((post) => ({
+                ...post,
+                Author: author.Author, // Add the Author field to each post
+            }))
+          )
+          .sort((a, b) => {
+
+            // Sort by date in descending order (newest to oldest)
+            const dateA = new Date(a.date).getTime();
+            const dateB = new Date(b.date).getTime();
+            return dateB - dateA; 
+          });
+
+          // set the sorted data to PostData
+          setPostData(posts);
+          setPosts(posts)
       } catch (error) {
-        // Handle the error
-        console.log(error)
+        console.error("Error fetching data: ", error);
       }
-    }
+    };
 
-    // Check if the component is still mounted before updating the state
-    if (isMounted) {
+    // Clean Up function
+    if (mounted) {
       fetchData();
     }
 
+    return () => (mounted = false);
+  }, []);
 
-    return () => {
-      isMounted = false; // Set the flag to false when the component unmounts
-    };
-  });
+  useEffect(() => {
+    // Apply sorting when the sortingOrder changes
+    let sortedPosts = posts;
 
+    if (sortingOrder === "newest") {
+      sortedPosts = sortedPosts.sort((a, b) => {
+        const dateA = new Date(a.date).getTime();
+        const dateB = new Date(b.date).getTime();
+        return dateB - dateA;
+      });
+    } else if (sortingOrder === "oldest") {
+      sortedPosts = sortedPosts.sort((a, b) => {
+        const dateA = new Date(a.date).getTime();
+        const dateB = new Date(b.date).getTime();
+        return dateA - dateB;
+      });
+    }
 
+    console.log(sortedPosts)
+
+    setPosts(sortedPosts);
+  }, [sortingOrder, posts]);
+
+  const handleSelectPost = (post) => {
+    // Set the selected post when a post is clicked
+    setSelectedPost(post);
+  };
+
+  const handleGoBack = () => {
+    // Clear the selected post when going back
+    setSelectedPost(null);
+  };
+
+  const handleAddComment = (postId, comment) => {
+    // const updatedPosts = posts.map((post) => {
+    //   if (post.id === postId) {
+    //     const updatedComments = [...post.comments, comment];
+    //     return {
+    //       ...post,
+    //       commentCount: updatedComments.length,
+    //       comments: updatedComments
+    //     };
+    //   }
+    //   return post;
+    // });
+
+    // localStorage.setItem("posts", JSON.stringify(updatedPosts));
+    // setPosts(updatedPosts);
+
+    // const updatedCommentCounts = updatedPosts.reduce((acc, post) => {
+    //   acc[post.id] = post.commentCount;
+    //   return acc;
+    // }, {});
+
+    // localStorage.setItem("commentCounts", JSON.stringify(updatedCommentCounts));
+    // setCommentCounts(updatedCommentCounts);
+  };
+
+  const handleSearch = (searchQuery) => {
+    const filteredPosts = posts.filter(
+      (post) =>
+        String(post.Title)?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        String(post.Content)?.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
+    searchQuery ?
+    setPostData(filteredPosts) : setPostData(postData) 
+  };
+
+  const handleDeletePost = (postId) => {
+    const updatedPosts = posts.filter((post) => post.id !== postId);
+    localStorage.setItem("posts", JSON.stringify(updatedPosts));
+    setPosts(updatedPosts);
+    setSelectedPost(null);
+  };
+
+  const handleAddPost = (newPost) => {
+    console.log()
+
+    createPost(newPost.title, newPost.content, newPost.newTags)
+    .then(e=>{
+      alert(e)
+      window.location.reload();
+    })
+    .catch(e=>alert(e))
+  };
+
+  const handleSort = (newSortingOrder) => {
+    setSortingOrder(newSortingOrder);
+  };
+
+  const toggleFAQVisibility = () => {
+    setFaqVisible(!faqVisible);
+  };
 
   return (
+    <div className="public">
+      <Header toggleFAQVisibility={toggleFAQVisibility} />
+      <button onClick={()=>getuserID().then(e=>console.log(e)).catch(e=>console.log(e))}>click</button>
 
-    <div className="public"style={{ display: 'flex', flexDirection: 'column', marginTop: "20px", justifyContent: 'center', alignItems: 'center' }} >
-      <Header />
-      <ImageBanner />
+      {/* Search bar */}
+      <div className="main-content">
+        {!faqVisible && (
+          <div className="content">
+            <div className="search-bar-container">
+              <div className="search-bar">
 
-    
-        <h1>PRIVATE FORUM</h1> 
+                <SearchBar
+                  posts={posts}
+                  onSearch={handleSearch}
+                  onSort={handleSort}
+                />
 
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-
-
-        <div style={{ padding: '5px' }}> 
-        <button onClick={(event)=>
-        {
-          event.preventDefault();
-          LogoutSession();
-        }
-        }>LOG OUT</button>
-        </div>
-
-<div style={{ padding: '5px' }}> 
-      <button onClick={(event)=>
-      {
-        event.preventDefault();
-        userCredentials()
-        .then(e=>alert("User uniqueID: " + String(e.uniqueID) ))
-        .catch(e=>console.log(e))           
-        // console.log(userCredentials())                                                                            
-      }
-      }>Click me</button>
-      </div>
-
-{/* add post button */}
-      <div style={{ padding: '5px' }}> 
-        <button onClick={
-        event=>{
-          event.preventDefault();
-          // parameters data: Title, Content, Tags
-          createPost("no changes", "this is my second post", "A,B,C")
-            .then(e=>alert(e))
-            .catch(e=>alert(e))}
-        }>
-        add post
-        </button>
-      </div>
-    </div>
-
-
-   {/* Iterate of user posts */}
-      {showDats?.map((item, index) => (
-        <div key={index} style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}} >
-         
-          {/* Iterate through the each Posts of user */}
-          {item.Posts && Object.values(item.Posts)?.map((post, postIndex) => (
-
-            <div key={postIndex}>
-
-              <h3>Title: {post.Title}</h3>
-
-              <p>Author: {item.Author}</p>
-              <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>   
-
-                {/* {Object.values(post.date).map((key,index)=>(
-                  
-                  <div key={index} style={{padding: "5px"}}> 
-                    <p>Date: {key} </p>
-                  </div>
-                ))} */}
-      
-              <div style={{padding: "5px"}}> 
-                {/* <p>Time: {post.date[1]}</p>  */}
-
-                </div>
               </div>
-
-              <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}> 
-                <p><strong>TAGS: </strong></p>
-                <p>{post.tags}</p>
-              </div>
-
-              <p><strong>Content:</strong> {post.Content}</p>
-
-              <p>Likes: {post.likes}</p>
-              <p>Dislikes: {post.dislikes}</p>
-
-              {/* Render other properties as needed */}
-              <h4>Comments:</h4>
-
-           
-              <button key={postIndex} onClick={e=>{
-                e.preventDefault();
-                // const post = item.Posts[postId]; // Get the post data
-                addComments(post.id,item.Author, "WOW THAT IS AWESOME")
-                console.log(String(post.id),String(item.Author),"WOW that is awwesome")
-              }}>add comments</button>
-
-              {/* Iterate of all Post List */}
-              {post.Comments && Object.values(post.Comments)?.map((comment,index)=>(
-                <div key={index}>
-                  <h3>{comment.Text}</h3>
-                  <p><strong>{comment.Author}</strong></p>
-                  <p>Date: {comment.date[0]} </p>
-                  <p>Time: {comment.date[1]} </p>
-
-                </div>
-              ))}
-              <hr/>
-             
             </div>
+            <br />
+            <br />
 
+            <div className="flex-container">
+              <div className="left-component">
+                {!selectedPost ? (
+                  <>
+                  {/* Post List */}
+                    <AskQ onAddPost={handleAddPost} />
+                    <PostList
+                      posts={sortedPosts}
+                      onSelectPost={handleSelectPost}
+                    />
+                    <PostForm onAddPost={handleAddPost} />
+                  </>
+                ) : (
 
-          ))}
+                  /* Post Details */      
+                  <PostDetail
+                    post={selectedPost} // Pass the selected post
+                    onDeletePost={handleDeletePost}
+                    onAddComment={handleAddComment}
+                    onGoBack={handleGoBack}
+                  />
+                )}
+              </div>
 
+              {/* FAQS */}
+              <div className="right-component">
+                <div
+                  className={`dispFAQ-container ${
+                    faqVisible ? "" : "hide-faqland"
+                  }`}
+                  style={{ width: "400px", marginLeft: "30px" }}
+                >
+                  <FAQland toggleFAQVisibility={toggleFAQVisibility} />
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
 
-        </div>
-      ))}
-
+      {/* fOOTER */}
+      {faqVisible && <FAQ toggleFAQVisibility={toggleFAQVisibility} />}
+      <footer className="footer">
+        <br />
+        <br />
+        <div className="footer-center">WELLNESS PRO INC.</div>
+        <br />
+        <br />
+      </footer>
     </div>
   );
 }
 
-function ImageBanner() {
-  return (
-    <div className="image-container">
-      <image
-        className="cover-image"
-        src="/Healthcare-1.jpg"
-        // alt="Healthcare Image"
-      />
-    </div>
-  );
-}
-
-export default Public;
-
+export default Private;
