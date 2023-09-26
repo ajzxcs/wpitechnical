@@ -1,6 +1,6 @@
 import { onValue,ref,set, remove , update,push,get} from "@firebase/database";
 import { databases } from "./Configuration";
-import { createAccount,LogoutSession } from './Authentication'
+import { createAccountUser,LogoutSession } from './Authentication'
 import base64 from 'base-64';
 
 
@@ -10,11 +10,15 @@ export const totalForumPost = async () =>{
   return await new Promise((resolve, reject) => {
       onValue(dbRef, (snapshot) => {
             const data = snapshot.val();
+
             
             let number = 0;
             // eslint-disable-next-line array-callback-return
-            Object.values(data).map((data,key) => {
-                number += Object.values(data.Posts).length       
+            data && Object.values(data)?.map((data,key) => {
+                if (data?.Posts){
+                  number += Object.values(data?.Posts)?.length  
+                }
+     
             })
 
             resolve(String(number))
@@ -36,20 +40,25 @@ export const totalForumPost_Today = async () =>{
         onValue(dbRef, (snapshot) => {
               const data = snapshot.val();
 
+              let number = 0;
+
                 //   All user/author data
               // eslint-disable-next-line array-callback-return
               Object.values(data)?.map((author,key) => {
 
+       
                 // return the number of post today
-                const todayPost = Object.values(author.Posts)?.filter((post,key)=>{
-                    return post.date[0] === date
-                }).length
+                // eslint-disable-next-line array-callback-return
+                author.Posts && Object.values(author.Posts)?.filter((post,key)=>{
+ 
+                  number += post?.date[0] === date
+                })
 
 
-                resolve(todayPost)
+    
               })
   
-              resolve(0)
+              resolve(String(number))
             
         }, (error) => {
             reject(error);
@@ -84,13 +93,13 @@ export const getUsers = async () =>{
 // NOTE: decode the password
 
 // convert pending to granted
-export const pendingToGranted = async (Email, Password, Oldkey) => {
+export const pendingToGranted = async (Name,Email, Password, Oldkey) => {
     try {
       // decrypt the password first
       const decryptPassword = base64.decode(Password);
   
       // create an account and user data
-      const uid = await createAccount(Email, decryptPassword);
+      const uid = await createAccountUser(Email, decryptPassword);
   
       // old and new uid
       const oldref = ref(databases, `/Users/${Oldkey}`);
@@ -121,7 +130,9 @@ export const pendingToGranted = async (Email, Password, Oldkey) => {
           replaceNewData(newRef, newData)
             .then(() => {
 
-            console.log("data repalce")
+          
+
+
 
             })
             .catch((error) => {
@@ -137,11 +148,24 @@ export const pendingToGranted = async (Email, Password, Oldkey) => {
         remove(oldref)
         .then(() => {
             console.log("delete old data success");
-            LogoutSession();
-            alert("Approve granted");
-            window.location.reload()
+
+            authorEmail(Email,uid.uid).then(e=>{
+              alert("Approve granted");
+
+              remove(ref(databases, `/POSTS/undefined`)).then(()=>{
+   
+              }
+
+              )
+
+
+            })
+    
         })
         .catch((error) => console.log("delete old data error: ", error));
+
+        LogoutSession()
+        window.location.reload()
       
     } catch (error) {
       console.log(error);
@@ -149,6 +173,23 @@ export const pendingToGranted = async (Email, Password, Oldkey) => {
     }
   };
   
+// create default data on Post
+export const authorEmail = (author, userID) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const adminRef = ref(databases, `POSTS/${userID}`);
+      await update(adminRef, {
+        Author: author
+      });
+      resolve("oki na"); // Resolve the promise if update is successful
+    } catch (e) {
+      alert(e);
+      reject(e); // Reject the promise if there's an error
+    }
+  });
+};
+
+
 const replaceNewData = (newRef,newData) =>{
     return new Promise((resolve, reject) => {
        // replace the new data
