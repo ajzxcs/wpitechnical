@@ -31,7 +31,7 @@ const PostDetail = ({ post, onGoBack }) => {
 
       {/* Post Title */}
       <div className="title-and-delete">
-        <h2>{post ? post.Title : "Post Not Found"}</h2>
+        <h2>{post.Title? post.Title : "Post Not Found"}</h2>
       </div>
 
       {/* Author, Date, Time */}
@@ -55,9 +55,12 @@ const PostDetail = ({ post, onGoBack }) => {
             ))}
           </div>) : ( <p>No comments available.</p> )}
       </div>
+
+
       <br />
 
     </div>
+
   );
 };
 

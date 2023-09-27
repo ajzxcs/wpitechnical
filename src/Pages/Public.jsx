@@ -31,13 +31,17 @@ function Public() {
         const Data = await viewList(); // Assuming viewList is an async function that fetches data
 
         // sorted out the data
-        const posts = Data.flatMap((author) =>
+        // eslint-disable-next-line array-callback-return
+        const posts = Data.flatMap((author) =>{
 
-            // rewrite the data with author
-            Object.values(author.Posts).map((post) => ({
-                ...post,
-                Author: author.Author, // Add the Author field to each post
+             // rewrite the data with author
+             author?.Posts && Object.values(author?.Posts).map((post) => ({
+              ...post,
+              Author: author.Author, // Add the Author field to each post
             }))
+
+          }
+    
           )
           .sort((a, b) => {
 
@@ -152,10 +156,8 @@ function Public() {
     setFaqVisible(!faqVisible);
   };
 
-
   // onSearch
   const handleSearch = (searchQuery) => {
-
 
     const filteredPosts = postData?.filter(
       (post) => {
@@ -169,7 +171,6 @@ function Public() {
     searchQuery ?
     setPostData(filteredPosts) : setPostData(backupData) 
   };
-
 
   return (
     <div className="public">
