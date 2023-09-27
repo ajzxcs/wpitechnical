@@ -11,6 +11,7 @@ const PostForm = ({ isOpen, onRequestClose, onAddPost }) => {
   const [content, setContent] = useState("");
   const [tags, setTags] = useState([]);
   const [tagInput, setTagInput] = useState("");
+  const [IspostEmpty, setIspostEmpty] = useState(false);
 
   const handleAddTag = () => {
     if (tagInput) {
@@ -22,26 +23,33 @@ const PostForm = ({ isOpen, onRequestClose, onAddPost }) => {
       }
     }
   };
+
   const handleCreatePost = () => {
-    const newTags = String(tags)
-    // Create a new post object
-    const newPost = {
-      title,
-      content,
-      newTags,
-      // Add any other properties you need
-    };
+    if (content.trim() !== "") {
+      const newTags = String(tags);
+      // Create a new post object
+      const newPost = {
+        title,
+        content,
+        newTags,
+        // Add any other properties you need
+      };
 
-    // Call the onAddPost function to add the post to the list
-    onAddPost(newPost);
+      // Call the onAddPost function to add the post to the list
+      onAddPost(newPost);
 
-    // Clear the form fields
-    setTitle("");
-    setContent("");
-    setTags([]);
-    setTagInput("");
-    onRequestClose();
+      // Clear the form fields
+      setTitle("");
+      setContent("");
+      setTags([]);
+      setTagInput("");
+      onRequestClose();
+    } else {
+      // Set a flag to indicate the content is empty and needs to be highlighted
+      setIspostEmpty(true);
+    }
   };
+
   return (
     <Modal
       isOpen={isOpen}
@@ -65,9 +73,16 @@ const PostForm = ({ isOpen, onRequestClose, onAddPost }) => {
             placeholder="Content"
             value={content}
             onChange={(e) => setContent(e.target.value)}
+            className={IspostEmpty ? "error" : ""}
           />
-          <br/>
-          <br/>
+          
+          {/* Alert text for empty content */}
+          {IspostEmpty && (
+            <div className="alert-text">Content cannot be empty!</div>
+          )}
+          
+          <br />
+          <br />
           {/* Tags */}
           {tags.length > 0 && (
             <div className="selected-tags">
@@ -77,10 +92,9 @@ const PostForm = ({ isOpen, onRequestClose, onAddPost }) => {
                   {tag}
                 </span>
               ))}
-              
             </div>
           )}
-            <br/>
+          <br />
           <div className="tag-input">
             <input
               type="text"
@@ -90,8 +104,6 @@ const PostForm = ({ isOpen, onRequestClose, onAddPost }) => {
             />
             <button onClick={handleAddTag}>Add Tag</button>
           </div>
-
-      
         </div>
         <br />
         <button onClick={handleCreatePost}>Create Post</button>
