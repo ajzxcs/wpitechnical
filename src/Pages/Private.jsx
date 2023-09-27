@@ -11,7 +11,7 @@ import FAQland from "../componentsPV/FAQlandpv";
 import "../App.css";
 
 // Database
-import { viewList, createPost } from "../Features/firebase/Database"
+import { viewList, createPost, update_ForumVisitToday } from "../Features/firebase/Database"
 
 function Private() {
   const [posts, setPosts] = useState([]);
@@ -61,7 +61,11 @@ function Private() {
 
     // Clean Up function
     if (mounted) {
+      // Ftech Data
       fetchData();
+      
+      // Forum visit today
+      update_ForumVisitToday();
     }
 
     return () => (mounted = false);
@@ -84,8 +88,6 @@ function Private() {
         return dateA - dateB;
       });
     }
-
-    console.log(sortedPosts)
 
     setPosts(sortedPosts);
   }, [sortingOrder, posts]);

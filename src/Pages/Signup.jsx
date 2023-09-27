@@ -199,6 +199,7 @@ const Signup = () => {
                     confirmPassword: "",
                     confirmPasswordError: false
                 })
+                window.location.reload()
             })
             .catch(e=>{
                 setSignupError({

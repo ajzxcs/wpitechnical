@@ -212,9 +212,6 @@ export const addComment = async (postID, author, text) => {
   });
 }
 
-
-
-
 // workflow for signup user
 // * verify if the user is aleady sign up
 // * add validation before enterinfg
@@ -312,6 +309,57 @@ export const addpendingSignup = async (Fullname,Org,Email,Number,Password,os,bro
     }catch(error){
       console.error("Error requesting for an account:", error);
       reject(error); // Reject the promise with an error
+    }
+  })
+}
+
+// get forum visit 
+export const forumVisitToday = () =>{
+  return new Promise(async (resolve, reject) => {
+    try{  
+
+      // for date and time
+      const date = new Date().toLocaleDateString();
+      const dateFormated = date.replaceAll("/","-")
+
+      const dbRef = ref(databases, `/ForumVisit/${dateFormated}`);
+      const snapshot = await get(dbRef);
+
+      const data = snapshot.val();
+
+      data ?  resolve(data) :  resolve(0)
+
+    }catch(error){
+      reject(error)
+    }
+  })
+}
+
+export const update_ForumVisitToday = () => {
+  return new Promise(async (resolve, reject) => {
+    try{
+
+      // for date and time
+      const date = new Date().toLocaleDateString();
+      const dateFormated = date.replaceAll("/","-")
+
+      const dbRef = ref(databases, `/ForumVisit/`);
+
+      const todayVisit = await forumVisitToday()
+      const data = 1 + parseInt(todayVisit)
+
+        // Prepare updates for the user's "Posts" node
+      const updates = {
+        [`${dateFormated}`]: data
+      };
+
+      await update(dbRef, updates);
+
+
+      console.log("Today Visit", todayVisit)
+
+    }catch(error){
+
     }
   })
 }
