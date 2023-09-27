@@ -34,8 +34,9 @@ function Private() {
         const Data = await viewList(); // Assuming viewList is an async function that fetches data
 
         // sorted out the data
-        const posts = Data.flatMap((author) =>
-
+        const posts = Data
+          .filter((author) => author.Posts && Object.keys(author.Posts).length > 0)
+          .flatMap((author) =>
             // rewrite the data with author
             Object.values(author.Posts).map((post) => ({
                 ...post,

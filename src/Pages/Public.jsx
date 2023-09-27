@@ -31,20 +31,17 @@ function Public() {
         const Data = await viewList(); // Assuming viewList is an async function that fetches data
 
         // sorted out the data
-        // eslint-disable-next-line array-callback-return
-        const posts = Data.flatMap((author) =>{
 
+        const posts = Data
+          .filter((author) => author.Posts && Object.keys(author.Posts).length > 0)
+          .flatMap((author) => 
              // rewrite the data with author
-             author?.Posts && Object.values(author?.Posts).map((post) => ({
+           Object.values(author?.Posts).map((post) => ({
               ...post,
               Author: author.Author, // Add the Author field to each post
             }))
-
-          }
-    
           )
           .sort((a, b) => {
-
             // Sort by date in descending order (newest to oldest)
             const dateA = new Date(a.date).getTime();
             const dateB = new Date(b.date).getTime();
@@ -52,6 +49,8 @@ function Public() {
           });
 
           // set the sorted data to PostData
+
+          console.log(posts)
           setPostData(posts);
           setBackupData(posts)
       } catch (error) {
