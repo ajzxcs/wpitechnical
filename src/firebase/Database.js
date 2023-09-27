@@ -43,20 +43,17 @@ export const totalForumPost_Today = async () =>{
               let number = 0;
 
                 //   All user/author data
-              // eslint-disable-next-line array-callback-return
-              Object.values(data)?.map((author,key) => {
+              Object.values(data)?.map((author,key) => 
 
-       
                 // return the number of post today
-                // eslint-disable-next-line array-callback-return
-                author.Posts && Object.values(author.Posts)?.filter((post,key)=>{
+                author.Posts && Object.values(author.Posts)?.filter((post,key)=>
  
                   number += post?.date[0] === date
-                })
+                )
 
 
     
-              })
+              )
   
               resolve(String(number))
             
@@ -93,85 +90,77 @@ export const getUsers = async () =>{
 // NOTE: decode the password
 
 // convert pending to granted
-export const pendingToGranted = async (Name,Email, Password, Oldkey) => {
+export const pendingToGranted = async (Name, Email, Password, Oldkey) => {
+  try {
+    // Decrypt the password first
+    const decryptPassword = base64.decode(Password);
+
+    // Create an account and user data
+    const uid = await createAccountUser(Email, decryptPassword);
+    const newUIide = uid.uid;
+
+    // Author email
     try {
-      // decrypt the password first
-      const decryptPassword = base64.decode(Password);
-  
-      // create an account and user data
-      const uid = await createAccountUser(Email, decryptPassword);
-  
-      // old and new uid
-      const oldref = ref(databases, `/Users/${Oldkey}`);
-      const newRef = ref(databases, `/Users/${uid.uid}`);
-  
-      // for date and time
-      const date = new Date().toLocaleDateString();
-      const time = new Date().toLocaleTimeString();
-  
-      onValue(oldref, (snapshot) => {
-        if (snapshot.exists()) { // Check if data exists
-          // Old data
-          const data = snapshot.val();
-  
-          // the updated data
-          const newData = {
-            "Device": data.Device || "", // Use a default value or handle this case appropriately
-            "Email": data.Email || "",
-            "Fullname": data.Fullname || "",
-            "Number": data.Number || "",
-            "Organization": data.Organization || "",
-            "Status": "Granted",
-            "date": [date, time],
-            "id": Oldkey,
-          };
-          
-        //   replace data
-          replaceNewData(newRef, newData)
-            .then(() => {
-
-          
-
-
-
-            })
-            .catch((error) => {
-                console.log("replace new data error: ", error);
-                return 
-            });
-        } else {
-          console.log("Data does not exist at oldref");
-        }
-      });
-
-        // if success, delete old data
-        remove(oldref)
-        .then(() => {
-            console.log("delete old data success");
-
-            authorEmail(Email,uid.uid).then(e=>{
-              alert("Approve granted");
-
-              remove(ref(databases, `/POSTS/undefined`)).then(()=>{
-   
-              }
-
-              )
-
-
-            })
-    
-        })
-        .catch((error) => console.log("delete old data error: ", error));
-
-        LogoutSession()
-        window.location.reload()
-      
+      await authorEmail(Email, newUIide);
+      alert("gumagana ang author email");
     } catch (error) {
-      console.log(error);
-      return 
+      alert("hindi nagana");
+      console.error("Error in authorEmail:", error);
     }
-  };
+
+    // Old and new uid
+    const oldref = ref(databases, `/Users/${Oldkey}`);
+    const newRef = ref(databases, `/Users/${newUIide}`);
+
+    // For date and time
+    const date = new Date().toLocaleDateString();
+    const time = new Date().toLocaleTimeString();
+
+    // Check if data exists at oldref
+    const snapshot = await get(oldref);
+
+    if (snapshot.exists()) {
+      // Old data
+      const data = snapshot.val();
+
+      // The updated data
+      const newData = {
+        "Device": data.Device || "", // Use a default value or handle this case appropriately
+        "Email": data.Email || "",
+        "Fullname": data.Fullname || "",
+        "Number": data.Number || "",
+        "Organization": data.Organization || "",
+        "Status": "Granted",
+        "date": [date, time],
+        "id": Oldkey,
+      };
+
+      // Replace data
+      try {
+        await set(newRef, newData); // Assuming you want to completely replace the data
+        console.log("Data replaced successfully");
+      } catch (error) {
+        console.error("Replace new data error:", error);
+      }
+    } else {
+      console.log("Data does not exist at oldref");
+    }
+
+    // If success, delete old data
+    try {
+      await remove(oldref);
+      console.log("Delete old data success");
+      alert("Approve granted");
+      LogoutSession();
+      window.location.reload();
+    } catch (error) {
+      console.error("Delete old data error:", error);
+    }
+  } catch (error) {
+    console.error("Error:", error);
+  }
+};
+
   
 // create default data on Post
 export const authorEmail = (author, userID) => {
@@ -191,9 +180,9 @@ export const authorEmail = (author, userID) => {
 
 
 const replaceNewData = (newRef,newData) =>{
-    return new Promise((resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
        // replace the new data
-        set(newRef,newData).then(res=>{
+        await set(newRef,newData).then(res=>{
             console.log("replace Data sucess: ",res)
             resolve(res) 
         })

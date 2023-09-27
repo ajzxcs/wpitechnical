@@ -69,8 +69,7 @@ function Tickets() {
 
       viewTickets().then(E=>{
         E?.map((data,key)=>{
-          setROws(data);
-          console.log(data)
+          return  setROws(data);
         })
 
         fetchData();
