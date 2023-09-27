@@ -512,6 +512,20 @@ header {
   margin-bottom: 50px;
 }
 
+textarea.error {
+  animation: shake 0.5s;
+  border: 2px solid red; /* Add a red border for better visibility */
+}
+
+@keyframes shake {
+  0% { transform: translateX(0); }
+  20% { transform: translateX(-5px); }
+  40% { transform: translateX(5px); }
+  60% { transform: translateX(-5px); }
+  80% { transform: translateX(5px); }
+  100% { transform: translateX(0); }
+}
+
 @media (max-width: 480px) {
   .public {
     background-attachment: scroll; /* Change background attachment for mobile performance */
@@ -529,7 +543,7 @@ header {
   .right-component,
   .content {
     flex: 1; /* Equal width for all components on small screens */
-    max-width: 100%; /* Remove maximum width for components */
+    max-width: 110%; /* Remove maximum width for components */
     margin: 0;
   }
 
