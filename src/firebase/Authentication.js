@@ -76,9 +76,9 @@ import { verifyAdmin,adminCreate, authorEmail } from "./Database"
       .then((res) => {
 
 
-        authorEmail(email,res.user.uid)
+        authorEmail(email,res.user.uid).then(()=>resolve(res.user.uid))
 
-        resolve("goods")
+
 
 
 

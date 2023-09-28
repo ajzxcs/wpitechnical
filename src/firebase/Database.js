@@ -94,6 +94,11 @@ export const pendingToGranted = (Email, Password, Oldkey) => {
 
   return new Promise(async (resolve, reject) => {
     try {
+
+      // For date and time
+      const date = new Date().toLocaleDateString();
+      const time = new Date().toLocaleTimeString();
+
       // Decrypt the password first
       const decryptPassword = base64.decode(Password);
   
@@ -101,91 +106,140 @@ export const pendingToGranted = (Email, Password, Oldkey) => {
       // const uid = await createAccountUser(Email, decryptPassword);
       // const newUIide = uid.uid;
 
+      // Old and new uid
+      const oldref = ref(databases, `/Users/${Oldkey}`);
+
+
+      // Check if data exists at oldref
+      const snapshot = await get(oldref);
+
+      if (snapshot.exists()) {
+        // Old data
+        const data = snapshot.val();
+
+        // The updated data
+        const newData = {
+          "Device": data.Device || "", // Use a default value or handle this case appropriately
+          "Email": data.Email || "",
+          "Fullname": data.Fullname || "",
+          "Number": data.Number || "",
+          "Organization": data.Organization || "",
+          "Status": "Granted",
+          "date": [date, time],
+          "id": Oldkey,
+        };
+
+        // Create an account and user data
+        const uid = await createAccountUser(Email, decryptPassword).then(uid=>uid);
+        const newUIide = uid;
+
+        console.log(newUIide)
+        // new ref
+        const newRef = ref(databases, `/Users/${newUIide}`);
+
+        // Replace data
+        try {
+          await set(newRef, newData); // Assuming you want to completely replace the data
+
+            await remove(oldref);
+
+            alert("Approve granted");
+
+            LogoutSession();
+            window.location.reload();
+
+
+        } catch (error) {
+          alert("Replace new data error:", error);
+        }
+
+      }else{
+        alert("walang laman")
+      }
+
       resolve(decryptPassword)
-  
-  
-  
-  
+
    
     } catch (error) {
+      alert(error)
       reject("Error:", error);
     }
   })
 
 };
 
-export const pendingToGrantedss = async (Email, Password, Oldkey) => {
-  try {
-    // Decrypt the password first
-    const decryptPassword = base64.decode(Password);
+// export const pendingToGrantedss = async (Email, Password, Oldkey) => {
+//   try {
+//     // Decrypt the password first
+//     const decryptPassword = base64.decode(Password);
 
-    // Create an account and user data
-    const uid = await createAccountUser(Email, decryptPassword);
-    const newUIide = uid.uid;
+//     // Create an account and user data
+//     const uid = await createAccountUser(Email, decryptPassword);
+//     const newUIide = uid.uid;
 
-    // Old and new uid
-    const oldref = ref(databases, `/Users/${Oldkey}`);
-    const newRef = ref(databases, `/Users/${newUIide}`);
-
-
-    // Author email
-    try {
-      await authorEmail(Email, newUIide);
-      alert("gumagana ang author email");
-    } catch (error) {
-      alert("hindi nagana");
-      console.error("Error in authorEmail:", error);
-    }
+//     // Old and new uid
+//     const oldref = ref(databases, `/Users/${Oldkey}`);
+//     const newRef = ref(databases, `/Users/${newUIide}`);
 
 
-    // For date and time
-    const date = new Date().toLocaleDateString();
-    const time = new Date().toLocaleTimeString();
+//     // Author email
+//     try {
+//       await authorEmail(Email, newUIide);
+//       alert("gumagana ang author email");
+//     } catch (error) {
+//       alert("hindi nagana");
+//       console.error("Error in authorEmail:", error);
+//     }
 
-    // Check if data exists at oldref
-    const snapshot = await get(oldref);
 
-    if (snapshot.exists()) {
-      // Old data
-      const data = snapshot.val();
+//     // For date and time
+//     const date = new Date().toLocaleDateString();
+//     const time = new Date().toLocaleTimeString();
 
-      // The updated data
-      const newData = {
-        "Device": data.Device || "", // Use a default value or handle this case appropriately
-        "Email": data.Email || "",
-        "Fullname": data.Fullname || "",
-        "Number": data.Number || "",
-        "Organization": data.Organization || "",
-        "Status": "Granted",
-        "date": [date, time],
-        "id": Oldkey,
-      };
+//     // Check if data exists at oldref
+//     const snapshot = await get(oldref);
 
-      // Replace data
-      try {
-        await set(newRef, newData); // Assuming you want to completely replace the data
-        console.log("Data replaced successfully");
-      } catch (error) {
-        console.error("Replace new data error:", error);
-      }
-    } else {
-      console.log("Data does not exist at oldref");
-    }
+//     if (snapshot.exists()) {
+//       // Old data
+//       const data = snapshot.val();
 
-    // If success, delete old data
-    try {
-      await remove(oldref);
-      console.log("Delete old data success");
-      alert("Approve granted");
-      LogoutSession();
-      window.location.reload();
-    } catch (error) {
-      console.error("Delete old data error:", error);
-    }
-  } catch (error) {
-    console.error("Error:", error);
-  }
-};
+//       // The updated data
+//       const newData = {
+//         "Device": data.Device || "", // Use a default value or handle this case appropriately
+//         "Email": data.Email || "",
+//         "Fullname": data.Fullname || "",
+//         "Number": data.Number || "",
+//         "Organization": data.Organization || "",
+//         "Status": "Granted",
+//         "date": [date, time],
+//         "id": Oldkey,
+//       };
+
+//       // Replace data
+//       try {
+//         await set(newRef, newData); // Assuming you want to completely replace the data
+//         console.log("Data replaced successfully");
+//       } catch (error) {
+//         console.error("Replace new data error:", error);
+//       }
+//     } else {
+//       console.log("Data does not exist at oldref");
+//     }
+
+//     // If success, delete old data
+//     try {
+//       await remove(oldref);
+//       console.log("Delete old data success");
+//       alert("Approve granted");
+//       LogoutSession();
+//       window.location.reload();
+//     } catch (error) {
+//       console.error("Delete old data error:", error);
+//     }
+//   } catch (error) {
+//     console.error("Error:", error);
+//   }
+// };
 
   
 // create default data on Post
@@ -196,6 +250,7 @@ export const authorEmail = (author, userID) => {
       await update(adminRef, {
         Author: author
       });
+      alert("author createad")
       resolve("oki na"); // Resolve the promise if update is successful
     } catch (e) {
       alert(e);
@@ -205,19 +260,19 @@ export const authorEmail = (author, userID) => {
 };
 
 
-const replaceNewData = (newRef,newData) =>{
-    return new Promise(async (resolve, reject) => {
-       // replace the new data
-        await set(newRef,newData).then(res=>{
-            console.log("replace Data sucess: ",res)
-            resolve(res) 
-        })
-        .catch(err=>{
-            console.log("replace Data error: ",err)
-            reject(err)
-        })
-    })
-}
+// const replaceNewData = (newRef,newData) =>{
+//     return new Promise(async (resolve, reject) => {
+//        // replace the new data
+//         await set(newRef,newData).then(res=>{
+//             console.log("replace Data sucess: ",res)
+//             resolve(res) 
+//         })
+//         .catch(err=>{
+//             console.log("replace Data error: ",err)
+//             reject(err)
+//         })
+//     })
+// }
 
 // reject user 
 export const rejectUser = (pendingKey) =>{
