@@ -12,6 +12,8 @@ const PostForm = ({ isOpen, onRequestClose, onAddPost }) => {
   const [tags, setTags] = useState([]);
   const [tagInput, setTagInput] = useState("");
   const [IspostEmpty, setIspostEmpty] = useState(false);
+  const [IstagEmpty, setIstagEmpty] = useState(false);
+  const [IstitleEmpty, setIstitleEmpty] = useState(false);
 
   const handleAddTag = () => {
     if (tagInput) {
@@ -21,11 +23,16 @@ const PostForm = ({ isOpen, onRequestClose, onAddPost }) => {
         setTags(updatedTags);
         setTagInput("");
       }
+    }else {
+      // Set a flag to indicate the content is empty and needs to be highlighted
+  
+      setIspostEmpty(true);
+      setIstitleEmpty(true);
+      setIstagEmpty(true)
     }
   };
-
   const handleCreatePost = () => {
-    if (content.trim() !== "") {
+    if (title.trim() !== "" && content.trim() !== "" && tags.length > 0) {
       const newTags = String(tags);
       // Create a new post object
       const newPost = {
@@ -34,10 +41,10 @@ const PostForm = ({ isOpen, onRequestClose, onAddPost }) => {
         newTags,
         // Add any other properties you need
       };
-
+  
       // Call the onAddPost function to add the post to the list
       onAddPost(newPost);
-
+  
       // Clear the form fields
       setTitle("");
       setContent("");
@@ -45,10 +52,13 @@ const PostForm = ({ isOpen, onRequestClose, onAddPost }) => {
       setTagInput("");
       onRequestClose();
     } else {
-      // Set a flag to indicate the content is empty and needs to be highlighted
-      setIspostEmpty(true);
+      // Set flags to indicate which fields are empty and need to be highlighted
+      setIspostEmpty(title.trim() === "");
+      setIstitleEmpty(content.trim() === "");
+      setIstagEmpty(tags.length === 0);
     }
   };
+  
 
   return (
     <Modal
@@ -63,26 +73,28 @@ const PostForm = ({ isOpen, onRequestClose, onAddPost }) => {
         <h2>Create a New Post</h2>
         <div className="post-form-details">
           <p>{new Date().toLocaleString()}</p>
-          <input
+          <textarea
             type="text"
             placeholder="Title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
+            className={IspostEmpty  ? "error" : ""}
           />
+            {/*  {IstitleEmpty && (
+            <div className="alert-text">Title cannot be empty!</div>
+          )}*/}
           <textarea
             placeholder="Content"
             value={content}
             onChange={(e) => setContent(e.target.value)}
-            className={IspostEmpty ? "error" : ""}
+            className={IspostEmpty  ? "error" : ""}
           />
           
           {/* Alert text for empty content */}
           {IspostEmpty && (
-            <div className="alert-text">Content cannot be empty!</div>
+            <div className="alert-text">Title and Content cannot be empty!</div>
           )}
-          
-          <br />
-          <br />
+         
           {/* Tags */}
           {tags.length > 0 && (
             <div className="selected-tags">
@@ -94,14 +106,19 @@ const PostForm = ({ isOpen, onRequestClose, onAddPost }) => {
               ))}
             </div>
           )}
+         
           <br />
           <div className="tag-input">
-            <input
+            <textarea
               type="text"
               placeholder="Press Add Tag to Add more... "
               value={tagInput}
               onChange={(e) => setTagInput(e.target.value)}
+              className={IstagEmpty ? "error" : ""}
             />
+             {IstagEmpty && (
+            <div className="alert-text">Tag cannot be empty!</div>
+          )}
             <button onClick={handleAddTag}>Add Tag</button>
           </div>
         </div>
