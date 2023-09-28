@@ -1,19 +1,3 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable react/function-component-definition */
-/**
-=========================================================
-* Material Dashboard 2 React - v2.2.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/material-dashboard-react
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
 
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
@@ -28,31 +12,86 @@ import MDBadge from "components/MDBadge";
 
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import CheckCircleOutlineOutlinedIcon from '@mui/icons-material/CheckCircleOutlineOutlined';
+import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+
 import { IconButton, Tooltip } from "@mui/material";
 
 import { GRANTED_FROM_PENDING , DELETE_TICKET_SUBMIT} from '../../../firebase/Database'
 
-export default function data(rowss) {
-  // const User = ({ image, name, email }) => (
-  //   <MDBox display="flex" alignItems="center" lineHeight={1}>
-  //     <MDAvatar src={image} name={name} size="sm" />
-  //     <MDBox ml={2} lineHeight={1}>
-  //       <MDTypography display="block" variant="button" fontWeight="medium">
-  //         {name}
-  //       </MDTypography>
-  //       <MDTypography variant="caption">{email}</MDTypography>
-  //     </MDBox>
-  //   </MDBox>
-  // );
 
-  // const Institution = ({ title, description }) => (
-  //   <MDBox lineHeight={1} textAlign="left">
-  //     <MDTypography display="block" variant="caption" color="text" fontWeight="medium">
-  //       {title}
-  //     </MDTypography>
-  //     <MDTypography variant="caption">{description}</MDTypography>
-  //   </MDBox>
-  // );
+// set status color
+const statusColor = (stats) =>{
+  if (stats === "done"){
+    return "success"
+  }else if(stats === "processing "){
+    return "light"
+  }else if (stats === "pending"){
+    return "dark"
+  }else{
+    return "error"
+  }
+}
+
+// Action components
+const ActionComponents = (data) => {
+  return(
+  
+  <div>
+    {/* data.status !== "done" ? 
+      <div key={data.key}>
+      
+        {/* Approved */}
+          <Tooltip title="Granted" arrow>
+
+              <IconButton aria-label="delete" 
+              onClick={e=>{
+                e.preventDefault()
+                // pendingToGranted(user.Email,user.Password,user.id)
+                GRANTED_FROM_PENDING(data.id)
+                .then(e=>{
+                  console.log(e) 
+                  window.location.reload()
+                })
+              }}
+              color="success">
+
+                <CheckCircleOutlineOutlinedIcon  />
+
+              </IconButton>
+            </Tooltip>
+              
+              {/* Delete */}
+              <Tooltip title="Delete" arrow>
+                <IconButton aria-label="delete" onClick={e=>{
+      
+                  e.preventDefault()
+                  DELETE_TICKET_SUBMIT(data.id)
+                  
+                  }} color="error">
+                  <DeleteOutlineOutlinedIcon  />
+                </IconButton>
+              </Tooltip>
+      
+              </div>
+              :           
+    
+              <Tooltip title="Delete" arrow>
+                <IconButton aria-label="delete" onClick={e=>{
+      
+                  e.preventDefault()
+                  // DELETE_TICKET_SUBMIT(data.id)
+                  
+                  }} color="error">
+                  <EditOutlinedIcon  />
+                </IconButton>
+              </Tooltip>
+              */}
+  </div>)
+}
+
+export default function data(rowss) {
+
 
   return {
     columns: [
@@ -87,7 +126,8 @@ export default function data(rowss) {
 
           <MDBadge 
           badgeContent={data.status} 
-          color={data.status==="pending" ?"dark" : "success"} 
+          color={statusColor(data.status)} 
+          // color="light"
           variant="gradient" size="sm" />
 
         </MDBox>
@@ -99,42 +139,7 @@ export default function data(rowss) {
         </MDTypography>
       ),
             // action
-      action: (
-        data.status !== "granted" &&
-              <div key={key}>
-      
-              {/* Approved */}
-              <Tooltip title="Granted" arrow>
-                <IconButton aria-label="delete" 
-                onClick={e=>{
-                  e.preventDefault()
-                  // pendingToGranted(user.Email,user.Password,user.id)
-                  GRANTED_FROM_PENDING(data.id)
-                  .then(e=>{
-                    console.log(e) 
-                    window.location.reload()
-                  })
-                }
-                }
-                
-                color="success">
-                  <CheckCircleOutlineOutlinedIcon  />
-                </IconButton>
-              </Tooltip>
-              
-              {/* Delete */}
-              <Tooltip title="Delete" arrow>
-                <IconButton aria-label="delete" onClick={e=>{
-      
-                  e.preventDefault()
-                  DELETE_TICKET_SUBMIT(data.id)
-                  
-                  }} color="error">
-                  <DeleteOutlineOutlinedIcon  />
-                </IconButton>
-              </Tooltip>
-      
-              </div>)
+      action: ( <ActionComponents/> )
     })),
   };
 }
