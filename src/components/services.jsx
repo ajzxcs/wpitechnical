@@ -7,8 +7,7 @@ export const Services = (props) => {
         <div className="section-title">
           <h2>Our Services</h2>
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit duis sed
-            dapibus leonec.
+            Meet our aftersales team
           </p>
         </div>
         <div className="row">
@@ -22,9 +21,13 @@ export const Services = (props) => {
                     <p>{d.text}</p>
                   </div>
                 </div>
+                
               ))
+              
             : "loading"}
         </div>
+        <a href="https://wellnessproinc-ticket-request.web.app/">
+        <button className="btn-forum">Submit a Ticket?</button></a>
       </div>
     </div>
   );
