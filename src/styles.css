@@ -116,6 +116,24 @@ a {
   position: absolute;
   bottom: 0;
 }
+.now-btn{
+  width: 120px;
+  padding: 10px 15px;
+  font-size: 13px;
+  font-family: Ubuntu-Bold;
+  border: none;
+  cursor: pointer;
+}
+.back-btn{
+  width: 120px;
+  padding: 10px 15px;
+  font-size: 13px;
+  font-family: Ubuntu-Bold;
+  border: none;
+  cursor: pointer;
+  background-color: orangered;
+  color: white;
+}
 .prev-btn,
 .next-btn {
   width: 120px;
@@ -123,6 +141,7 @@ a {
   font-size: 13px;
   font-family: Ubuntu-Bold;
   border: none;
+  cursor: pointer;
 }
 .prev-btn {
   background-color: #fff;

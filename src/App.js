@@ -1,12 +1,14 @@
 import "./styles.css";
 import { useState } from "react";
 import { createTickets } from "./firebase/Database"
+import Track from "./Track";
 
 // step heading and instruction array
 const stepInfo = [
   {
     heading: "Submit a ticket",
     instruction: "Welcome to Wellness Pro Technical Services"
+    
   },
   {
     heading: "Additional Info",
@@ -27,7 +29,7 @@ const stepInfo = [
 function Sidebar(props) {
   // Sidebar steps name array
   const steps = ["Your Info", "Institution", "Item", "Issue"];
-
+  
   return (
     // Sidebar element
     <div className="sidebar">
@@ -57,7 +59,7 @@ function Sidebar(props) {
 // Step: I Personal information Component
 function PersonalInfo(props) {
   return (
-    <>
+    <div>
       <div className="personal-info-inputs">
         <div>
           <label>
@@ -95,7 +97,10 @@ function PersonalInfo(props) {
           />
         </div>
       </div>
-    </>
+      
+   {/* wards */}
+      <button onClick={()=>props.functionTicks()} className="now-btn" >Track your ticket</button>
+    </div>
   );
 }
 
@@ -228,13 +233,19 @@ function Confirm() {
 }
 
 // Form structure
-function FormStructure({ step, setStep }) {
+function FormStructure({ step, setStep, setTicketView, ticketView}) {
+
+  // handle on CLick
+  const handleOnlick = () => {
+    setTicketView(!ticketView)
+  }
+
   // Profile info states
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [errorCode, setErrorCode] = useState(0);
-
+ 
   // Part 2
   const [address, setAddress] = useState("");
   const [institution, setInstitution] = useState("");
@@ -279,6 +290,7 @@ function FormStructure({ step, setStep }) {
             setEmail={setEmail}
             setPhone={setPhone}
             errorCode={errorCode}
+            functionTicks={handleOnlick}
           />
         ) : step === 1 ? (
           <Plans
@@ -386,15 +398,20 @@ function FormStructure({ step, setStep }) {
 // Export App Component to index.js
 export default function App() {
   const [step, setStep] = useState(0);
-
+  const [ticketView,setTicketView] = useState(true)
   return (
-    <div className="multi-step-form">
-      <Sidebar step={step} />
-      {step >= 0 && step <= 3 ? (
-        <FormStructure step={step} setStep={setStep} />
-      ) : (
-        <Confirm />
-      )}
-    </div>
+    <div>
+    { ticketView ? 
+        <div className="multi-step-form">
+          <Sidebar step={step} />
+          {step >= 0 && step <= 3 ? ( <FormStructure step={step} setStep={setStep} setTicketView={setTicketView} ticketView={ticketView}/> ) : ( <Confirm /> ) }
+        </div>
+        :
+
+      <div>
+        <Track setTicketView={setTicketView}/>
+      </div>
+    }
+  </div>
   );
 }

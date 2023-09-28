@@ -1,0 +1,158 @@
+/* Track.css */
+
+/* Common styles for card and search bar */
+.card-form {
+    background-color: lightgray;
+    padding: 20px;
+    border-radius: 5px;
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+    position: relative; /* Add relative positioning to the card */
+}
+
+/* Set a minimum height for the card-form on desktop view */
+@media (min-width: 769px) {
+    .card-form {
+        height: 300px; /* Adjust the height to your desired value */
+        width: 350px;
+    }
+}
+
+/* Style for the "Go back" button */
+.go-back-button {
+    background-color: lightseagreen;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+    position: absolute; /* Add absolute positioning */
+    top: 10px; /* Position it 10px from the top */
+    left: 10px; /* Position it 10px from the left */
+    margin-top: 15px;
+}
+
+.square-search-bar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 5px;
+}
+
+.square-search-bar input {
+    flex: 1;
+    padding: 8px;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    margin-bottom: 5px;
+}
+
+.status{
+    color: green;
+    font-size: large;
+}
+
+.square-search-bar button.search-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 8px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin: 0;
+}
+
+/* Center the h2 element */
+.h2 {
+    text-align: center;
+}
+
+/* Additional styles for search button size and spacing */
+.search-button {
+    background-color: #ff5722;
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-bottom: 10px;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+
+
+/* Media query for mobile devices */
+@media (max-width: 768px) {
+    .card-form {
+        background-color: lightgray;
+        padding: 20px;
+        border-radius: 5px;
+        max-width: 600px;
+        margin: 0 auto;
+        text-align: center;
+        position: relative; /* Add relative positioning to the card */
+        top: 100px;
+    }
+    
+   
+    
+    /* Style for the "Go back" button */
+    .go-back-button {
+        background-color: lightseagreen;
+        color: #fff;
+        border: none;
+        padding: 8px 16px;
+        cursor: pointer;
+        position: absolute; /* Add absolute positioning */
+        top: 10px; /* Position it 10px from the top */
+        left: 10px; /* Position it 10px from the left */
+        margin-top: 15px;
+    }
+    
+    .square-search-bar {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 5px;
+    }
+    
+    .square-search-bar input {
+        flex: 1;
+        padding: 8px;
+        border: none;
+        outline: none;
+        border-radius: 5px;
+        margin-bottom: 5px;
+    }
+    
+    .square-search-bar button.search-button {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 8px 10px;
+        cursor: pointer;
+        border-radius: 5px;
+        margin: 0;
+    }
+    
+    /* Center the h2 element */
+    .h2 {
+        text-align: center;
+    }
+    
+    /* Additional styles for search button size and spacing */
+    .search-button {
+        background-color: #ff5722;
+        margin-top: 10px;
+        margin-left: 10px;
+        margin-bottom: 10px;
+        color: #fff;
+        border: none;
+        padding: 8px 16px;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+    
+}
