@@ -1,0 +1,24 @@
+/* Additional styles for the previous button */
+.custom-arrow-prev,
+.custom-arrow-next {
+  position: absolute;
+  top: 50%;
+  border: none;
+  padding: 8px 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  z-index: 2; /* Ensure it's above the carousel */
+  transform: translateY(-50%);
+}
+
+.custom-arrow-prev {
+  left: 20px; /* Adjust the distance from the left side */
+  background-color: #007bff; /* Change the background color */
+  color: #fff; /* Change the text color */
+}
+
+.custom-arrow-next {
+  right: 20px; /* Adjust the distance from the right side */
+  background-color: #007bff; /* Change the background color to match the previous button */
+  color: #fff; /* Change the text color to match the previous button */
+}

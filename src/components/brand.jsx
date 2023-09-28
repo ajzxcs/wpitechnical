@@ -3,6 +3,7 @@ import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; 
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import "./brand.css";
 
 // firebase
 import { getAllImages } from '../Features/firebase/Storage'
