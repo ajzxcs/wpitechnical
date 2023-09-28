@@ -90,7 +90,31 @@ export const getUsers = async () =>{
 // NOTE: decode the password
 
 // convert pending to granted
-export const pendingToGranted = async (Name, Email, Password, Oldkey) => {
+export const pendingToGranted = (Email, Password, Oldkey) => {
+
+  return new Promise(async (resolve, reject) => {
+    try {
+      // Decrypt the password first
+      const decryptPassword = base64.decode(Password);
+  
+      // Create an account and user data
+      // const uid = await createAccountUser(Email, decryptPassword);
+      // const newUIide = uid.uid;
+
+      resolve(decryptPassword)
+  
+  
+  
+  
+   
+    } catch (error) {
+      reject("Error:", error);
+    }
+  })
+
+};
+
+export const pendingToGrantedss = async (Email, Password, Oldkey) => {
   try {
     // Decrypt the password first
     const decryptPassword = base64.decode(Password);
@@ -98,6 +122,11 @@ export const pendingToGranted = async (Name, Email, Password, Oldkey) => {
     // Create an account and user data
     const uid = await createAccountUser(Email, decryptPassword);
     const newUIide = uid.uid;
+
+    // Old and new uid
+    const oldref = ref(databases, `/Users/${Oldkey}`);
+    const newRef = ref(databases, `/Users/${newUIide}`);
+
 
     // Author email
     try {
@@ -108,9 +137,6 @@ export const pendingToGranted = async (Name, Email, Password, Oldkey) => {
       console.error("Error in authorEmail:", error);
     }
 
-    // Old and new uid
-    const oldref = ref(databases, `/Users/${Oldkey}`);
-    const newRef = ref(databases, `/Users/${newUIide}`);
 
     // For date and time
     const date = new Date().toLocaleDateString();

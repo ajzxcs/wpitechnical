@@ -150,7 +150,8 @@ export default function data(rowrow) {
           <IconButton aria-label="delete" 
           onClick={e=>{
             e.preventDefault()
-            pendingToGranted(user.Fullname,user.Email,user.Password,user.id)
+            pendingToGranted(user.Email,user.Password, user.id)
+            .then(e=>alert(e))
           }
           }
           
