@@ -70,10 +70,18 @@ export default styled(Badge)(({ theme, ownerState }) => {
 
   // styles for the badge with variant="gradient"
   const gradientStyles = (colorProp) => {
-    const backgroundValue = gradients[colorProp]
+    // const backgroundValue = gradients[colorProp]
+    //   ? linearGradient(gradients[colorProp].main, gradients[colorProp].state)
+    //   : linearGradient(gradients.info.main, gradients.info.state);
+
+    const backgroundValue =
+    gradients[colorProp] || gradients[colorProp] === 0
       ? linearGradient(gradients[colorProp].main, gradients[colorProp].state)
+      : colorProp.startsWith("#")
+      ? colorProp // Use the custom hex code as the background
       : linearGradient(gradients.info.main, gradients.info.state);
-    const colorValue = colorProp === "light" ? dark.main : white.main;
+
+      const colorValue = colorProp === "light" ? dark.main : white.main;
 
     return {
       background: backgroundValue,

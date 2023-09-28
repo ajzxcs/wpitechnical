@@ -44,6 +44,7 @@ MDBadge.defaultProps = {
   border: false,
   children: false,
   container: false,
+  // customColor: null, // Default to null
 };
 
 // Typechecking props of the MDBadge
@@ -65,6 +66,7 @@ MDBadge.propTypes = {
   border: PropTypes.bool,
   children: PropTypes.node,
   container: PropTypes.bool,
+ // customColor: PropTypes.string, // Add a prop type for customColor
 };
 
 export default MDBadge;

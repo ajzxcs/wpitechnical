@@ -168,80 +168,6 @@ export const pendingToGranted = (Email, Password, Oldkey) => {
 
 };
 
-// export const pendingToGrantedss = async (Email, Password, Oldkey) => {
-//   try {
-//     // Decrypt the password first
-//     const decryptPassword = base64.decode(Password);
-
-//     // Create an account and user data
-//     const uid = await createAccountUser(Email, decryptPassword);
-//     const newUIide = uid.uid;
-
-//     // Old and new uid
-//     const oldref = ref(databases, `/Users/${Oldkey}`);
-//     const newRef = ref(databases, `/Users/${newUIide}`);
-
-
-//     // Author email
-//     try {
-//       await authorEmail(Email, newUIide);
-//       alert("gumagana ang author email");
-//     } catch (error) {
-//       alert("hindi nagana");
-//       console.error("Error in authorEmail:", error);
-//     }
-
-
-//     // For date and time
-//     const date = new Date().toLocaleDateString();
-//     const time = new Date().toLocaleTimeString();
-
-//     // Check if data exists at oldref
-//     const snapshot = await get(oldref);
-
-//     if (snapshot.exists()) {
-//       // Old data
-//       const data = snapshot.val();
-
-//       // The updated data
-//       const newData = {
-//         "Device": data.Device || "", // Use a default value or handle this case appropriately
-//         "Email": data.Email || "",
-//         "Fullname": data.Fullname || "",
-//         "Number": data.Number || "",
-//         "Organization": data.Organization || "",
-//         "Status": "Granted",
-//         "date": [date, time],
-//         "id": Oldkey,
-//       };
-
-//       // Replace data
-//       try {
-//         await set(newRef, newData); // Assuming you want to completely replace the data
-//         console.log("Data replaced successfully");
-//       } catch (error) {
-//         console.error("Replace new data error:", error);
-//       }
-//     } else {
-//       console.log("Data does not exist at oldref");
-//     }
-
-//     // If success, delete old data
-//     try {
-//       await remove(oldref);
-//       console.log("Delete old data success");
-//       alert("Approve granted");
-//       LogoutSession();
-//       window.location.reload();
-//     } catch (error) {
-//       console.error("Delete old data error:", error);
-//     }
-//   } catch (error) {
-//     console.error("Error:", error);
-//   }
-// };
-
-  
 // create default data on Post
 export const authorEmail = (author, userID) => {
   return new Promise(async (resolve, reject) => {
@@ -258,21 +184,6 @@ export const authorEmail = (author, userID) => {
     }
   });
 };
-
-
-// const replaceNewData = (newRef,newData) =>{
-//     return new Promise(async (resolve, reject) => {
-//        // replace the new data
-//         await set(newRef,newData).then(res=>{
-//             console.log("replace Data sucess: ",res)
-//             resolve(res) 
-//         })
-//         .catch(err=>{
-//             console.log("replace Data error: ",err)
-//             reject(err)
-//         })
-//     })
-// }
 
 // reject user 
 export const rejectUser = (pendingKey) =>{
@@ -433,13 +344,13 @@ export const viewTickets = () =>{
 }
 
 // pendeing to grants
-export const GRANTED_FROM_PENDING = (ID) =>{
+export const GRANTED_FROM_PENDING = (ID,STATUS) =>{
   return new Promise(async (resolve, reject) => {
     try{
-      const dbRef = ref(databases, `/Tickets/${ID}/`);
+      const dbRef = ref(databases, `Tickets/${ID}/`);
 
       const result = await update(dbRef,  {
-        status: "granted",
+        status: STATUS,
       });
       resolve(result)
 

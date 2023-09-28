@@ -10,24 +10,23 @@ import MDBadge from "components/MDBadge";
 // import team3 from "assets/images/team-3.jpg";
 // import team4 from "assets/images/team-4.jpg";
 
-import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
+import HourglassBottomOutlinedIcon from '@mui/icons-material/HourglassBottomOutlined';
 import CheckCircleOutlineOutlinedIcon from '@mui/icons-material/CheckCircleOutlineOutlined';
-import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 
 import { IconButton, Tooltip } from "@mui/material";
 
-import { GRANTED_FROM_PENDING , DELETE_TICKET_SUBMIT} from '../../../firebase/Database'
+import { GRANTED_FROM_PENDING} from '../../../firebase/Database'
 
 
 // set status color
 const statusColor = (stats) =>{
   if (stats === "done"){
-    return "success"
-  }else if(stats === "processing "){
-    return "light"
+    return "#4CAF50"
+  }else if(stats === "process"){
+    return "#FB8C00"
   }else if (stats === "pending"){
-    return "dark"
+    return "#F65F53"
   }else{
     return "error"
   }
@@ -35,63 +34,82 @@ const statusColor = (stats) =>{
 
 // Action components
 const ActionComponents = (data) => {
+
+  const handleDoneClick = (Status) => {
+
+    GRANTED_FROM_PENDING(data.id,Status)
+      .then(response => {
+        console.log(response);
+        window.location.reload();
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  };
+
   return(
   
   <div>
-    {/* data.status !== "done" ? 
-      <div key={data.key}>
-      
-        {/* Approved */}
-          <Tooltip title="Granted" arrow>
-
-              <IconButton aria-label="delete" 
+   {data.status === 'pending' && (
+        <>
+        {/* Process */}
+          <Tooltip title="Process" arrow>
+            <IconButton
               onClick={e=>{
                 e.preventDefault()
-                // pendingToGranted(user.Email,user.Password,user.id)
-                GRANTED_FROM_PENDING(data.id)
-                .then(e=>{
-                  console.log(e) 
-                  window.location.reload()
-                })
+                handleDoneClick("process")
               }}
-              color="success">
+              color="warning"
+            >
+              <HourglassBottomOutlinedIcon />
+            </IconButton>
+          </Tooltip>
 
-                <CheckCircleOutlineOutlinedIcon  />
+        {/* Done */}
+          <Tooltip title="Done" arrow>
+            <IconButton
+              aria-label="Done"
+              onClick={e=>{
+                e.preventDefault()
+                handleDoneClick("done")
+              }}
+              color="success"
+            >
+              <CheckCircleOutlineOutlinedIcon />
+            </IconButton>
+          </Tooltip>
+        </>
+      )}
+      
+      {/* done */}
+      {data.status === 'process' && (
 
-              </IconButton>
-            </Tooltip>
-              
-              {/* Delete */}
-              <Tooltip title="Delete" arrow>
-                <IconButton aria-label="delete" onClick={e=>{
-      
-                  e.preventDefault()
-                  DELETE_TICKET_SUBMIT(data.id)
-                  
-                  }} color="error">
-                  <DeleteOutlineOutlinedIcon  />
-                </IconButton>
-              </Tooltip>
-      
-              </div>
-              :           
-    
-              <Tooltip title="Delete" arrow>
-                <IconButton aria-label="delete" onClick={e=>{
-      
-                  e.preventDefault()
-                  // DELETE_TICKET_SUBMIT(data.id)
-                  
-                  }} color="error">
-                  <EditOutlinedIcon  />
-                </IconButton>
-              </Tooltip>
-              */}
-  </div>)
+        
+        <Tooltip title="Done" arrow>
+          <IconButton
+            aria-label="Done"
+            onClick={e=>{
+                e.preventDefault()
+                handleDoneClick("done")
+              }}
+            color="success"
+          >
+            <CheckCircleOutlineOutlinedIcon />
+          </IconButton>
+        </Tooltip>
+      )}
+             
+  </div>
+  )
 }
 
 export default function data(rowss) {
 
+  // HOYYY FRANZ DITO KA MAG CODE
+  const handleOnEdit = e => {
+    e.preventDefault()
+    alert("HOY FRANZ DITO KA MAG CODE!!")
+  }
 
   return {
     columns: [
@@ -107,6 +125,7 @@ export default function data(rowss) {
       { Header: "Status", accessor: "status", align: "center" },
       { Header: "Email", accessor: "email", align: "center" },
       { Header: "Action", accessor: "action", align: "center" },
+      { Header: "Edit", accessor: "edit", align: "center" },
     ],
 
     rows: Object.values(rowss)?.map((data,key)=>({
@@ -126,9 +145,10 @@ export default function data(rowss) {
 
           <MDBadge 
           badgeContent={data.status} 
+          variant="gradient"
           color={statusColor(data.status)} 
-          // color="light"
-          variant="gradient" size="sm" />
+
+          size="sm" />
 
         </MDBox>
       ),
@@ -138,8 +158,14 @@ export default function data(rowss) {
           {data.email}
         </MDTypography>
       ),
-            // action
-      action: ( <ActionComponents/> )
+      // action
+      action: ( <ActionComponents status={data.status} id={data.id}/> ),
+      edit: (   
+      <Tooltip title="Edit" arrow>
+      <IconButton aria-label="delete" onClick={handleOnEdit} color="default">
+        <EditOutlinedIcon  />
+      </IconButton>
+    </Tooltip>  ),
     })),
   };
 }
