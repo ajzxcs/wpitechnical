@@ -22,6 +22,7 @@ import EmailIcon from '@mui/icons-material/Email'; // email
 import LockIcon from '@mui/icons-material/Lock';
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import { useNavigate } from 'react-router';
 
 const Background = styled.div`
   position: absolute;
@@ -38,6 +39,8 @@ const Background = styled.div`
 // 
 
 const Signup = () => {
+
+    const mavigate = useNavigate()
     // get windows screen
     const [state, setState] = React.useState(false);
     React.useEffect(()=>{
@@ -488,16 +491,37 @@ const Signup = () => {
                         transition: 'background-color 0.3s ease'
                     }}
                     onClick={handleforSubmit}
-                    >Register</Button>       
+                    >Register</Button>   
 
+                    <Grid item xs={5}>
+                        {/* Go back button */}
+                        <Button 
+                        variant='text' 
+                        style={{
+                            textTransform: 'none',
+                            fontFamily: 'sans-serif',
+                        // borderRadius: 25,
+                        // color: 'white', // Added explicit color to ensure text is visible
+                        // boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.25)', // Added a subtle shadow for depth
+                        // fontWeight: 'bold', // Added bold font weight
+                            fontSize: '16px', // Adjusted font size for better readability
+                        // padding: '10px', // Adjusted padding for more comfortable touch interaction
+                        // transition: 'background-color 0.3s ease'
+                        }}
+                        onClick={()=>mavigate("/")}
+                        >Go back</Button>   
+
+                    </Grid>      
+
+                   
                 </Stack>
+
+                
            
             </Box>
 
         </Grid>
-        <Grid item xs={8}>
-            
-        </Grid>     
+    
     
     </Grid>
     
