@@ -124,16 +124,21 @@ a {
   border: none;
   cursor: pointer;
 }
-.back-btn{
+/* Add this CSS to position the "Back" button at the top-right corner */
+.back-btn {
+  position: absolute;
+  top: 20px; /* Adjust the top position as needed */
+  right: 20px; /* Adjust the right position as needed */
   width: 120px;
   padding: 10px 15px;
   font-size: 13px;
   font-family: Ubuntu-Bold;
   border: none;
   cursor: pointer;
-  background-color: orangered;
+  background-color:#002b5b ;
   color: white;
 }
+
 .prev-btn,
 .next-btn {
   width: 120px;

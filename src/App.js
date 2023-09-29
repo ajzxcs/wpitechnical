@@ -100,6 +100,8 @@ function PersonalInfo(props) {
       
    {/* wards */}
       <button onClick={()=>props.functionTicks()} className="now-btn" >Track your ticket</button>
+      <a href="https://wpi-projects-17ff6.web.app">
+      <button className="back-btn">Back</button></a>
     </div>
   );
 }
