@@ -14,7 +14,18 @@ import HourglassBottomOutlinedIcon from '@mui/icons-material/HourglassBottomOutl
 import CheckCircleOutlineOutlinedIcon from '@mui/icons-material/CheckCircleOutlineOutlined';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 
-import { IconButton, Tooltip } from "@mui/material";
+import React, { useState } from "react";
+import {
+  IconButton,
+  Tooltip,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Button,
+  TextField,
+  Box,
+} from "@mui/material";
 
 import { GRANTED_FROM_PENDING} from '../../../firebase/Database'
 
@@ -102,14 +113,68 @@ const ActionComponents = (data) => {
   </div>
   )
 }
+const fieldConfigurations = [
+  { label: "Name", name: "name" },
+  { label: "Address", name: "address" },
+  { label: "Institution", name: "institution" },
+  { label: "Contact Number", name: "contactNumber" },
+  { label: "Brand", name: "brand" },
+  { label: "Model", name: "model" },
+  { label: "Serial Number", name: "serialNumber" },
+  { label: "Issue", name: "issue" },
+  { label: "Schedule", name: "schedule" },
+];
 
-export default function data(rowss) {
 
-  // HOYYY FRANZ DITO KA MAG CODE
-  const handleOnEdit = e => {
-    e.preventDefault()
-    alert("HOY FRANZ DITO KA MAG CODE!!")
-  }
+export default function Data(rowss) {
+  const [openEditModal, setOpenEditModal] = useState(false);
+  const [editFormData, setEditFormData] = useState({
+    name: "",
+    address: "",
+    institution: "",
+    contactNumber: "",
+    brand: "",
+    model: "",
+    serialNumber: "",
+    issue: "",
+    schedule: "",
+  });
+
+  
+  const handleOpenEditModal = (data) => {
+    setOpenEditModal(true);
+    setEditFormData({
+      name: data.name,
+      address: data.address,
+      institution: data.institution,
+      contactNumber: data.contactNumber,
+      brand: data.brand,
+      model: data.model,
+      serialNumber: data.serialNumber,
+      issue: data.issue,
+      schedule: data.schedule,
+    });
+  };
+
+  const handleCloseEditModal = () => {
+    setOpenEditModal(false);
+  };
+
+  const handleEditFormChange = (e) => {
+    setEditFormData({
+      ...editFormData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleEditFormSubmit = () => {
+    console.log("Edited data:", editFormData);
+    handleCloseEditModal();
+  };
+
+  const handleOnEdit = (data) => {
+    handleOpenEditModal(data);
+  };
 
   return {
     columns: [
@@ -128,7 +193,7 @@ export default function data(rowss) {
       { Header: "Edit", accessor: "edit", align: "center" },
     ],
 
-    rows: Object.values(rowss)?.map((data,key)=>({
+    rows: Object.values(rowss)?.map((data, key) => ({
       name: data.name,
       address: data.address,
       institution: data.institution,
@@ -138,34 +203,74 @@ export default function data(rowss) {
       serialNumber: data.serialNumber,
       issue: data.issue,
       schedule: data.schedule,
-
-      // status
       status: (
         <MDBox ml={-1} key={key}>
-
-          <MDBadge 
-          badgeContent={data.status} 
-          variant="gradient"
-          color={statusColor(data.status)} 
-
-          size="sm" />
-
+          <MDBadge
+            badgeContent={data.status}
+            variant="gradient"
+            color={statusColor(data.status)}
+            size="sm"
+          />
         </MDBox>
       ),
-
       email: (
-        <MDTypography key={key} component="a" href="#" variant="caption" color="text" fontWeight="medium">
+        <MDTypography
+          key={key}
+          component="a"
+          href="#"
+          variant="caption"
+          color="text"
+          fontWeight="medium"
+        >
           {data.email}
         </MDTypography>
       ),
-      // action
-      action: ( <ActionComponents status={data.status} id={data.id}/> ),
-      edit: (   
+      action: <ActionComponents status={data.status} id={data.id} />,
+      edit: (
+        <div>
+      {/* Edit button */}
       <Tooltip title="Edit" arrow>
-      <IconButton aria-label="delete" onClick={handleOnEdit} color="default">
-        <EditOutlinedIcon  />
-      </IconButton>
-    </Tooltip>  ),
+        <IconButton
+          aria-label="Edit"
+          onClick={() => handleOnEdit(data)}
+          color="default"
+        >
+          <EditOutlinedIcon />
+        </IconButton>
+      </Tooltip>
+
+      {/* Edit Modal */}
+      <Dialog open={openEditModal} onClose={handleCloseEditModal} 
+      maxWidth="md"
+        fullWidth >
+        <DialogTitle>Edit Data</DialogTitle>
+        <br/>
+        <DialogContent>
+        
+        {fieldConfigurations.map((field, index) => (
+             <Box mb={2} key={index}>
+          
+             <TextField
+                label={field.label}
+                name={field.name}
+                value={editFormData[field.name] || ""}
+                onChange={handleEditFormChange}
+                fullWidth
+              
+              />
+           </Box>
+          ))}
+  
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseEditModal}>Cancel</Button>
+          <Button onClick={handleEditFormSubmit} color="primary">
+            Save
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </div>
+      ),
     })),
   };
 }
