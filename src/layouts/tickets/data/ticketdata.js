@@ -27,7 +27,7 @@ import {
   Box,
 } from "@mui/material";
 
-import { GRANTED_FROM_PENDING} from '../../../firebase/Database'
+import { GRANTED_FROM_PENDING,UPDATE_DATA } from '../../../firebase/Database'
 
 
 // set status color
@@ -143,17 +143,10 @@ export default function Data(rowss) {
   
   const handleOpenEditModal = (data) => {
     setOpenEditModal(true);
-    setEditFormData({
-      name: data.name,
-      address: data.address,
-      institution: data.institution,
-      contactNumber: data.contactNumber,
-      brand: data.brand,
-      model: data.model,
-      serialNumber: data.serialNumber,
-      issue: data.issue,
-      schedule: data.schedule,
-    });
+
+    // console.log(data)
+
+    setEditFormData(data);
   };
 
   const handleCloseEditModal = () => {
@@ -167,8 +160,15 @@ export default function Data(rowss) {
     });
   };
 
-  const handleEditFormSubmit = () => {
-    console.log("Edited data:", editFormData);
+  const handleEditFormSubmit = e => {
+    e.preventDefault()
+    // console.log("Edited data:", editFormData);
+    UPDATE_DATA(editFormData)
+    .then(result=>{
+      alert(result);
+      window.location.reload();
+    })
+    .catch(error=>alert(error))
     handleCloseEditModal();
   };
 
@@ -227,7 +227,7 @@ export default function Data(rowss) {
       ),
       action: <ActionComponents status={data.status} id={data.id} />,
       edit: (
-        <div>
+        <div key={key}>
       {/* Edit button */}
       <Tooltip title="Edit" arrow>
         <IconButton
@@ -263,10 +263,13 @@ export default function Data(rowss) {
   
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseEditModal}>Cancel</Button>
-          <Button onClick={handleEditFormSubmit} color="primary">
+            {/* Cancel */}
+            <Button onClick={handleCloseEditModal}>Cancel</Button>
+
+            {/* Save */}
+            <Button onClick={handleEditFormSubmit} color="primary">
             Save
-          </Button>
+           </Button>
         </DialogActions>
       </Dialog>
     </div>

@@ -30,9 +30,11 @@ import {
   getUsers,
   viewZOHO,
   forumVisitToday,
-  totalForumVisit
+  totalForumVisit,
+  pendingTickestTotal
 } from '../../firebase/Database'
-// import { Button } from "@mui/material";
+
+import { Button } from "@mui/material";
 
 
 function Dashboard() {
@@ -43,7 +45,8 @@ function Dashboard() {
     totalUsers: 0,
     totalPending: 0,
     visitToday: 0,
-    totalVisit: 0
+    totalVisit: 0,
+    totalPendingTicks: 0
   })
 
   const [date,setaDte] = React.useState("1/1/2000")
@@ -83,12 +86,9 @@ function Dashboard() {
         // Update the state with the accumulated changes
         setData(newData);
       })
-
-
   
       // Total forum post
-      totalForumPost()
-        .then((e) => {
+      totalForumPost().then((e) => {
           // Merge the new totalPost value with newData
           newData = { ...newData, totalPost: e };
   
@@ -98,8 +98,7 @@ function Dashboard() {
         .catch((error) => console.log(error));
   
       // today forum post
-      totalForumPost_Today()
-        .then((e) => {
+      totalForumPost_Today().then((e) => {
           // Merge the new todayPost value with newData
           newData = { ...newData, todayPost: e };
   
@@ -109,8 +108,7 @@ function Dashboard() {
         .catch((error) => console.log(error));
 
       // get total user
-      getUsers()
-      .then((e) => {
+      getUsers().then((e) => {
 
         const total = e?.filter((data,key)=> { return data.Status === "Granted" }).length;
 
@@ -121,8 +119,20 @@ function Dashboard() {
       .catch((error) => console.log(error));
 
       // get the pending tickets
-      viewZOHO()
-      .then((e) => {
+      pendingTickestTotal().then((e) => {
+
+    
+
+        // Merge the new todayPost value with newData
+        newData = { ...newData, totalPendingTicks: e };
+
+        // Update the state with the accumulated changes
+        setData(newData);
+      })
+      .catch((error) => console.log(error));
+
+      // get the pending tickets
+      viewZOHO().then((e) => {
 
         const total = e?.data.length;
 
@@ -243,6 +253,23 @@ function Dashboard() {
                 color="primary"
                 icon="attach_file"
                 title="Pending Tickets"
+                count={data.totalPendingTicks}
+                percentage={{
+                  color: "success",
+                  amount: "",
+                  label:  "From ticketing form",
+                }}
+              />
+            </MDBox>
+          </Grid>
+          
+          {/* Pending Tickest */}
+          <Grid item xs={12} md={6} lg={3}>
+            <MDBox mb={1.5}>
+              <ComplexStatisticsCard
+                color="primary"
+                icon="attach_file"
+                title="ZOHO Pending Tickets "
                 count={data.totalPending}
                 percentage={{
                   color: "success",
@@ -253,9 +280,11 @@ function Dashboard() {
             </MDBox>
           </Grid>
 
-{/* 
-          <Grid item xs={12} md={6} lg={3}>
-            <Button variant="contained" onClick={()=>totalForumVisit().then(e=>console.log(e))}>Hello Friend</Button>
+
+
+
+          {/* <Grid item xs={12} md={6} lg={3}>
+            <Button variant="contained" onClick={()=>pendingTickestTotal().then(e=>console.log(e))}>Hello Friend</Button>
           </Grid> */}
 
         </Grid>
