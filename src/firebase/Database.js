@@ -63,7 +63,7 @@ export const totalForumPost_Today = async () =>{
     });
    }
 
-//    Get all the users including pending
+//  Get all the users including pending
 export const getUsers = async () =>{
     const dbRef = ref(databases, `Users/`);
 
@@ -325,7 +325,7 @@ export const totalForumVisit = () =>{
   })
 }
 
-// view zoho tickets
+// view zoho from ticketing form
 export const viewTickets = () =>{
   return new Promise(async (resolve, reject) => {
     try{  
@@ -343,16 +343,54 @@ export const viewTickets = () =>{
   })
 }
 
+// view tikcet total
+export const pendingTickestTotal = () =>{
+  return new Promise(async (resolve, reject) => {
+    try{  
+      const dbRef = ref(databases, 'Tickets/');
+      const snapshot = await get(dbRef);
+
+      const data = snapshot.val();
+      
+      const total = data && Object.values(data).filter(e=>e.status === "pending").length
+      resolve(total)
+     
+  
+    }catch(error){
+      reject(error)
+    }
+  })
+}
+
+
 // pendeing to grants
 export const GRANTED_FROM_PENDING = (ID,STATUS) =>{
   return new Promise(async (resolve, reject) => {
     try{
       const dbRef = ref(databases, `Tickets/${ID}/`);
 
+
+
       const result = await update(dbRef,  {
         status: STATUS,
       });
       resolve(result)
+
+    }catch(erroir){
+      reject(erroir)
+    }
+  })
+}
+
+// UPDATE DATA
+export const UPDATE_DATA = (userData) =>{
+  return new Promise(async (resolve, reject) => {
+    try{
+      const dbRef = ref(databases, `Tickets/${userData.id}/`);
+
+      await update(dbRef,userData);
+
+      resolve("data has updated!")
 
     }catch(erroir){
       reject(erroir)
@@ -370,6 +408,7 @@ export const DELETE_TICKET_SUBMIT = (ID) =>{
      await remove(dbRef)
      .then(() => {
         alert("data has been deleted")
+        resolve("data has been deleted")
      })
      .catch((error) => console.log("delete old data error: ", error));
 
