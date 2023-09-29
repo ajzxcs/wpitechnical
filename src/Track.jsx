@@ -57,7 +57,7 @@ function Track({ setTicketView }) {
       <h3 style={{ marginBottom: '1rem' }}>Schedule: {data.schedule}</h3>
     </div>
   ) : (
-    <p style={{ color: 'red', marginLeft: '0.5rem', marginBottom: '0' }}>No Data Found</p>
+    <p style={{ color: 'red', marginLeft: '0.5rem', marginBottom: '0', animation: 'bounce 2s infinite' }} className='bounce-once'>No Data Found</p>
   )}
 </div>
 
