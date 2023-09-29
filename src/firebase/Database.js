@@ -1,7 +1,8 @@
 import { 
     ref, 
     update,
-    push
+    push,
+    get
 } from "@firebase/database";
 import { databases } from './Configuration'
 
@@ -36,3 +37,30 @@ export const createTickets = async(tickets) =>{
 
   
   }
+
+  // Track ticket number
+export const TRACK_TICKET = (SerialNumber) => {
+  return new Promise(async (resolve, reject) => {
+    try{  
+      const dbRef = ref(databases, 'Tickets/');
+      const snapshot = await get(dbRef);
+
+      const data = snapshot.val();
+      
+      const total = data && Object.values(data)
+        .filter(e=>e.serialNumber === SerialNumber)
+        .map((result)=>{
+          return {
+            status: result.status,
+            schedule: result.schedule,
+            name: result.name
+          }
+        })
+      resolve(total)
+     
+  
+    }catch(error){
+      reject(error)
+    }
+  })
+}
