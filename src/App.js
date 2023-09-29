@@ -225,7 +225,11 @@ function Confirm() {
           <p>
             Thanks for confirming your submission! If you ever need support, please feel free to email us
             at support@wpi.com.ph
-          </p>
+          </p><br></br>
+          <a href="https://wpi-projects-17ff6.web.app">
+          <button className="next-btn">Finish</button></a>
+          <a href="/">
+          <button className="next-btn">Submit Again</button></a>
         </div>
       </div>
     </div>
