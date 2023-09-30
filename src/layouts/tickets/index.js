@@ -61,12 +61,16 @@ function Tickets() {
 
   const handleSearchTable1 = (event) => {
     const searchText = event.target.value.toLowerCase();
-    const filteredData = rowss.filter((row) => {
+    const filteredData = rowss?.filter((row) => {
       return Object.values(row).some((value) =>
         value.toString().toLowerCase().includes(searchText)
       );
     });
     setFilteredRows1(filteredData);
+
+    console.log("pang filter", filteredData)
+
+    console.log("hindi filter",rowss )
   };
 
   const handleSearchTable2 = (event) => {

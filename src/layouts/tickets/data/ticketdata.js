@@ -19,18 +19,7 @@ import { IconButton, Tooltip } from "@mui/material";
 import { GRANTED_FROM_PENDING} from '../../../firebase/Database'
 
 
-// set status color
-const statusColor = (stats) =>{
-  if (stats === "done"){
-    return "#4CAF50"
-  }else if(stats === "process"){
-    return "#FB8C00"
-  }else if (stats === "pending"){
-    return "#F65F53"
-  }else{
-    return "error"
-  }
-}
+
 
 // Action components
 const ActionComponents = (data) => {
@@ -47,13 +36,14 @@ const ActionComponents = (data) => {
       });
   };
 
+
   return(
   
   <div>
-   {data.status === 'pending' && (
+   {data?.status === 'pending' && (
         <>
         {/* Process */}
-          <Tooltip title="Process" arrow>
+          <Tooltip key={data.id} title="Process" arrow>
             <IconButton
               onClick={e=>{
                 e.preventDefault()
@@ -66,7 +56,7 @@ const ActionComponents = (data) => {
           </Tooltip>
 
         {/* Done */}
-          <Tooltip title="Done" arrow>
+          <Tooltip  key={data.id} title="Done" arrow>
             <IconButton
               aria-label="Done"
               onClick={e=>{
@@ -82,10 +72,10 @@ const ActionComponents = (data) => {
       )}
       
       {/* done */}
-      {data.status === 'process' && (
+      {data?.status === 'process' && (
 
         
-        <Tooltip title="Done" arrow>
+        <Tooltip key={data.id} title="Done" arrow>
           <IconButton
             aria-label="Done"
             onClick={e=>{
@@ -110,6 +100,23 @@ export default function data(rowss) {
     e.preventDefault()
     alert("HOY FRANZ DITO KA MAG CODE!!")
   }
+
+    // set status color
+    const StatusColor = (stats) =>{
+      switch (stats) {
+        case "done":
+          return "#4CAF50";
+        case "process":
+          return "#FB8C00";
+        case "pending":
+          return "#F65F53";
+        default:
+          // Handle the case when the status doesn't match any of the expected values.
+          // You can return a default color or throw an error, depending on your requirements.
+          return "defaultColor"; // Change this to your desired default color.
+      }
+    }
+  
 
   return {
     columns: [
@@ -144,11 +151,12 @@ export default function data(rowss) {
         <MDBox ml={-1} key={key}>
 
           <MDBadge 
+
           badgeContent={data.status} 
           variant="gradient"
-          color={statusColor(data.status)} 
-
+          color={StatusColor(data.status)} 
           size="sm" />
+  
 
         </MDBox>
       ),
