@@ -18,9 +18,6 @@ import { IconButton, Tooltip } from "@mui/material";
 
 import { GRANTED_FROM_PENDING} from '../../../firebase/Database'
 
-
-
-
 // Action components
 const ActionComponents = (data) => {
 
@@ -93,7 +90,8 @@ const ActionComponents = (data) => {
   )
 }
 
-export default function data(rowss) {
+export default function Data(rowss) {
+
 
   // HOYYY FRANZ DITO KA MAG CODE
   const handleOnEdit = e => {
@@ -101,8 +99,8 @@ export default function data(rowss) {
     alert("HOY FRANZ DITO KA MAG CODE!!")
   }
 
-    // set status color
-    const StatusColor = (stats) =>{
+  // set status color
+  const StatusColor = (stats) =>{
       switch (stats) {
         case "done":
           return "#4CAF50";
@@ -115,7 +113,7 @@ export default function data(rowss) {
           // You can return a default color or throw an error, depending on your requirements.
           return "defaultColor"; // Change this to your desired default color.
       }
-    }
+  }
   
 
   return {

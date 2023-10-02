@@ -24,8 +24,12 @@ import { importZoho, viewZOHO, viewTickets } from '../../firebase/Database';
 
 function Tickets() {
   const [rowss, setROws] = useState([]);
+
   const [filteredRows1, setFilteredRows1] = useState([]);
+
+
   const [filteredRows2, setFilteredRows2] = useState([]);
+
   const [excelData, setExcelData] = useState([]);
   const [columnsDta, setColumnsDta] = useState([]);
 
@@ -36,6 +40,7 @@ function Tickets() {
       try {
         const data = await viewTickets();
         setROws(data);
+        setFilteredRows1(data)
       } catch (error) {
         console.error(error);
       }
@@ -47,13 +52,9 @@ function Tickets() {
         setExcelData(E.data);
       });
 
-      viewTickets().then((E) => {
-        E?.map((data, key) => {
-          return setROws(data);
-        });
+      fetchData();
 
-        fetchData();
-      });
+
     }
 
     return () => (mounted = false);
@@ -66,11 +67,9 @@ function Tickets() {
         value.toString().toLowerCase().includes(searchText)
       );
     });
-    setFilteredRows1(filteredData);
-
-    console.log("pang filter", filteredData)
-
-    console.log("hindi filter",rowss )
+    // setFilteredRows1(filteredData);
+    searchText ?  setROws(filteredData) : setROws(filteredRows1)
+   
   };
 
   const handleSearchTable2 = (event) => {
@@ -134,6 +133,7 @@ function Tickets() {
               <MDTypography variant="h6" color="white">
                 Tickets from Website
               </MDTypography>
+
               <TextField
                 variant="outlined"
                 size="small"
@@ -147,12 +147,13 @@ function Tickets() {
                   ),
                 }}
               />
+
             </MDBox>
             <MDBox pt={3}>
               <DataTable
                 table={{
                   columns,
-                  rows: filteredRows1.length > 0 ? filteredRows1 : rows,
+                  rows: rows,
                 }}
                 isSorted={false}
                 entriesPerPage={false}
