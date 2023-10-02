@@ -39,8 +39,17 @@ function Tickets() {
     const fetchData = async () => {
       try {
         const data = await viewTickets();
-        setROws(data);
-        setFilteredRows1(data)
+
+         // Access the samplePosts data directly
+        const sortedDate = Object.values(data)
+        .sort((a, b) => {
+          const dateA = new Date(a.schedule).getTime();
+          const dateB = new Date(b.schedule).getTime();
+          return dateB - dateA; // Sort by date in descending order (newest to oldest)
+        });
+
+        setROws(sortedDate);
+        setFilteredRows1(sortedDate)
       } catch (error) {
         console.error(error);
       }
