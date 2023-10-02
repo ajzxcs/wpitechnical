@@ -18,67 +18,69 @@ import DataTable from "examples/Tables/DataTable";
 
 // Data
 import ticketdata from "layouts/tickets/data/ticketdata";
-// import data2 from "layouts/tickets/data/projectsTableData"; // Import the second data source
 import * as XLSX from 'xlsx';
-import React from "react";
-
-import { importZoho, viewZOHO, viewTickets } from '../../firebase/Database'
-
-
+import React, { useEffect, useState } from "react";
+import { importZoho, viewZOHO, viewTickets } from '../../firebase/Database';
 
 function Tickets() {
+  const [rowss, setROws] = useState([]);
 
-  const [rowss,setROws] = React.useState([])
+  const [filteredRows1, setFilteredRows1] = useState([]);
 
-  const { columns, rows } = ticketdata(rowss);
 
-  // const { columns: columns2, rows: rows2 } = data2(); // Use the second data source
+  const [filteredRows2, setFilteredRows2] = useState([]);
 
-  const handleSearchTable1 = (event) => {
-    // Handle search logic for Table 1 here
-  };
+  const [excelData, setExcelData] = useState([]);
+  const [columnsDta, setColumnsDta] = useState([]);
 
-  const handleSearchTable2 = (event) => {
-    // Handle search logic for Table 2 here
-  };
-
-  const [excelData, setExcelData] = React.useState([]);
-  const [columnsDta, setColumnsDta] = React.useState([]);
-
-  React.useState(()=>{
-
+  useEffect(() => {
     let mounted = true;
 
-    // Define an async function within useEffect
-     const fetchData = async () => {
+    const fetchData = async () => {
       try {
         const data = await viewTickets();
         setROws(data);
+        setFilteredRows1(data)
       } catch (error) {
         console.error(error);
       }
-    }
-  
-    
-    if(mounted)
-    {
-      viewZOHO().then(E=>{
+    };
+
+    if (mounted) {
+      viewZOHO().then((E) => {
         setColumnsDta(E.column);
-        setExcelData(E.data)
-      })
+        setExcelData(E.data);
+      });
 
-      viewTickets().then(E=>{
-        E?.map((data,key)=>{
-          return  setROws(data);
-        })
+      fetchData();
 
-        fetchData();
-       
-      })
+
     }
-  
-    return(()=>mounted=false)
-  },[])
+
+    return () => (mounted = false);
+  }, []);
+
+  const handleSearchTable1 = (event) => {
+    const searchText = event.target.value.toLowerCase();
+    const filteredData = rowss?.filter((row) => {
+      return Object.values(row).some((value) =>
+        value.toString().toLowerCase().includes(searchText)
+      );
+    });
+    // setFilteredRows1(filteredData);
+    searchText ?  setROws(filteredData) : setROws(filteredRows1)
+   
+  };
+
+  const handleSearchTable2 = (event) => {
+    const searchText = event.target.value.toLowerCase();
+    const filteredData = excelData.filter((row) => {
+      return Object.values(row).some((value) =>
+        value.toString().toLowerCase().includes(searchText)
+      );
+    });
+    setFilteredRows2(filteredData);
+  };
 
   const handleFileUpload = (e) => {
     const file = e.target.files[0];
@@ -90,7 +92,6 @@ function Tickets() {
       const sheetName = workbook.SheetNames[0];
       const sheetData = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]);
 
-      // Extract column headers from the first row of the Excel file
       const firstRow = sheetData[0];
       const extractedColumns = [];
       for (const key in firstRow) {
@@ -98,24 +99,22 @@ function Tickets() {
           extractedColumns.push({
             Header: key,
             accessor: key,
-            align: "center", // You can specify alignment here
+            align: "center",
           });
         }
       }
 
-      importZoho(sheetData,extractedColumns)
-
-      // console.log(sheetData)
+      importZoho(sheetData, extractedColumns);
     };
 
     reader.readAsArrayBuffer(file);
   };
 
+  const { columns, rows } = ticketdata(rowss);
+
   return (
-
-
     <DashboardLayout>
-    <DashboardNavbar/>
+      <DashboardNavbar />
 
       {/* Ticket from not zoho */}
       <MDBox pt={6} pb={3}>
@@ -134,6 +133,7 @@ function Tickets() {
               <MDTypography variant="h6" color="white">
                 Tickets from Website
               </MDTypography>
+
               <TextField
                 variant="outlined"
                 size="small"
@@ -148,11 +148,13 @@ function Tickets() {
                 }}
               />
 
-
             </MDBox>
             <MDBox pt={3}>
               <DataTable
-                table={{ columns, rows }}
+                table={{
+                  columns,
+                  rows: rows,
+                }}
                 isSorted={false}
                 entriesPerPage={false}
                 showTotalEntries={false}
@@ -162,18 +164,11 @@ function Tickets() {
           </Card>
         </Grid>
       </MDBox>
-      
+
       {/* Ticket from zoho */}
       <MDBox pt={6} pb={3}>
-
-
-
-  
         <Grid item xs={12}>
-
           <Card>
-
-
             <MDBox
               mx={2}
               mt={-3}
@@ -185,57 +180,51 @@ function Tickets() {
               coloredShadow="info"
             >
               <Grid container>
-
                 <Grid item xs={12} md={12} spacing={2}>
-    
                   <MDTypography variant="h6" color="white">
                     Tickets from Zoho
                   </MDTypography>
                 </Grid>
-
-              <Grid item xs={12} md={3} sm={12}>
-              <TextField
-                variant="outlined"
-                size="small"
-                label="Search"
-                onChange={handleSearchTable2}
-                InputProps={{
-                  endAdornment: (
-                    <IconButton>
-                      <SearchIcon />
-                    </IconButton>
-                  ),
-                }}
-              />
-              
+                <Grid item xs={12} md={3} sm={12}>
+                  <TextField
+                    variant="outlined"
+                    size="small"
+                    label="Search"
+                    onChange={handleSearchTable2}
+                    InputProps={{
+                      endAdornment: (
+                        <IconButton>
+                          <SearchIcon />
+                        </IconButton>
+                      ),
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={12} md={3} sm={12}>
+                  <input
+                    type="file"
+                    accept=".xlsx"
+                    style={{ display: "none" }}
+                    onChange={handleFileUpload}
+                    id="fileInput"
+                  />
+                  <label htmlFor="fileInput">
+                    <MDButton
+                      variant="outlined"
+                      component="span"
+                    >
+                      Import excel file
+                    </MDButton>&nbsp;&nbsp;&nbsp;&nbsp;
+                  </label>
+                </Grid>
               </Grid>
-
-              <Grid item xs={12} md={3} sm={12}>
-          {/* upload */}
-          <input
-            type="file"
-            accept=".xlsx"
-            style={{ display: "none" }}
-            onChange={handleFileUpload}
-            id="fileInput"
-          />
-          <label htmlFor="fileInput">
-            <MDButton
-              variant="outlined"
-              // color="primary"
-              component="span"
-            >
-         Import excel file
-            </MDButton>&nbsp;&nbsp;&nbsp;&nbsp;
-          </label>
-          </Grid>
-
-          </Grid>
-
             </MDBox>
             <MDBox pt={3}>
               <DataTable
-                table={{ columns: columnsDta, rows: excelData }} // Use the second data source
+                table={{
+                  columns: columnsDta,
+                  rows: filteredRows2.length > 0 ? filteredRows2 : excelData,
+                }}
                 isSorted={false}
                 entriesPerPage={false}
                 showTotalEntries={false}
