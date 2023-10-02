@@ -228,10 +228,21 @@ function Confirm() {
             Thanks for confirming your submission! If you ever need support, please feel free to email us
             at support@wpi.com.ph
           </p><br></br>
-          <a href="https://wpi-projects-17ff6.web.app">
-          <button className="next-btn">Finish</button></a>
-          <a href="/">
-          <button className="next-btn">Submit Again</button></a>
+
+          <div 
+          style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+   
+            }}>
+              <a href="https://wpi-projects-17ff6.web.app">
+              <button className="next-btn">Finish</button></a>
+
+              <a href="/">
+              <button className="next-btn">Submit Again</button></a>
+          </div>
+     
         </div>
       </div>
     </div>
@@ -405,9 +416,15 @@ function FormStructure({ step, setStep, setTicketView, ticketView}) {
 export default function App() {
   const [step, setStep] = useState(0);
   const [ticketView,setTicketView] = useState(true)
+
   return (
-    <div>
-    { ticketView ? 
+    // <div className="multi-step-form">
+    //  <Sidebar step={step} />
+    // <Confirm /> 
+<div>
+    {  
+    
+    ticketView ? 
         <div className="multi-step-form">
           <Sidebar step={step} />
           {step >= 0 && step <= 3 ? ( <FormStructure step={step} setStep={setStep} setTicketView={setTicketView} ticketView={ticketView}/> ) : ( <Confirm /> ) }
@@ -416,7 +433,7 @@ export default function App() {
 
       <div>
         <Track setTicketView={setTicketView}/>
-      </div>
+      </div> 
     }
   </div>
   );
