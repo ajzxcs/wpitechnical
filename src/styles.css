@@ -420,6 +420,19 @@ input[type="checkbox"]:checked:after {
   body {
     display: block;
   }
+  .back-btn {
+    position: absolute;
+    top: 5px; /* Adjust the top position as needed */
+    right: 5px; /* Adjust the right position as needed */
+    width: 50px;
+    padding: 5px 10px;
+    font-size: 9px;
+    font-family: Ubuntu-Bold;
+    border: none;
+    cursor: pointer;
+    background-color: #002b5b;
+    color: white;
+  }
   .multi-step-form {
     width: 100%;
     height: 100%;
