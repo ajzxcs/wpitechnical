@@ -157,19 +157,7 @@ function Basic() {
               </MDTypography>
             </Grid>
 
-            {/* Github */}
-            <Grid item xs={2}>
-              <MDTypography component={MuiLink} href="/" variant="body1" color="white">
-                <GitHubIcon color="inherit" />
-              </MDTypography>
-            </Grid> 
-
-            {/* Google */}
-            <Grid item xs={2}>
-              <MDTypography component={MuiLink} href="/" variant="body1" color="white">
-                <GoogleIcon color="inherit" />
-              </MDTypography>
-            </Grid>
+          
 
           </Grid>
         </MDBox>

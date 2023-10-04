@@ -1,0 +1,60 @@
+/* Container for the input boxes */
+.input-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 20px;
+  margin-top: 20px;
+  padding-bottom: 150px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Minimum viewport height */
+}
+
+.Card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Style for individual input boxes */
+.input-box {
+  width: 80%;
+  padding: 15px;
+  border: 1px solid #d1d1d1;
+  border-radius: 8px;
+  font-size: 16px;
+  outline: none;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  margin-left: 20px;
+}
+
+.input-box:focus {
+  border-color: #007bff; /* Change border color on focus */
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Add a subtle box shadow on focus */
+}
+
+/* Style for the Save button */
+.save-button {
+  display: block;
+  margin: 0 auto; /* Center horizontally */
+  margin-top: 20px; /* Add top margin for spacing */
+  padding: 12px 24px; /* Adjust padding as needed */
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+  text-decoration: none;
+  text-align: center;
+  margin-top: auto;
+  margin-bottom: 25px;
+}
+
+.save-button:hover {
+  background-color: #0056b3; /* Change background color on hover */
+}

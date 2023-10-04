@@ -45,6 +45,8 @@ import Profile from "layouts/profile";
 import SignUp from "layouts/authentication/sign-up";
 import Tickets from "layouts/tickets"
 import SignOut from "layouts/authentication/sign-out";
+import Serve from "layouts/serve";
+
 
 // @mui icons
 import Icon from "@mui/material/Icon";
@@ -60,11 +62,19 @@ const routes = [
   },
   {
     type: "collapse",
-    name: "Services",
+    name: "Users",
     key: "tables",
     icon: <Icon fontSize="small">table_view</Icon>,
     route: "/tables",
     component: <Tables />,
+  },
+  {
+    type: "collapse",
+    name: "Services",
+    key: "serve",
+    icon: <Icon fontSize="small">table_view</Icon>,
+    route: "/serve",
+    component: <Serve />,
   },
   {
     type: "collapse",
