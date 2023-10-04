@@ -7,7 +7,7 @@ export const Services = (props) => {
         <div className="section-title">
           <h2>Our Services</h2>
           <p>
-            Meet our aftersales team
+          Our dedication to our services is unwavering, and our commitment to excellence will continue to drive us forward.
           </p>
         </div>
         <div className="row">
