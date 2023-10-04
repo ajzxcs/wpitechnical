@@ -206,7 +206,7 @@ function Public() {
                   <>
 
                     {/* This components to show the List of posted question */}
-                    <AskQ />
+                  {/*   <AskQ /> */}
                     <PostList
                     posts={postData}
                     onSelectPost={handleSelectPost}
