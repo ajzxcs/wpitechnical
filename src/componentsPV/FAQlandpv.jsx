@@ -23,6 +23,7 @@ const FAQland = ({ toggleFAQVisibility }) => {
 
   return (
     <div className="dispFAQ-title">
+         <h2>Frequently Ask Question</h2>
       <div className="dispFAQ-container">
         <div className="dispFAQ-list">
           {faqs3.map((faq, index) => (
