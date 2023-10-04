@@ -117,33 +117,33 @@
   ],
   "Team": [
     {
-      "img": "img/team/01.jpg",
+      "img": "img/team/teams.png",
       "name": "John Doe",
       "job": "Director"
     },
     {
-      "img": "img/team/02.jpg",
+      "img": "img/team/teams.png",
       "name": "Mike Doe",
       "job": "Senior Designer"
     },
     {
-      "img": "img/team/03.jpg",
+      "img": "img/team/teams.png",
       "name": "Jane Doe",
       "job": "Senior Designer"
     },
     {
-      "img": "img/team/04.jpg",
+      "img": "img/team/teams.png",
       "name": "Karen Doe",
       "job": "Project Manager"
     }
   ],
   "Contact": {
     "address": "Wellness PRO Tower, 56 San Rafael St, Pasig, 1603 Metro Manila",
-    "phone": "+1 123 456 1234",
-    "email": "info@company.com",
-    "facebook": "fb.com",
-    "twitter": "twitter.com",
-    "youtube": "youtube.com"
+    "phone": "+63 2 8 6363580",
+    "email": "info@wellnessproinc.com",
+    "facebook": "https://www.facebook.com/WellnessPROIncPH",
+    "twitter": "https://twitter.com/wellnessproinc_",
+    "youtube": "https://www.youtube.com/@wellnessproinc.3640"
   },
   "Brand": [
     {
