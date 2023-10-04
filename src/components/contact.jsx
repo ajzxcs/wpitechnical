@@ -44,7 +44,7 @@ export const Contact = (props) => {
                   get back to you as soon as possible.
                 </p>
               </div>
-              <form name="sentMessage" action="https://formsubmit.co/ajderoque@gmail.com" method="post">
+              <form name="sentMessage" action="https://formsubmit.co/wellnesspro.tsg@gmail.com" method="post">
                 <div className="row">
                   <div className="col-md-6">
                     <div className="form-group">
