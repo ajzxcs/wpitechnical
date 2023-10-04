@@ -7,7 +7,7 @@ import {
 import { databases } from './Configuration'
 
 // create tickets
-export const createTickets = async(tickets) =>{
+export const createTickets = async(tickets,requestID) =>{
     const adminRef = ref(databases, `Tickets/`);
   
       // Push the new post to the user's "Posts" node and get the unique key
@@ -17,6 +17,7 @@ export const createTickets = async(tickets) =>{
 
     const updates = {
         id: String(newPostRef.key),
+        tickeid: requestID,
         name: tickets.name,
         address: tickets.address,
         institution: tickets.institution,
@@ -38,8 +39,8 @@ export const createTickets = async(tickets) =>{
   
   }
 
-  // Track ticket number
-export const TRACK_TICKET = (SerialNumber) => {
+  // generateTicketNumber
+export const requestTicketNumber = () => {
   return new Promise(async (resolve, reject) => {
     try{  
       const dbRef = ref(databases, 'Tickets/');
@@ -47,16 +48,19 @@ export const TRACK_TICKET = (SerialNumber) => {
 
       const data = snapshot.val();
       
-      const total = data && Object.values(data)
-        .filter(e=>e.serialNumber === SerialNumber)
-        .map((result)=>{
-          return {
-            status: result.status,
-            schedule: result.schedule,
-            name: result.name
-          }
-        })
-      resolve(total)
+      // Total number of request
+      const total = data && Object.values(data).length
+
+      // get year today
+      const currentYear = new Date().getFullYear();
+
+      // last 4 digits of ID
+      const tsgNumber = String(20000+total)
+      const tsgIDnumber = tsgNumber.substring(tsgNumber.length - 4);
+
+      const TSG_UNIQUE_ID = "TSG" + "-" + currentYear + tsgIDnumber
+
+      resolve(TSG_UNIQUE_ID)
      
   
     }catch(error){
@@ -64,3 +68,31 @@ export const TRACK_TICKET = (SerialNumber) => {
     }
   })
 }
+
+
+  // Track ticket number
+  export const TRACK_TICKET = (SerialNumber) => {
+    return new Promise(async (resolve, reject) => {
+      try{  
+        const dbRef = ref(databases, 'Tickets/');
+        const snapshot = await get(dbRef);
+  
+        const data = snapshot.val();
+        
+        const total = data && Object.values(data)
+          .filter(e=>e.tickeid === SerialNumber)
+          .map((result)=>{
+            return {
+              status: result.status,
+              schedule: result.schedule,
+              name: result.name
+            }
+          })
+        resolve(total)
+       
+    
+      }catch(error){
+        reject(error)
+      }
+    })
+  }

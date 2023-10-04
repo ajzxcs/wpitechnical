@@ -1,6 +1,6 @@
 import "./styles.css";
 import { useState } from "react";
-import { createTickets } from "./firebase/Database"
+import { createTickets, requestTicketNumber } from "./firebase/Database"
 import Track from "./Track";
 
 // step heading and instruction array
@@ -198,7 +198,7 @@ function Summary(props) {
       </div>
       <div>
         <label>
-          Pick a date
+          Please input the most convenient time for you
           <span>{props.errorCode === 10 && "This field is required"}</span>
         </label>
         <input
@@ -207,13 +207,13 @@ function Summary(props) {
           value={props.date}
           onChange={(e) => props.setDate(e.target.value)}
         />
-        <br /><br />Please input the most convenient time for you
+        <br /><br />
       </div>
     </div>
   );
 }
 
-function Confirm() {
+function Confirm(ticketID) {
   return (
     <div className="confirm left-side">
       <div className="confirm-box">
@@ -224,10 +224,16 @@ function Confirm() {
           <h1>Thank You!</h1>
         </div>
         <div className="confirm-info">
+
+
           <p>
-            Thanks for confirming your submission! If you ever need support, please feel free to email us
-            at support@wpi.com.ph
-          </p><br></br>
+            This is your ticket number please save this or took a screenshot on this!
+          </p>
+          <p style={{ color: 'red'}}>
+            <strong>{ticketID.tsgID}</strong>
+          </p>
+          <br></br>
+          
 
           <div 
           style={{
@@ -242,6 +248,13 @@ function Confirm() {
               <a href="/">
               <button className="next-btn">Submit Again</button></a>
           </div>
+
+          <br></br>
+          <br></br>
+          <p>
+            Thanks for confirming your submission! If you ever need support, please feel free to email us
+            at support@wpi.com.ph
+          </p><br></br>
      
         </div>
       </div>
@@ -250,7 +263,7 @@ function Confirm() {
 }
 
 // Form structure
-function FormStructure({ step, setStep, setTicketView, ticketView}) {
+function FormStructure({ step, setStep, setTicketView, ticketView, setRequestID}) {
 
   // handle on CLick
   const handleOnlick = () => {
@@ -357,19 +370,6 @@ function FormStructure({ step, setStep, setTicketView, ticketView}) {
             if (check && step >= 0 && step <= 3) {
               setStep(step + 1);
 
-              // console.log({
-              //   "name": name,
-              //   "email": email,
-              //   "phone": phone,
-              //   "address": address,
-              //   "institution": institution,
-              //   "brand": brand,
-              //   "model": model,
-              //   "serialNumber": serialNumber,
-              //   "issueDescription": issueDescription,
-              //   "date":date
-              // })
-
             }
             if(step===3){
               const data = {
@@ -385,21 +385,17 @@ function FormStructure({ step, setStep, setTicketView, ticketView}) {
                 "schedule": String(date),
                 "status": "pending"
               }
-              createTickets(data)
 
-              // console.log({
-              //   "name": name,
-              //   "address": address,
-              //   "institution": institution,
-              //   "contactNumber": phone,
-              //   "brand": brand,
-              //   "model": model,
-              //   "email": email,
-              //   "serialNumber": serialNumber,
-              //   "issue": issueDescription,
-              //   "schedule":date,
-              //   "status": "pending"
-              // })
+              
+              requestTicketNumber()
+              .then(idNumber=>{
+                createTickets(data,idNumber)
+                setRequestID(idNumber)
+              })
+
+          
+             
+
             }
 
       
@@ -416,25 +412,26 @@ function FormStructure({ step, setStep, setTicketView, ticketView}) {
 export default function App() {
   const [step, setStep] = useState(0);
   const [ticketView,setTicketView] = useState(true)
+  const [ticketID,setTicketID] = useState("TSG-20230001")
 
   return (
     // <div className="multi-step-form">
     //  <Sidebar step={step} />
-    // <Confirm /> 
-<div>
+    // <Confirm tsgID={ticketID} /> 
+ <div>
     {  
     
     ticketView ? 
         <div className="multi-step-form">
           <Sidebar step={step} />
-          {step >= 0 && step <= 3 ? ( <FormStructure step={step} setStep={setStep} setTicketView={setTicketView} ticketView={ticketView}/> ) : ( <Confirm /> ) }
+          {step >= 0 && step <= 3 ? ( <FormStructure step={step} setStep={setStep} setTicketView={setTicketView} ticketView={ticketView} setRequestID={setTicketID}/> ) : ( <Confirm tsgID={ticketID}/> ) }
         </div>
         :
 
       <div>
         <Track setTicketView={setTicketView}/>
       </div> 
-    }
+    } 
   </div>
   );
 }

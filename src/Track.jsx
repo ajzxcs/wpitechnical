@@ -43,7 +43,7 @@ function Track({ setTicketView }) {
       <div className="square-search-bar">
         <input
           type="text"
-          placeholder="Serial Number"
+          placeholder="please input your ticket ID"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
@@ -75,7 +75,7 @@ function Track({ setTicketView }) {
                     <strong>{data.status}</strong>
                   </p>
                 </div>
-                <h2 style={{ color: 'blue' }}>Schedule: {data.schedule}</h2>
+                {/* <h2 style={{ color: 'blue' }}>Schedule: {data.schedule}</h2> */}
               </div>
             ) : (
               <p style={{ color: 'red', marginBottom: '0', animation: 'bounce 2s infinite' }} className='bounce-once'>
@@ -84,6 +84,11 @@ function Track({ setTicketView }) {
             )}
           </>
         )}
+      </div>
+
+      {/* contact details ni maam */}
+      <div className="footer-text">
+        <p className="copyright-text">Copyright © 2023 Wellness Pro Inc All rights reserved</p>
       </div>
 
       <div className="footer-text">
