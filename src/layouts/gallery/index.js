@@ -14,7 +14,7 @@ import ListSubheader from '@mui/material/ListSubheader';
 
 
 // firebase
-import { getAllImages,imageUpload, deleteFileByName } from '../../firebase/Storage'
+import { getAllGallery,galleryUpload, deleteFileByNameGallery } from '../../firebase/Storage'
 
 function Gallery() {
 
@@ -33,7 +33,7 @@ function Gallery() {
 
       console.log(events.target.result);
 
-      imageUpload(event.target.files[0],String(new Date().getTime()))
+      galleryUpload(event.target.files[0],String(new Date().getTime()))
       .then(()=>{
         alert("success upload");
         window.location.reload()
@@ -49,7 +49,7 @@ function Gallery() {
   React.useEffect(()  => {
     // let isMounted = true; // A flag to track whether the component is mounted
     const loadImages = async () => {
-      const urls = await getAllImages();
+      const urls = await getAllGallery();
       setImageUrls(urls);
     };
 
@@ -65,7 +65,7 @@ function Gallery() {
 
   const handleDeleteBrand = e => {
     e.preventDefault();
-    deleteFileByName(String(click))
+    deleteFileByNameGallery(String(click))
   };
 
 // image is clicked

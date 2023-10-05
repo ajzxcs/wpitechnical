@@ -448,3 +448,52 @@ export const viewServices = () =>{
     }
   })
 }
+
+// Update Teams
+export const updateTeams = (person, data) => {
+  return new Promise(async (resolve, reject) => {
+    try{
+      const dbRef = ref(databases, `TEAMS/${person}/`);
+
+      await update(dbRef,data);
+
+      resolve("data has updated!")
+
+    }catch(erroir){
+      reject(erroir)
+    }
+  }) 
+}
+
+// view Teams
+export const viewTeams = () => {
+  return new Promise(async (resolve, reject) => {
+    try{  
+      const dbRef = ref(databases, 'TEAMS/');
+      const snapshot = await get(dbRef);
+
+      const data = snapshot.val();
+
+      resolve(data)
+  
+    }catch(error){
+      reject(error)
+    }
+  }) 
+}
+
+// Update Teams
+export const updateForums = (person, data) => {
+  return new Promise(async (resolve, reject) => {
+    try{
+      const dbRef = ref(databases, `FORUM/${person}/`);
+
+      await update(dbRef,data);
+
+      resolve("data has updated!")
+
+    }catch(erroir){
+      reject(erroir)
+    }
+  }) 
+}
