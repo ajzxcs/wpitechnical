@@ -80,3 +80,27 @@ export const archiveImage = (fileName) => {
     console.log('Image archived!');
   });
 };
+
+
+// get all images
+export const getAllGallery = async () => {
+  try {
+    const imagesRef = ref(storage, 'Gallery');
+    const imageList = await listAll(imagesRef);
+
+    const imagesWithNames = await Promise.all(
+      imageList.items.map(async (imageRef) => {
+        const url = await getDownloadURL(imageRef);
+        const name = imageRef.name;
+
+        return { url, name };
+      })
+    );
+
+    return imagesWithNames;
+  } catch (error) {
+    console.error('Error fetching image URLs with names:', error);
+    return [];
+  }
+  };
+

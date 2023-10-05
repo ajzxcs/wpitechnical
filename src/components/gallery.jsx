@@ -1,8 +1,32 @@
 import { Image } from "./image";
 import React from "react";
 
+import { getAllGallery } from '../Features/firebase/Storage'
+
 
 export const Gallery = (props) => {
+
+  const [gallery, setGallery] = React.useState([]);
+
+  React.useEffect(() => {
+    let isMounted = true;
+
+    const loadImages = async () => {
+      const urls = await getAllGallery();
+      setGallery(urls);
+
+    };
+
+    if (isMounted) {
+      loadImages();
+    }
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+
   return (
     <div id="portfolio" className="text-center">
       <div className="container">
@@ -14,16 +38,16 @@ export const Gallery = (props) => {
         </div>
         <div className="row">
           <div className="portfolio-items">
-            {props.data
-              ? props.data.map((d, i) => (
+            {gallery
+              ? gallery?.map((data, index) => (
                   <div
-                    key={`${d.title}-${i}`}
+                    key={index}
                     className="col-sm-6 col-md-4 col-lg-4"
                   >
                     <Image
-                      title={d.title}
-                      largeImage={d.largeImage}
-                      smallImage={d.smallImage}
+                      title={data.name}
+                      largeImage={data.url}
+                      smallImage={data.url}
                     />
                   </div>
                 ))

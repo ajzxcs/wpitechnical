@@ -60,7 +60,7 @@ export const Brand = (props) => {
               style={{ maxWidth: "100%", margin: "0 auto" }} // Set max width and center
               ref={carouselRef} // Add the ref here
             >
-              {props.data?.map((url, index) => (
+              {brands?.map((url, index) => (
                 <div key={`${url.name}-${index}`}>
                   <img
                     src={url.url}
