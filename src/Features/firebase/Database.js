@@ -335,6 +335,7 @@ export const forumVisitToday = () =>{
   })
 }
 
+// UPDATE FORUM TODAY
 export const update_ForumVisitToday = () => {
   return new Promise(async (resolve, reject) => {
     try{
@@ -363,3 +364,23 @@ export const update_ForumVisitToday = () => {
     }
   })
 }
+
+// UPDATE FORUM TODAY
+export const viewSERVICES = () => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      // Create a reference to the location where you want to search for the user's email
+      const postsRef = ref(databases, `SERVICES/`);
+
+      const snapshot = await get(postsRef);
+
+      const data = snapshot.val()
+  
+      resolve(data)
+
+    } catch (error) {
+      console.error("Error fetching user ID:", error);
+      reject(error); // Reject the promise with an error
+    }
+  });
+};

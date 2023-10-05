@@ -15,7 +15,7 @@ const PostForm = ({ isOpen, onRequestClose, onAddPost }) => {
   const [tags, setTags] = useState([]);
   const [tagInput, setTagInput] = useState("");
   const [selectedBrands, setSelectedBrands] = useState([]);
-  const [brandInput, setBrandInput] = useState("");
+  // const [brandInput, setBrandInput] = useState("");
   const [IspostEmpty, setIspostEmpty] = useState(false);
 
   const handleAddTag = () => {
@@ -53,7 +53,7 @@ const PostForm = ({ isOpen, onRequestClose, onAddPost }) => {
       setTags([]);
       setTagInput("");
       setSelectedBrands([]);
-      setBrandInput("");
+      // setBrandInput("");
       onRequestClose();
     } else {
       setIspostEmpty(true);
