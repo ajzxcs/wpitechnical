@@ -5,30 +5,63 @@ import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import Footer from "examples/Footer";
-import { getUsers } from "../../firebase/Database";
+
 import "./inputStyles.css";
 import MDButton from "components/MDButton";
 
+import { updateServices,viewServices } from "../../firebase/Database";
+
 function Serve() {
-  const [Rows, setRows] = useState();
+  // const [Rows, setRows] = useState();
+
   const [section1Title, setSection1Title] = useState("");
   const [section1Content, setSection1Content] = useState("");
+
   const [section2Title, setSection2Title] = useState("");
   const [section2Content, setSection2Content] = useState("");
+
   const [section3Title, setSection3Title] = useState("");
   const [section3Content, setSection3Content] = useState("");
+
   const [section4Title, setSection4Title] = useState("");
   const [section4Content, setSection4Content] = useState("");
+
   const [section5Title, setSection5Title] = useState("");
   const [section5Content, setSection5Content] = useState("");
+
   const [section6Title, setSection6Title] = useState("");
   const [section6Content, setSection6Content] = useState("");
 
   React.useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await getUsers();
-        setRows(data);
+        const data = await viewServices();
+        console.log()
+
+        // service 1
+        setSection1Title(data.service1.section1Title)
+        setSection1Content(data.service1.section1Content)
+
+        // service 2
+        setSection2Title(data.service2.section2Title)
+        setSection2Content(data.service2.section2Content)
+
+        // service 3
+        setSection3Title(data.service3.section3Title)
+        setSection3Content(data.service3.section3Content)
+
+        // service 4
+        setSection4Title(data.service4.section4Title)
+        setSection4Content(data.service4.section4Content)
+
+        // service 5
+        setSection5Title(data.service5.section5Title)
+        setSection5Content(data.service5.section5Content)
+
+        // service 6
+        setSection6Title(data.service6.section6Title)
+        setSection6Content(data.service6.section6Content)
+
       } catch (error) {
         console.error(error);
       }
@@ -46,6 +79,41 @@ function Serve() {
     }
     return text;
   };
+
+
+  const hanldeSave = e => {
+    e.preventDefault();
+    const data = {
+      "service1":{
+        section1Title,
+        section1Content
+      },
+      "service2":{
+        section2Title,
+        section2Content
+      },
+      "service3":{
+        section3Title,
+        section3Content
+      },
+      "service4":{
+        section4Title,
+        section4Content
+      },
+      "service5":{
+        section5Title,
+        section5Content
+      },
+      "service6":{
+        section6Title,
+        section6Content
+      }
+    }
+
+    console.log(data)
+
+    updateServices(data)
+  }
 
  // ...
 
@@ -221,13 +289,13 @@ return (
                 />
               </div>
             </div>
-            <br />
+
             <div className="bottom-btn">
-            <a>
-              <MDButton variant="contained" color="primary" className="save-button">
+ 
+              <MDButton variant="contained" color="primary" className="save-button" onClick={hanldeSave}>
                 Save
               </MDButton>
-            </a></div>
+            </div>
           </MDBox>
         </Card>
       </Grid>
