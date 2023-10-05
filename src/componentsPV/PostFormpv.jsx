@@ -29,7 +29,7 @@ const PostForm = ({ isOpen, onRequestClose, onAddPost }) => {
     }
   
     // Include selected brands as tags
-    const selectedBrandTags = selectedBrands.map((brand) =>  ${brand.label});
+    const selectedBrandTags = selectedBrands.map((brand) =>  `${brand.label}`);
     if (selectedBrandTags.length > 0) {
       const updatedTags = [...tags, ...selectedBrandTags];
       setTags(updatedTags);
@@ -39,7 +39,7 @@ const PostForm = ({ isOpen, onRequestClose, onAddPost }) => {
 
   const handleCreatePost = () => {
     if (content.trim() !== "") {
-      const newTags = [...tags, ...selectedBrands.map((brand) =>  ${brand.label})];
+      const newTags = [...tags, ...selectedBrands.map((brand) =>  `${brand.label}`)];
       const newPost = {
         title,
         content,
