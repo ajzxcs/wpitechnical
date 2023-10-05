@@ -12,6 +12,11 @@ const Comment = ({ comment }) => (
       <p className="comment-date">
         {String(comment.date[0]) + " " + String(comment.date[1])}
       </p>
+   {/* Delete Icon for Comment */}
+   <div className=" delete-comment-icon" >
+  <FontAwesomeIcon icon={faTrash} />
+</div>
+
     </div>
     <p className="comment-text">{comment.Text}</p>
   </div>
@@ -57,11 +62,7 @@ const PostDetail = ({ post, onGoBack }) => {
       <div className="title-and-delete">
         {/* Title */}
         <h2>{post ? post.Title : "Post Not Found"}</h2>
-
-        {/* Delete */}
-        <button onClick={handleDeletePost}>
-          <FontAwesomeIcon icon={faTrash} />
-        </button>
+        
       </div>
 
       {/* Author, date and time */}

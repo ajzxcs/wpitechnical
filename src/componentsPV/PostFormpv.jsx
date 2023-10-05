@@ -80,11 +80,8 @@ const brands = [
     { value: "SECA", label: "SECA" },
     { value: "SECULIFE", label: "SECULIFE" },
     { value: "SINAPI", label: "SINAPI" },
-    { value: "SINAPI BIOMED", label: "SINAPI BIOMED" },
-    { value: "SURGIRIS", label: "SURGIRIS" },
     { value: "TECNIMED", label: "TECNIMED" },
-    { value: "TRISMED", label: "TRISMED" },
-    { value: "VISIOFOCUS", label: "VISIOFOCUS" }
+    { value: "TRISMED", label: "TRISMED" }
 ];
 
   return (
