@@ -417,3 +417,34 @@ export const DELETE_TICKET_SUBMIT = (ID) =>{
     }
   })
 }
+
+// UPDATE SERVICES
+export const updateServices = async(data) =>{
+  const adminRef = ref(databases, `SERVICES/`);
+
+  await set(adminRef, data)
+  .then(()=>{
+    alert("SERVICES updated!")
+    window.location.reload()
+  })
+  .catch(error=>alert(error));
+
+}
+
+// VIEW SERVICES
+export const viewServices = () =>{
+  return new Promise(async (resolve, reject) => {
+    try{  
+      const dbRef = ref(databases, 'SERVICES/');
+      const snapshot = await get(dbRef);
+
+      const data = snapshot.val();
+      
+      resolve(data)
+     
+  
+    }catch(error){
+      reject(error)
+    }
+  })
+}
