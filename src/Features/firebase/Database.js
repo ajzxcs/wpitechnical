@@ -404,3 +404,22 @@ export const viewForum= () => {
     }
   });
 };
+
+export const viewTeams= () => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      // Create a reference to the location where you want to search for the user's email
+      const postsRef = ref(databases, `TEAMS/`);
+
+      const snapshot = await get(postsRef);
+
+      const data = snapshot.val()
+  
+      resolve(data)
+
+    } catch (error) {
+      console.error("Error fetching user ID:", error);
+      reject(error); // Reject the promise with an error
+    }
+  });
+};

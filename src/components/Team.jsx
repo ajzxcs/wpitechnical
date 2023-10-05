@@ -1,6 +1,19 @@
 import React from "react";
-
+import { viewTeams } from '../Features/firebase/Database'
 export const Team = (props) => {
+
+  const [teams,setTeams] = React.useState([])
+  React.useEffect(()=>{
+
+    const fetcheData = async () =>{
+      const data = await viewTeams()
+    
+      setTeams(Object.values(data))
+    }
+
+    fetcheData()
+  },[])
+
   return (
     <div id="team" className="text-center">
       <div className="container">
@@ -11,15 +24,16 @@ export const Team = (props) => {
           </p>
         </div>
         <div id="row">
-          {props.data
-            ? props.data.map((d, i) => (
-                <div key={`${d.name}-${i}`} className="col-md-3 col-sm-6 team">
+          {teams
+            ? teams.map((data, index) => (
+                <div key={index} className="col-md-3 col-sm-6 team">
                   <div className="thumbnail">
-                    {" "}
-                    <img src={d.img} alt="..." className="team-img" />
+                    {data.Image ?    <img src={data.Image} alt="..." className="team-img" />
+                    :    <img src="img/team/teams.png" alt="..." className="team-img" />}
+                 
                     <div className="caption">
-                      <h4>{d.name}</h4>
-                      <p>{d.job}</p>
+                      <h4>{data.Name}</h4>
+                      <p>{data.Position}</p>
                     </div>
                   </div>
                 </div>
