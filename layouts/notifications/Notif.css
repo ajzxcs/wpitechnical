@@ -1,0 +1,32 @@
+/* Notifications.css */
+
+.input-set {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+  }
+  
+  .input-set input[type="text"],
+  .input-set input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+  
+  .input-set input[type="file"] {
+    padding: 5px;
+  }
+  
+  .input-set .MuiButton-containedPrimary {
+    margin-top: 10px;
+  }
+  
