@@ -147,50 +147,50 @@
   },
   "Brand": [
     {
-      "title": "Brand 1",
-      "image": "img/team/01.jpg"
+      "name": "Brand 1",
+      "url": "img/team/gg.png"
     },
     {
-      "title": "Brand 2",
-      "image": "img/team/02.jpg"
+      "name": "Brand 2",
+      "url": "img/team/gg.png"
     },
     {
-      "title": "Brand 3",
-      "image": "img/team/02.jpg"
+      "name": "Brand 3",
+      "url": "img/team/gg.png"
     },
     {
-      "title": "Brand 4",
-      "image": "img/team/02.jpg"
+      "name": "Brand 4",
+      "url": "img/team/gg.png"
     }
     ,
     {
-      "title": "Brand 5",
-      "image": "img/team/02.jpg"
+      "name": "Brand 5",
+      "url": "img/team/gg.png"
     }
     ,
     {
-      "title": "Brand 6",
-      "image": "img/team/02.jpg"
+      "name": "Brand 6",
+      "url": "img/team/gg.png"
     }
     ,
     {
-      "title": "Brand 8",
-      "image": "img/team/02.jpg"
+      "name": "Brand 8",
+      "url": "img/team/gg.png"
     }
     ,
     {
-      "title": "Brand 9",
-      "image": "img/team/02.jpg"
+      "name": "Brand 9",
+      "url": "img/team/gg.png"
     }
     ,
     {
-      "title": "Brand 10",
-      "image": "img/team/02.jpg"
+      "name": "Brand 10",
+      "url": "img/team/gg.png"
     }
     ,
     {
-      "title": "Brand 11",
-      "image": "img/team/02.jpg"
+      "name": "Brand 11",
+      "url": "img/team/gg.png"
     }
   ]
 }

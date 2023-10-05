@@ -1,49 +1,45 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; 
-import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import "./brand.css";
 
 // firebase
-import { getAllImages } from '../Features/firebase/Storage'
+import { getAllImages } from "../Features/firebase/Storage";
 
 export const Brand = (props) => {
-  // State to control the current slide
-  // const [currentSlide, setCurrentSlide] = React.useState(0);
+  const [brands, setBrands] = React.useState([]);
+  const carouselRef = useRef(null);
 
-  // const handlePrevClick = () => {
-  //   // Decrease the current slide index
-  //   setCurrentSlide((prevSlide) => prevSlide - 1);
-  // };
-
-  // const handleNextClick = () => {
-  //   // Increase the current slide index
-  //   setCurrentSlide((prevSlide) => prevSlide + 1);
-  // };
-
-  // brands from firebase
-const [brands,setBrands] = React.useState([])
-
-  React.useEffect(()  => {
-    let isMounted = true; // A flag to track whether the component is mounted
-
+  useEffect(() => {
+    let isMounted = true;
 
     const loadImages = async () => {
       const urls = await getAllImages();
       setBrands(urls);
     };
 
-   if (isMounted){
-    loadImages()
-   }
+    if (isMounted) {
+      loadImages();
+    }
 
-    // Cleanup function
     return () => {
-      isMounted = false; // Mark the component as unmounted
+      isMounted = false;
     };
   }, []);
 
+  useEffect(() => {
+    window.onload = () => {
+      const carousel = carouselRef.current;
+
+      if (carousel && !carousel.isPlaying) {
+        carousel.startAutoplay();
+      }
+    };
+
+    return () => {
+      window.onload = null;
+    };
+  }, []);
 
   return (
     <div id="brand" className="text-center">
@@ -54,37 +50,31 @@ const [brands,setBrands] = React.useState([])
         <div className="row">
           {brands ? (
             <Carousel
-              showArrows={true} // Hide the default arrows
+              showArrows={false} // Hide the default arrows
               autoPlay={true}
-              interval={3000}
+              interval={2000}
               showThumbs={false}
               showStatus={false}
               infiniteLoop={true}
-              showIndicators={false} // Hide the navigation dots
-              // selectedItem={currentSlide} // Control the current slide
-              renderArrowPrev={(onClickHandler, hasPrev) =>
-                hasPrev && (
-                  <button onClick={onClickHandler} className="custom-arrow custom-arrow-prev">
-                  <FontAwesomeIcon icon={faChevronLeft} className="custom-arrow-icon" /> {/* Left arrow */}
-                  </button>
-                )
-              }
-              renderArrowNext={(onClickHandler, hasNext) =>
-                hasNext && (
-                  <button onClick={onClickHandler} className="custom-arrow custom-arrow-next">
-                  <FontAwesomeIcon icon={faChevronRight} className="custom-arrow-icon" /> {/* Right arrow */}
-                  </button>
-                )
-              }
+              showIndicators={true} // Show the circle indicators
+              style={{ maxWidth: "100%", margin: "0 auto" }} // Set max width and center
+              ref={carouselRef} // Add the ref here
             >
-              {brands?.map((url, index) => (
+              {props.data?.map((url, index) => (
                 <div key={`${url.name}-${index}`}>
-                  <img src={url.url} alt={url.name} style={{ width: '300px', height: '300px' }} />
+                  <img
+                    src={url.url}
+                    alt={url.name}
+                    style={{
+                      objectFit: "cover",
+                      width: "100%", // Make the images full width
+                      maxHeight: "300px", // Set the max height for mobile (adjust as needed)
+                    }}
+                  />
                 </div>
               ))}
             </Carousel>
-          ) : 
-          (
+          ) : (
             "Loading..."
           )}
         </div>

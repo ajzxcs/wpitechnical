@@ -31,9 +31,12 @@ export const Navigation = (props) => {
             <span className="icon-bar"></span>{" "}
             <span className="icon-bar"></span>{" "}
           </button>
-          <a className="navbar-brand page-scroll" href="/">
-           Wellness Pro Inc.
-          </a>{" "}
+          <a className="navbar-brand page-scroll custom-navbar-brand" href="/">
+          <span className="wellness-text" style={{ fontFamily: 'Now Alt, sans-serif', color: '#3398cb', fontWeight: 'bold' }}>Wellness</span>{" "}
+          <span className="pro-inc-text" style={{ color: '#676767', fontWeight: 'bold' }}>Pro Inc.</span>
+          </a>
+
+
         </div>
 
         <div
