@@ -252,7 +252,24 @@ function Dashboard() {
               <ComplexStatisticsCard
                 color="primary"
                 icon="attach_file"
-                title="Pending Tickets"
+                title="Pending Requests"
+                count={data.totalPendingTicks}
+                percentage={{
+                  color: "success",
+                  amount: "",
+                  label:  "From ticketing form",
+                }}
+              />
+            </MDBox>
+          </Grid>
+
+          {/* Pending Tickest */}
+          <Grid item xs={12} md={6} lg={3}>
+            <MDBox mb={1.5}>
+              <ComplexStatisticsCard
+                color="primary"
+                icon="add_to_queue"
+                title="Overdue Requests"
                 count={data.totalPendingTicks}
                 percentage={{
                   color: "success",
@@ -268,7 +285,7 @@ function Dashboard() {
             <MDBox mb={1.5}>
               <ComplexStatisticsCard
                 color="primary"
-                icon="attach_file"
+                icon="add_task"
                 title="ZOHO Pending Tickets "
                 count={data.totalPending}
                 percentage={{

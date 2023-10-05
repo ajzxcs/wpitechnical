@@ -46,6 +46,8 @@ import SignUp from "layouts/authentication/sign-up";
 import Tickets from "layouts/tickets"
 import SignOut from "layouts/authentication/sign-out";
 import Serve from "layouts/serve";
+import Gallery from "layouts/gallery";
+import Teams from "layouts/team";
 
 
 // @mui icons
@@ -72,7 +74,7 @@ const routes = [
     type: "collapse",
     name: "Services",
     key: "serve",
-    icon: <Icon fontSize="small">table_view</Icon>,
+    icon: <Icon fontSize="small">analytics</Icon>,
     route: "/serve",
     component: <Serve />,
   },
@@ -86,11 +88,27 @@ const routes = [
   },
   {
     type: "collapse",
+    name: "Gallery",
+    key: "gallery",
+    icon: <Icon fontSize="small">archive</Icon>,
+    route: "/gallery",
+    component: <Gallery />,
+  },
+  {
+    type: "collapse",
     name: "Forum Section",
     key: "notifications",
     icon: <Icon fontSize="small">forum</Icon>,
     route: "/notifications",
     component: <Notifications />,
+  },
+  {
+    type: "collapse",
+    name: "Teams",
+    key: "teams",
+    icon: <Icon fontSize="small">architecture</Icon>,
+    route: "/teams",
+    component: <Teams />,
   },
   {
     type: "collapse",
