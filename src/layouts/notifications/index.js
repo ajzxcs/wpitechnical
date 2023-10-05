@@ -7,7 +7,7 @@ import "./Notif.css"; // You can create a CSS file for custom styling
 import { Avatar } from "@mui/material";
 import { Stack } from "@mui/system";
 
-import { updateForums } from '../../firebase/Database'
+import { updateForums,viewForums } from '../../firebase/Database'
 import { forumUpload } from '../../firebase/Storage'
 
 function Notifications() {
@@ -24,7 +24,64 @@ function Notifications() {
     input2: "",
     input3: "",
     input4: "",
+    input5: "",
+    input6: "",
   })
+
+  React.useState(()=>{
+    const fecthedData = async () => {
+      const data = await viewForums()
+      console.log(data.person1)
+
+      setInput1({
+        name: data.person1.Name, 
+        content: data.person1.Content, 
+        image: null
+      })
+
+      setInput2({
+        name: data.person2.Name, 
+        content: data.person2.Content, 
+        image: null
+      })
+
+      setInput3({
+        name: data.person3.Name, 
+        content: data.person3.Content, 
+        image: null
+      })
+
+      setInput4({
+        name: data.person4.Name, 
+        content: data.person4.Content, 
+        image: null
+      })
+
+      setInput5({
+        name: data.person5.Name, 
+        content: data.person5.Content, 
+        image: null
+      })
+
+      setInput6({
+        name: data.person6.Name, 
+        content: data.person6.Content, 
+        image: null
+      })
+
+      setImages({
+        input1: data.person1.Image,
+        input2: data.person2.Image,
+        input3: data.person3.Image,
+        input4: data.person4.Image,
+        input5: data.person3.Image,
+        input6: data.person4.Image,
+      })
+    }
+
+    fecthedData()
+},[])
+
 
 
   // Function to handle input changes for name and content
@@ -53,15 +110,26 @@ function Notifications() {
 
   // Function to handle button click for each input set
   const handleUpload = (input,person) => {
-    console.log("Name:", input.name);
-    console.log("Content:", input.content);
-    console.log("Image File:", input.image);
+    // console.log("Name:", input.name);
+    // console.log("Content:", input.content);
+    // console.log("Image File:", input.image);
+
+    // const dats = {
+    //   "Name" : input.name,
+    //   "Content": input.content,
+    //   "Image" : null
+    // }
+    // updateForums(person,dats)
+    // .then(e=>{
+    //   alert(e);
+    //   window.location.reload()
+    // })
 
     forumUpload(input.image,input.name).then(url=>{
 
       const dats = {
         "Name" : input.name,
-        "Content": input.position,
+        "Content": input.content,
         "Image" : url
       }
       updateForums(person,dats)
@@ -170,7 +238,7 @@ function Notifications() {
             name="name"
             placeholder="Name"
             value={input3.name}
-            onChange={(e) => handleInputChange(input3,setInput1, e)}
+            onChange={(e) => handleInputChange(input3,setInput3, e)}
           />
           <input
             type="text"

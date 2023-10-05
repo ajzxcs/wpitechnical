@@ -482,11 +482,11 @@ export const viewTeams = () => {
   }) 
 }
 
-// Update Teams
+// Update Forums
 export const updateForums = (person, data) => {
   return new Promise(async (resolve, reject) => {
     try{
-      const dbRef = ref(databases, `FORUM/${person}/`);
+      const dbRef = ref(databases, `/FORUM/${person}/`);
 
       await update(dbRef,data);
 
@@ -494,6 +494,23 @@ export const updateForums = (person, data) => {
 
     }catch(erroir){
       reject(erroir)
+    }
+  }) 
+}
+
+// view Forums
+export const viewForums = () => {
+  return new Promise(async (resolve, reject) => {
+    try{  
+      const dbRef = ref(databases, 'FORUM/');
+      const snapshot = await get(dbRef);
+
+      const data = snapshot.val();
+
+      resolve(data)
+  
+    }catch(error){
+      reject(error)
     }
   }) 
 }
