@@ -1,19 +1,22 @@
+
+
 import React, { useState } from "react";
 import Modal from "react-modal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import Select from "react-select"; // Import react-select
 import "../assets/public.css";
 
-Modal.setAppElement("#root"); // Set the app element for modal accessibility
+Modal.setAppElement("#root");
 
 const PostForm = ({ isOpen, onRequestClose, onAddPost }) => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [tags, setTags] = useState([]);
   const [tagInput, setTagInput] = useState("");
+  const [selectedBrands, setSelectedBrands] = useState([]);
+  const [brandInput, setBrandInput] = useState("");
   const [IspostEmpty, setIspostEmpty] = useState(false);
-  const [IstagEmpty, setIstagEmpty] = useState(false);
-  const [IstitleEmpty, setIstitleEmpty] = useState(false);
 
   const handleAddTag = () => {
     if (tagInput) {
@@ -23,49 +26,69 @@ const PostForm = ({ isOpen, onRequestClose, onAddPost }) => {
         setTags(updatedTags);
         setTagInput("");
       }
-    }else {
-      // Set a flag to indicate the content is empty and needs to be highlighted
+    }
   
-      setIspostEmpty(true);
-      setIstitleEmpty(true);
-      setIstagEmpty(true)
+    // Include selected brands as tags
+    const selectedBrandTags = selectedBrands.map((brand) =>  ${brand.label});
+    if (selectedBrandTags.length > 0) {
+      const updatedTags = [...tags, ...selectedBrandTags];
+      setTags(updatedTags);
+      setSelectedBrands([]); // Clear selected brands
     }
   };
+
   const handleCreatePost = () => {
-    if (title.trim() !== "" && content.trim() !== "" && tags.length > 0) {
-      const newTags = String(tags);
-      // Create a new post object
+    if (content.trim() !== "") {
+      const newTags = [...tags, ...selectedBrands.map((brand) =>  ${brand.label})];
       const newPost = {
         title,
         content,
-        newTags,
-        // Add any other properties you need
+        newTags: newTags.join(", "),
       };
-  
-      // Call the onAddPost function to add the post to the list
+
       onAddPost(newPost);
-  
-      // Clear the form fields
+
       setTitle("");
       setContent("");
       setTags([]);
       setTagInput("");
+      setSelectedBrands([]);
+      setBrandInput("");
       onRequestClose();
     } else {
-      // Set flags to indicate which fields are empty and need to be highlighted
-      setIspostEmpty(title.trim() === "");
-      setIstitleEmpty(content.trim() === "");
-      setIstagEmpty(tags.length === 0);
+      setIspostEmpty(true);
     }
   };
-  
+
+ 
+const brands = [
+    { value: "AND Tokyo Japan", label: "AND Tokyo Japan" },
+    { value: "AMBU", label: "AMBU" },
+    { value: "CHINESPOSRT", label: "CHINESPOSRT" },
+    { value: "GINEVRI", label: "GINEVRI" },
+    { value: "GULDMANN", label: "GULDMANN" },
+    { value: "HADECO", label: "HADECO" },
+    { value: "KaWe", label: "KaWe" },
+    { value: "KINGVISION", label: "KINGVISION" },
+    { value: "KOIKE MEDICAL", label: "KOIKE MEDICAL" },
+    { value: "MAICO", label: "MAICO" },
+    { value: "MAMIVAC", label: "MAMIVAC" },
+    { value: "MEDLAB", label: "MEDLAB" },
+    { value: "NAVEH", label: "NAVEH" },
+    { value: "OPHARDT hygiene", label: "OPHARDT hygiene" },
+    { value: "SCHAERER MEDICAL", label: "SCHAERER MEDICAL" },
+    { value: "SECA", label: "SECA" },
+    { value: "SECULIFE", label: "SECULIFE" },
+    { value: "SINAPI", label: "SINAPI" },
+    { value: "SINAPI BIOMED", label: "SINAPI BIOMED" },
+    { value: "SURGIRIS", label: "SURGIRIS" },
+    { value: "TECNIMED", label: "TECNIMED" },
+    { value: "TRISMED", label: "TRISMED" },
+    { value: "VISIOFOCUS", label: "VISIOFOCUS" }
+];
 
   return (
-    <Modal
-      isOpen={isOpen}
-      onRequestClose={onRequestClose}
-      className="post-form-modal"
-    >
+    <Modal isOpen={isOpen} onRequestClose={onRequestClose} className="post-form-modal">
       <div className="post-form">
         <div className="close-button" onClick={onRequestClose}>
           <FontAwesomeIcon icon={faTimes} />
@@ -73,28 +96,24 @@ const PostForm = ({ isOpen, onRequestClose, onAddPost }) => {
         <h2>Create a New Post</h2>
         <div className="post-form-details">
           <p>{new Date().toLocaleString()}</p>
-          <textarea
+          <input
             type="text"
-            placeholder="Title"
+            placeholder="Topic"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className={IspostEmpty  ? "error" : ""}
           />
-            {/*  {IstitleEmpty && (
-            <div className="alert-text">Title cannot be empty!</div>
-          )}*/}
           <textarea
-            placeholder="Content"
+            placeholder="Concern"
             value={content}
             onChange={(e) => setContent(e.target.value)}
-            className={IspostEmpty  ? "error" : ""}
+            className={IspostEmpty ? "error" : ""}
           />
-          
-          {/* Alert text for empty content */}
           {IspostEmpty && (
-            <div className="alert-text">Title and Content cannot be empty!</div>
+            <div className="alert-text">Content cannot be empty!</div>
           )}
-         
+
+          <br />
+          <br />
           {/* Tags */}
           {tags.length > 0 && (
             <div className="selected-tags">
@@ -106,24 +125,35 @@ const PostForm = ({ isOpen, onRequestClose, onAddPost }) => {
               ))}
             </div>
           )}
-         
+
+          {/* Brand selection */}
+          <div className="brand-selection">
+            <strong>Select Brands:</strong>
+            <Select
+              isMulti
+              name="brands"
+              options={brands}
+              value={selectedBrands}
+              onChange={(selectedOptions) => setSelectedBrands(selectedOptions)}
+            />
+          </div>
+
           <br />
           <div className="tag-input">
-            <textarea
+            <input
               type="text"
-              placeholder="Press Add Tag to Add more... "
+              placeholder="Type here your specific Tags "
               value={tagInput}
               onChange={(e) => setTagInput(e.target.value)}
-              className={IstagEmpty ? "error" : ""}
             />
-             {IstagEmpty && (
-            <div className="alert-text">Tag cannot be empty!</div>
-          )}
             <button onClick={handleAddTag}>Add Tag</button>
+             <h6>To include tags, simply select the 'Add Tag' option.</h6>
           </div>
         </div>
         <br />
-        <button onClick={handleCreatePost}>Create Post</button>
+        <div style={{ textAlign: 'right' }}>
+      <button onClick={handleCreatePost}>Create Post</button>
+    </div>
       </div>
     </Modal>
   );
