@@ -47,173 +47,195 @@ function Serve() {
     return text;
   };
 
-  return (
-    <DashboardLayout>
-      <MDBox pt={6} pb={3}>
-        <Grid item xs={12}>
-          <Card>
-            <MDBox
-              mx={2}
-              mt={-3}
-              py={3}
-              px={2}
-              variant="gradient"
-              bgColor="info"
-              borderRadius="lg"
-              coloredShadow="info"
-            >
-              <MDTypography variant="h6" color="white">
-                Services
-              </MDTypography>
-            </MDBox>
-            <MDBox pt={3}>
-              <div className="input-container">
-                {/* Section 1 */}
-                <div className="input-section">
-                  <input
-                    className="input-box"
-                    type="text"
-                    placeholder="Title"
-                    value={section1Title}
-                    onChange={(e) => setSection1Title(e.target.value)}
-                  />
-                  <textarea
-                    className="input-box"
-                    placeholder="Content (Limit: 30 words)"
-                    value={section1Content}
-                    onChange={(e) => {
-                      const limitedText = limitWordCount(
-                        e.target.value,
-                        30 // Limit to 30 words
-                      );
-                      setSection1Content(limitedText);
-                    }}
-                  />
-                </div>
-                {/* Section 2 */}
-                <div className="input-section">
-                  <input
-                    className="input-box"
-                    type="text"
-                    placeholder="Title"
-                    value={section2Title}
-                    onChange={(e) => setSection2Title(e.target.value)}
-                  />
-                  <textarea
-                    className="input-box"
-                    placeholder="Content"
-                    value={section2Content}
-                    onChange={(e) => {
-                      const limitedText = limitWordCount(
-                        e.target.value,
-                        30 // Limit to 30 words
-                      );
-                      setSection2Content(limitedText);
-                    }}
-                  />
-                </div>
-                {/* Section 3 */}
-                <div className="input-section">
-                  <input
-                    className="input-box"
-                    type="text"
-                    placeholder="Title"
-                    value={section3Title}
-                    onChange={(e) => setSection3Title(e.target.value)}
-                  />
-                  <textarea
-                    className="input-box"
-                    placeholder="Content"
-                    value={section3Content}
-                    onChange={(e) => {
-                      const limitedText = limitWordCount(
-                        e.target.value,
-                        30 // Limit to 30 words
-                      );
-                      setSection3Content(limitedText);
-                    }}
-                  />
-                </div>
-                {/* Section 4 */}
-                <div className="input-section">
-                  <input
-                    className="input-box"
-                    type="text"
-                    placeholder="Title"
-                    value={section4Title}
-                    onChange={(e) => setSection4Title(e.target.value)}
-                  />
-                  <textarea
-                    className="input-box"
-                    placeholder="Content"
-                    value={section4Content}
-                    onChange={(e) => {
-                      const limitedText = limitWordCount(
-                        e.target.value,
-                        30 // Limit to 30 words
-                      );
-                      setSection4Content(limitedText);
-                    }}
-                  />
-                </div>
-                {/* Section 5 */}
-                <div className="input-section">
-                  <input
-                    className="input-box"
-                    type="text"
-                    placeholder="Title"
-                    value={section5Title}
-                    onChange={(e) => setSection5Title(e.target.value)}
-                  />
-                  <textarea
-                    className="input-box"
-                    placeholder="Content"
-                    value={section5Content}
-                    onChange={(e) => {
-                      const limitedText = limitWordCount(
-                        e.target.value,
-                        30 // Limit to 30 words
-                      );
-                      setSection5Content(limitedText);
-                    }}
-                  />
-                </div>
-                {/* Section 6 */}
-                <div className="input-section">
-                  <input
-                    className="input-box"
-                    type="text"
-                    placeholder="Title"
-                    value={section6Title}
-                    onChange={(e) => setSection6Title(e.target.value)}
-                  />
-                  <textarea
-                    className="input-box"
-                    placeholder="Content"
-                    value={section6Content}
-                    onChange={(e) => {
-                      const limitedText = limitWordCount(
-                        e.target.value,
-                        30 // Limit to 30 words
-                      );
-                      setSection6Content(limitedText);
-                    }}
-                  />
-                </div>
+ // ...
+
+return (
+  <DashboardLayout>
+    <MDBox pt={6} pb={3}>
+      <Grid item xs={12}>
+        <Card>
+          <MDBox
+            mx={2}
+            mt={-3}
+            py={3}
+            px={2}
+            variant="gradient"
+            bgColor="info"
+            borderRadius="lg"
+            coloredShadow="info"
+          >
+            <MDTypography variant="h6" color="white">
+              Services
+            </MDTypography>
+          </MDBox>
+          <MDBox pt={3}>
+            <div className="input-container">
+              {/* Section 1 */}
+              <div className="input-section">
+                <MDTypography variant="subtitle1" color="textPrimary">
+                &nbsp;&nbsp;&nbsp;Service 1
+                </MDTypography>
+                <input
+                  className="input-box"
+                  type="text"
+                  placeholder="Title"
+                  value={section1Title}
+                  onChange={(e) => setSection1Title(e.target.value)}
+                />
+                <textarea
+                  className="input-box"
+                  placeholder="Content (Limit: 30 words)"
+                  value={section1Content}
+                  onChange={(e) => {
+                    const limitedText = limitWordCount(
+                      e.target.value,
+                      30 // Limit to 30 words
+                    );
+                    setSection1Content(limitedText);
+                  }}
+                />
               </div>
-              <br />
-              <a>
-                <MDButton variant="contained" color="primary" className="save-button">
-                  Save
-                </MDButton>
-              </a>
-            </MDBox>
-          </Card>
-        </Grid>
-      </MDBox>
-      <Footer />
-    </DashboardLayout>
-  );
+              {/* Section 2 */}
+              <div className="input-section">
+                <MDTypography variant="subtitle1" color="textPrimary">
+                  Service 2
+                </MDTypography>
+                <input
+                  className="input-box"
+                  type="text"
+                  placeholder="Title"
+                  value={section2Title}
+                  onChange={(e) => setSection2Title(e.target.value)}
+                />
+                <textarea
+                  className="input-box"
+                  placeholder="Content"
+                  value={section2Content}
+                  onChange={(e) => {
+                    const limitedText = limitWordCount(
+                      e.target.value,
+                      30 // Limit to 30 words
+                    );
+                    setSection2Content(limitedText);
+                  }}
+                />
+              </div>
+              {/* Section 3 */}
+              <div className="input-section">
+                <MDTypography variant="subtitle1" color="textPrimary">
+                  Service 3
+                </MDTypography>
+                <input
+                  className="input-box"
+                  type="text"
+                  placeholder="Title"
+                  value={section3Title}
+                  onChange={(e) => setSection3Title(e.target.value)}
+                />
+                <textarea
+                  className="input-box"
+                  placeholder="Content"
+                  value={section3Content}
+                  onChange={(e) => {
+                    const limitedText = limitWordCount(
+                      e.target.value,
+                      30 // Limit to 30 words
+                    );
+                    setSection3Content(limitedText);
+                  }}
+                />
+              </div>
+              {/* Section 4 */}
+              <div className="input-section">
+                <MDTypography variant="subtitle1" color="textPrimary">
+                &nbsp;&nbsp;&nbsp;Service 4
+                </MDTypography>
+                <input
+                  className="input-box"
+                  type="text"
+                  placeholder="Title"
+                  value={section4Title}
+                  onChange={(e) => setSection4Title(e.target.value)}
+                />
+                <textarea
+                  className="input-box"
+                  placeholder="Content"
+                  value={section4Content}
+                  onChange={(e) => {
+                    const limitedText = limitWordCount(
+                      e.target.value,
+                      30 // Limit to 30 words
+                    );
+                    setSection4Content(limitedText);
+                  }}
+                />
+              </div>
+              {/* Section 5 */}
+              <div className="input-section">
+                <MDTypography variant="subtitle1" color="textPrimary">
+                  Service 5
+                </MDTypography>
+                <input
+                  className="input-box"
+                  type="text"
+                  placeholder="Title"
+                  value={section5Title}
+                  onChange={(e) => setSection5Title(e.target.value)}
+                />
+                <textarea
+                  className="input-box"
+                  placeholder="Content"
+                  value={section5Content}
+                  onChange={(e) => {
+                    const limitedText = limitWordCount(
+                      e.target.value,
+                      30 // Limit to 30 words
+                    );
+                    setSection5Content(limitedText);
+                  }}
+                />
+              </div>
+              {/* Section 6 */}
+              <div className="input-section">
+                <MDTypography variant="subtitle1" color="textPrimary">
+                  Service 6
+                </MDTypography>
+                <input
+                  className="input-box"
+                  type="text"
+                  placeholder="Title"
+                  value={section6Title}
+                  onChange={(e) => setSection6Title(e.target.value)}
+                />
+                <textarea
+                  className="input-box"
+                  placeholder="Content"
+                  value={section6Content}
+                  onChange={(e) => {
+                    const limitedText = limitWordCount(
+                      e.target.value,
+                      30 // Limit to 30 words
+                    );
+                    setSection6Content(limitedText);
+                  }}
+                />
+              </div>
+            </div>
+            <br />
+            <div className="bottom-btn">
+            <a>
+              <MDButton variant="contained" color="primary" className="save-button">
+                Save
+              </MDButton>
+            </a></div>
+          </MDBox>
+        </Card>
+      </Grid>
+    </MDBox>
+    <Footer />
+  </DashboardLayout>
+);
+
 }
 
 export default Serve;

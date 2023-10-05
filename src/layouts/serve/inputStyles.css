@@ -40,20 +40,24 @@
 .save-button {
   display: block;
   margin: 0 auto; /* Center horizontally */
-  margin-top: 20px; /* Add top margin for spacing */
-  padding: 12px 24px; /* Adjust padding as needed */
+  margin-top: 80%; /* Push it to the bottom of its container */
+  margin-bottom: 25px; /* Add margin from the bottom */
+  padding: 18px 24px;
   background-color: #007bff;
   color: white;
-  border: none;
   border-radius: 8px;
   cursor: pointer;
   font-size: 16px;
   transition: background-color 0.3s;
   text-decoration: none;
   text-align: center;
-  margin-top: auto;
-  margin-bottom: 25px;
+  left: 40%;
+  width: 200px;
 }
+.bottom-btn{
+  margin-bottom: 60px;
+}
+
 
 .save-button:hover {
   background-color: #0056b3; /* Change background color on hover */
