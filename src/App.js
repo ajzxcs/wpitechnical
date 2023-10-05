@@ -6,7 +6,7 @@ import Track from "./Track";
 // step heading and instruction array
 const stepInfo = [
   {
-    heading: "Submit a ticket",
+    heading: "Submit a request",
     instruction: "Welcome to Wellness Pro Technical Services"
     
   },
@@ -227,7 +227,7 @@ function Confirm(ticketID) {
 
 
           <p>
-            This is your ticket number please save this or took a screenshot on this!
+            This is your ticket number please save this or take a screenshot of this!
           </p>
           <p style={{ color: 'red'}}>
             <strong>{ticketID.tsgID}</strong>
