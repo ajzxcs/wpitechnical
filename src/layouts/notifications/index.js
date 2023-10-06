@@ -381,7 +381,7 @@ function Notifications() {
             <MDButton
             variant="contained"
               color="warning"
-          href="index.html" // Link to the index.html file
+          href="/ForumShit" // Link to the index.html file
         >
           Login as SuperAdmin
         </MDButton>
