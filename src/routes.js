@@ -141,7 +141,7 @@ const routes = [
     name: "Admin Form",
     key: "admin",
     icon: <Icon fontSize="small">assignment</Icon>,
-    route: "/authentication/sign-in",
+    route: "/ForumAdmin",
     component: <AdminForum />,
   },
   {
