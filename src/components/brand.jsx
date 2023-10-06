@@ -48,15 +48,15 @@ export const Brand = (props) => {
           <h2>Brands</h2>
         </div>
         <div className="row">
-          {brands ? (
+          {brands ? (<a href="https://wellnessproinc.com/" target="_blank">
             <Carousel
-              showArrows={false} // Hide the default arrows
+              showArrows={true} // Hide the default arrows
               autoPlay={true}
               interval={2000}
               showThumbs={false}
               showStatus={false}
               infiniteLoop={true}
-              showIndicators={true} // Show the circle indicators
+              showIndicators={false} // Show the circle indicators
               style={{ maxWidth: "100%", margin: "0 auto" }} // Set max width and center
               ref={carouselRef} // Add the ref here
             >
@@ -73,7 +73,7 @@ export const Brand = (props) => {
                   />
                 </div>
               ))}
-            </Carousel>
+            </Carousel></a>
           ) : (
             "Loading..."
           )}

@@ -1,5 +1,5 @@
 import React from "react";
-import aboutlogo from "../imgsrc/about.jpg"
+import aboutlogo from "../imgsrc/wellness.jpg"
 
 export const About = (props) => {
   return (

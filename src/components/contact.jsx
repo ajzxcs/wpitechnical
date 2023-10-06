@@ -150,7 +150,11 @@ export const Contact = (props) => {
                       <i className="fa fa-youtube"></i>
                     </a>
                   </li>
+                  
                 </ul>
+               
+                <br></br><a href="https://wellnessproinc.com/"><button className="btn-forum">Back to Wellness Pro</button></a>
+                 
               </div>
             </div>
           </div>
