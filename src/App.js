@@ -273,7 +273,7 @@ function Confirm(ticketID ) {
         </div>
         <div className="confirm-info">
           <p>
-            This is your ticket number please save this or take a screenshot of this!
+            This is your ticket number please save this or take a screenshot!
           </p>
           <p style={{ color: 'red' }}>
             <strong>{ticketID.tsgID}</strong>
