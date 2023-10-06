@@ -9,8 +9,11 @@ import { Stack } from "@mui/system";
 
 import { updateForums,viewForums } from '../../firebase/Database'
 import { forumUpload } from '../../firebase/Storage'
+import { useNavigate } from "react-router-dom";
 
 function Notifications() {
+  const navigate = useNavigate()
+
   // Create state variables for input values
   const [input1, setInput1] = useState({ name: "", content: "", image: null });
   const [input2, setInput2] = useState({ name: "", content: "", image: null });
@@ -381,7 +384,7 @@ function Notifications() {
             <MDButton
             variant="contained"
               color="warning"
-          href="/ForumShit" // Link to the index.html file
+          onClick={()=>navigate("/AdminForum")}
         >
           Login as SuperAdmin
         </MDButton>

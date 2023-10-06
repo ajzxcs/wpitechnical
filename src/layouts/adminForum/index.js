@@ -1,9 +1,13 @@
 import React from 'react'
 import Private from './ForumAdmin'
+import PageLayout from "examples/LayoutContainers/PageLayout";
 
 const AdminForum = () => {
   return (
-    <Private/>
+    <PageLayout>
+      <Private/>
+    </PageLayout>
+
   )
 }
 

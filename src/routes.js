@@ -49,6 +49,8 @@ import Serve from "layouts/serve";
 import Gallery from "layouts/gallery";
 import Teams from "layouts/team";
 
+import AdminForum from "./layouts/adminForum"
+
 
 
 
@@ -136,14 +138,14 @@ const routes = [
     route: "/authentication/sign-up",
     component: <SignUp />,
   },
-  // {
-  //   type: "collapse",
-  //   name: "Sign In",
-  //   key: "sign-in",
-  //   icon: <Icon fontSize="small">assignment</Icon>,
-  //   route: "/authentication/sign-in",
-  //   component: <SignIn />,
-  // },
+  {
+    type: "",
+    name: "Admin Forum",
+    key: "adminForum",
+    icon: <Icon fontSize="small">assignment</Icon>,
+    route: "/AdminForum",
+    component: <AdminForum />,
+  },
   {
     type: "collapse",
     name: "Log Out",
