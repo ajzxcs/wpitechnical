@@ -72,7 +72,7 @@ export const Brand = (props) => {
                     style={{
                       objectFit: "cover",
                       width: "100%",
-                      maxHeight: "300px",
+                      maxHeight: "500px",
                       cursor: "pointer", // Add a pointer cursor to indicate clickability
                     }}
                   />
