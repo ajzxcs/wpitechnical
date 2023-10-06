@@ -144,6 +144,7 @@ function Plans(props) {
         />
       </div>
       <div>
+      {/* DAGDAG1 */}
         <label>
           Designation<span>{props.errorCode === 11 && "This field is required"}</span>
         </label>
@@ -155,6 +156,7 @@ function Plans(props) {
         />
       </div>
       <div>
+      {/* DAGDAG2 */}
         <label>
           Type of Request
           <span>{props.errorCode === 12 && "This field is required"}</span>
@@ -212,6 +214,7 @@ function AddOns(props) {
         />
       </div>
       <div>
+      {/* DAGDAG3 */}
         <label>
           Warranty Status<span>{props.errorCode === 13 && "This field is required"}</span>
         </label>
@@ -289,6 +292,7 @@ function Confirm(ticketID ) {
             <a href="https://wpi-projects-17ff6.web.app">
               <button className="next-btn">Finish</button>
             </a>
+            {/* DAGDAG4 */}
             <a href="">
               <button className="next-btn">Track request</button>
             </a>
@@ -327,14 +331,14 @@ function FormStructure({ step, setStep, setTicketView, ticketView, setRequestID 
   // Part 2
   const [address, setAddress] = useState("");
   const [institution, setInstitution] = useState("");
-  const [designation, setDesignation] = useState("");
-  const [typeOfRequest, setTypeOfRequest] = useState("Corrective Maintenance/Repair (Default)");
+  const [designation, setDesignation] = useState(""); {/* DAGDAG1 */}
+  const [typeOfRequest, setTypeOfRequest] = useState("Corrective Maintenance/Repair (Default)"); {/* DAGDAG1 */}
 
   // Part 3
   const [brand, setBrand] = useState("");
   const [model, setModel] = useState("");
   const [serialNumber, setSerialNumber] = useState("");
-  const [warrantyStatus, setWarrantyStatus] = useState("Under Warranty");
+  const [warrantyStatus, setWarrantyStatus] = useState("Under Warranty"); {/* DAGDAG1 */}
 
   // Part 4
   const [issueDescription, setIssueDescription] = useState("");
@@ -345,8 +349,8 @@ function FormStructure({ step, setStep, setTicketView, ticketView, setRequestID 
       setErrorCode(1);
     } else if (step === 1 && (address === "" || institution === "" || designation === "" || typeOfRequest === "")) {
       setErrorCode(2);
-    } else if (step === 2 && (brand === "" || model === "" || serialNumber === "" || warrantyStatus === "")) { 
-      setErrorCode(3);
+    } else if (step === 2 && (brand === "" || model === "" || serialNumber === "" || warrantyStatus === "")) { {/* DAGDAG1 */}
+      setErrorCode(3); 
     } else if (step === 3 && (issueDescription === "" || date === "")) {
       setErrorCode(4);
     } else {
@@ -380,10 +384,10 @@ function FormStructure({ step, setStep, setTicketView, ticketView, setRequestID 
             institution={institution}
             setInstitution={setInstitution}
             errorCode={errorCode}
-            designation={designation}
+            designation={designation}  
             setDesignation={setDesignation}
             typeOfRequest={typeOfRequest}
-            setTypeOfRequest={setTypeOfRequest}
+            setTypeOfRequest={setTypeOfRequest} 
           />
         ) : step === 2 ? (
           <AddOns
@@ -393,8 +397,8 @@ function FormStructure({ step, setStep, setTicketView, ticketView, setRequestID 
             setModel={setModel}
             serialNumber={serialNumber}
             setSerialNumber={setSerialNumber}
-            warrantyStatus={warrantyStatus} // Pass the warrantyStatus state
-            setWarrantyStatus={setWarrantyStatus} // Pass the warrantyStatus setter
+            warrantyStatus={warrantyStatus} // {/* DAGDAG1 */}
+            setWarrantyStatus={setWarrantyStatus} // {/* DAGDAG1 */}
             errorCode={errorCode}
           />
         ) : (
@@ -429,25 +433,38 @@ function FormStructure({ step, setStep, setTicketView, ticketView, setRequestID 
             }
             if (step === 3) {
               const data = {
+
+                // personal info
                 name: name,
+                email: email,
+                contactNumber: String(phone),
+
+                // plans
                 address: address,
                 institution: institution,
-                contactNumber: String(phone),
+                designation:designation,
+                typeOfRequest: typeOfRequest,
+
+                // addons
                 brand: brand,
                 model: model,
-                email: email,
                 serialNumber: serialNumber,
+                warrantyStatus:warrantyStatus,
+
+                // summary
                 issue: String(issueDescription),
                 schedule: String(date),
                 status: "pending",
-                typeOfRequest: typeOfRequest
+                
               };
 
-              requestTicketNumber()
-                .then(idNumber => {
-                  createTickets(data, idNumber);
-                  setRequestID(idNumber);
-                });
+              console.log(data)
+
+              // requestTicketNumber()
+              //   .then(idNumber => {
+              //     createTickets(data, idNumber);
+              //     setRequestID(idNumber);
+              //   });
             }
           }}
         >
