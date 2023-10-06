@@ -8,7 +8,8 @@ import {
   signOut, 
   updateEmail, 
   updatePassword, 
-  updateProfile
+  updateProfile,
+  onAuthStateChanged
 } from "firebase/auth";
 import { auth } from "./Configuration"
 import { verifyAdmin,adminCreate, authorEmail } from "./Database"
@@ -237,3 +238,21 @@ export const updatePasswords = async (oldPassword,newPassword) => {
       });
   });
 }
+
+// get user credentials
+export const userCredentials = () => {
+
+  return new Promise((resolve, reject) => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+
+        resolve({
+          uniqueID: user.uid,
+          email: user.email
+        });
+      } else {
+        resolve(null);
+      }
+    }, reject);
+  });
+};
