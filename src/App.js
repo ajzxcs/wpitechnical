@@ -246,7 +246,7 @@ function Summary(props) {
       </div>
       <div>
         <label>
-          Please input the most convenient time for you
+          Please input the most convenient time for us to contact you
           <span>{props.errorCode === 10 && "This field is required"}</span>
         </label>
         <input
