@@ -18,7 +18,7 @@ Coded by www.creative-tim.com
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
-import MDAvatar from "components/MDAvatar";
+// import MDAvatar from "components/MDAvatar";
 import MDBadge from "components/MDBadge";
 
 // Images

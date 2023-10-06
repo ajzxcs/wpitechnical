@@ -181,14 +181,18 @@ export default function Data(rowss) {
 
   return {
     columns: [
-      { Header: "Full Name", accessor: "name", width: "45%", align: "left" },
+      { Header: "Request ID", accessor: "requestID", width: "45%", align: "left" },
+      { Header: "Full Name", accessor: "name",align: "center" },
       { Header: "Address", accessor: "address", align: "center" },
       { Header: "Institution", accessor: "institution", align: "left" },
-      { Header: "Contact Number", accessor: "contactNumber", align: "center" },
+      { Header: "Designation", accessor: "designation", align: "center" },
+      { Header: "Type of Request", accessor: "typeRequest", align: "center" },
+      { Header: "Warranty Status", accessor: "warrantyStatus", align: "center" },
       { Header: "Brand", accessor: "brand", align: "center" },
       { Header: "Model", accessor: "model", align: "center" },
       { Header: "Serial Number", accessor: "serialNumber", align: "center" },
       { Header: "Issue", accessor: "issue", align: "center" },
+      { Header: "Date Requested", accessor: "dateRequested", align: "center" },
       { Header: "Schedule", accessor: "schedule", align: "center" },
       { Header: "Status", accessor: "status", align: "center" },
       { Header: "Email", accessor: "email", align: "center" },
@@ -197,14 +201,19 @@ export default function Data(rowss) {
     ],
 
     rows: Object.values(rowss)?.map((data, key) => ({
+      requestID: data.tickeid,
       name: data.name,
       address: data.address,
       institution: data.institution,
       contactNumber: data.contactNumber,
+      designation: data.designation,
+      typeRequest: data.typeOfRequest,
+      warrantyStatus: data.warrantyStatus,
       brand: data.brand,
       model: data.model,
       serialNumber: data.serialNumber,
-      issue: data.issue,
+      issue: data.issue, 
+      dateRequested: data.dateRequested,
       schedule: data.schedule,
       status: (
         <MDBox ml={-1} key={key}>
