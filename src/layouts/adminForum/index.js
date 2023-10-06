@@ -34,6 +34,8 @@ import { IconButton, InputAdornment } from "@mui/material";
 
 import Private from "./ForumAdmin"
 
+import Basoc from "./componentsAdmin/Basoc"
+
 function AdminForum() {
 
   const [showPasswordCheckbox, setShowPasswordCheckbox] = React.useState(false);
@@ -66,9 +68,9 @@ function AdminForum() {
 
   return (
     <div>
-      <BasicLayout>
+      <Basoc>
         <Private/>
-    </BasicLayout>
+    </Basoc>
     </div>
   );
 }
