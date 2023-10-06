@@ -41,6 +41,10 @@ export const Brand = (props) => {
     };
   }, []);
 
+  const handleImageClick = (url) => {
+    window.open("https://www.youtube.com", "_blank"); // Open YouTube in a new tab/window
+  };
+
   return (
     <div id="brand" className="text-center">
       <div className="container">
@@ -48,32 +52,33 @@ export const Brand = (props) => {
           <h2>Brands</h2>
         </div>
         <div className="row">
-          {brands ? (<a href="https://wellnessproinc.com/" target="_blank">
+          {brands ? (
             <Carousel
-              showArrows={true} // Hide the default arrows
+              showArrows={true}
               autoPlay={true}
               interval={2000}
               showThumbs={false}
               showStatus={false}
               infiniteLoop={true}
-              showIndicators={false} // Show the circle indicators
-              style={{ maxWidth: "100%", margin: "0 auto" }} // Set max width and center
-              ref={carouselRef} // Add the ref here
+              showIndicators={true}
+              style={{ maxWidth: "100%", margin: "0 auto" }}
+              ref={carouselRef}
             >
               {brands?.map((url, index) => (
-                <div key={`${url.name}-${index}`}>
+                <div key={`${url.name}-${index}`} onClick={() => handleImageClick(url)}>
                   <img
                     src={url.url}
                     alt={url.name}
                     style={{
                       objectFit: "cover",
-                      width: "100%", // Make the images full width
-                      maxHeight: "300px", // Set the max height for mobile (adjust as needed)
+                      width: "100%",
+                      maxHeight: "300px",
+                      cursor: "pointer", // Add a pointer cursor to indicate clickability
                     }}
                   />
                 </div>
               ))}
-            </Carousel></a>
+            </Carousel>
           ) : (
             "Loading..."
           )}
