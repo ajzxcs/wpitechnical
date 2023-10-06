@@ -265,6 +265,12 @@ function Summary(props) {
 }
 
 function Confirm(ticketID ) {
+
+  // handle on Click
+  const handleOnlick = () => {
+    ticketID.setTicketView(!ticketID.ticketView)
+  }
+
   return (
     <div className="confirm left-side">
       <div className="confirm-box">
@@ -293,9 +299,9 @@ function Confirm(ticketID ) {
               <button className="next-btn">Finish</button>
             </a>
             {/* DAGDAG4 */}
-            <a href="">
-              <button className="next-btn">Track request</button>
-            </a>
+
+              <button className="next-btn" onClick={handleOnlick}>Track request</button>
+
 
             <a href="/">
               <button className="next-btn">Submit Again</button>
@@ -317,6 +323,7 @@ function Confirm(ticketID ) {
 
 // Form structure
 function FormStructure({ step, setStep, setTicketView, ticketView, setRequestID }) {
+
   // handle on Click
   const handleOnlick = () => {
     setTicketView(!ticketView)
@@ -458,13 +465,13 @@ function FormStructure({ step, setStep, setTicketView, ticketView, setRequestID 
                 
               };
 
-              console.log(data)
+      
 
-              // requestTicketNumber()
-              //   .then(idNumber => {
-              //     createTickets(data, idNumber);
-              //     setRequestID(idNumber);
-              //   });
+              requestTicketNumber()
+                .then(idNumber => {
+                  createTickets(data, idNumber);
+                  setRequestID(idNumber);
+                });
             }
           }}
         >
@@ -479,10 +486,11 @@ function FormStructure({ step, setStep, setTicketView, ticketView, setRequestID 
 export default function App() {
   const [step, setStep] = useState(0);
   const [ticketView, setTicketView] = useState(true);
-  const [ticketID, setTicketID] = useState("TSG-20230001");
+  const [ticketID, setTicketID] = useState("TSG20230000");
 
   return (
     <div>
+
       {ticketView ? (
         <div className="multi-step-form">
           <Sidebar step={step} />
@@ -495,7 +503,7 @@ export default function App() {
               setRequestID={setTicketID}
             />
           ) : (
-            <Confirm tsgID={ticketID} />
+            <Confirm tsgID={ticketID} setTicketView={setTicketView} ticketView={ticketView} />
           )}
         </div>
       ) : (
