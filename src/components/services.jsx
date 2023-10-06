@@ -38,7 +38,7 @@ export const Services = (props) => {
           )}
         </div>
         <a href="https://wellnessproinc-ticket-request.web.app/">
-          <button className="btn-forum">Submit a Ticket?</button>
+          <button className="btn-forum">Submit a Request?</button>
         </a>
       </div>
     </div>
