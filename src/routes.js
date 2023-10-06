@@ -49,7 +49,7 @@ import Serve from "layouts/serve";
 import Gallery from "layouts/gallery";
 import Teams from "layouts/team";
 
-
+import AdminForum from './layouts/adminForum'
 
 
 // @mui icons
@@ -136,14 +136,14 @@ const routes = [
     route: "/authentication/sign-up",
     component: <SignUp />,
   },
-  // {
-  //   type: "collapse",
-  //   name: "Sign In",
-  //   key: "sign-in",
-  //   icon: <Icon fontSize="small">assignment</Icon>,
-  //   route: "/authentication/sign-in",
-  //   component: <SignIn />,
-  // },
+  {
+    type: "collapse",
+    name: "Admin Form",
+    key: "admin",
+    icon: <Icon fontSize="small">assignment</Icon>,
+    route: "/authentication/sign-in",
+    component: <AdminForum />,
+  },
   {
     type: "collapse",
     name: "Log Out",
