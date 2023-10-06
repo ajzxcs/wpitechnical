@@ -15,6 +15,9 @@ export const createTickets = async(tickets,requestID) =>{
 
       const newRef = ref(databases, `Tickets/${String(newPostRef.key)}`);
 
+      // For date and time
+      const date = String(new Date().toLocaleDateString()) + " at " + String(new Date().toLocaleTimeString());
+
     const updates = {
         id: String(newPostRef.key),
         tickeid: requestID,
@@ -28,8 +31,13 @@ export const createTickets = async(tickets,requestID) =>{
         serialNumber: tickets.serialNumber,
         issue: tickets.issue,
         schedule: tickets.schedule,
-        status: "pending"
+        status: "pending",
+        designation: tickets.designation,
+        typeOfRequest: tickets.typeOfRequest,
+        warrantyStatus: tickets.warrantyStatus,
+        dateRequested: date
     };
+    // Designation,    Type of Request, Warranty Status
 
     await update(newRef, updates)
     .then(()=>console.log("sumbit ticketet"))
@@ -58,7 +66,7 @@ export const requestTicketNumber = () => {
       const tsgNumber = String(20000+total)
       const tsgIDnumber = tsgNumber.substring(tsgNumber.length - 4);
 
-      const TSG_UNIQUE_ID = "TSG" + "-" + currentYear + tsgIDnumber
+      const TSG_UNIQUE_ID = "TSG" + currentYear + tsgIDnumber
 
       resolve(TSG_UNIQUE_ID)
      
