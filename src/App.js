@@ -1,6 +1,6 @@
 import "./styles.css";
 import { useState } from "react";
-import { createTickets, requestTicketNumber } from "./firebase/Database"
+import { createTickets, requestTicketNumber } from "./firebase/Database";
 import Track from "./Track";
 
 // step heading and instruction array
@@ -8,7 +8,6 @@ const stepInfo = [
   {
     heading: "Submit a request",
     instruction: "Welcome to Wellness Pro Technical Services"
-    
   },
   {
     heading: "Additional Info",
@@ -29,7 +28,7 @@ const stepInfo = [
 function Sidebar(props) {
   // Sidebar steps name array
   const steps = ["Your Info", "Institution", "Item", "Issue"];
-  
+
   return (
     // Sidebar element
     <div className="sidebar">
@@ -97,17 +96,28 @@ function PersonalInfo(props) {
           />
         </div>
       </div>
-      
-   {/* wards */}
-      <button onClick={()=>props.functionTicks()} className="now-btn" >Track your ticket</button>
+
+      {/* Buttons */}
+      <button onClick={() => props.functionTicks()} className="now-btn">
+        Track your ticket
+      </button>
       <a href="https://wpi-projects-17ff6.web.app">
-      <button className="back-btn">Back</button></a>
+        <button className="back-btn">Back</button>
+      </a>
     </div>
   );
 }
 
-// Step: II Plan selection component
+// Step II: Plan selection component
 function Plans(props) {
+  const typeOfRequests = [
+    "Corrective Maintenance/Repair (Default)",
+    "Preventive Maintenance",
+    "Delivery/Installation",
+    "Inquiry/SCE",
+    "Internal Request"
+  ];
+
   return (
     <div className="personal-info-inputs">
       <div>
@@ -133,11 +143,38 @@ function Plans(props) {
           onChange={(e) => props.setInstitution(e.target.value)}
         />
       </div>
+      <div>
+        <label>
+          Designation<span>{props.errorCode === 11 && "This field is required"}</span>
+        </label>
+        <input
+          type="text"
+          placeholder=""
+          value={props.designation}
+          onChange={(e) => props.setDesignation(e.target.value)}
+        />
+      </div>
+      <div>
+        <label>
+          Type of Request
+          <span>{props.errorCode === 12 && "This field is required"}</span>
+        </label>
+        <select
+          value={props.typeOfRequest}
+          onChange={(e) => props.setTypeOfRequest(e.target.value)}
+        >
+          {typeOfRequests.map((request, index) => (
+            <option key={index} value={request}>
+              {request}
+            </option>
+          ))}
+        </select>
+      </div>
     </div>
   );
 }
 
-// Step III : Add-ons component
+// Step III: Add-ons component
 function AddOns(props) {
   return (
     <div className="personal-info-inputs">
@@ -154,8 +191,7 @@ function AddOns(props) {
       </div>
       <div>
         <label>
-          Model
-          <span>{props.errorCode === 7 && "This field is required"}</span>
+          Model<span>{props.errorCode === 7 && "This field is required"}</span>
         </label>
         <input
           type="text"
@@ -166,8 +202,7 @@ function AddOns(props) {
       </div>
       <div>
         <label>
-          Serial Number
-          <span>{props.errorCode === 8 && "This field is required"}</span>
+          Serial Number<span>{props.errorCode === 8 && "This field is required"}</span>
         </label>
         <input
           type="text"
@@ -176,11 +211,24 @@ function AddOns(props) {
           onChange={(e) => props.setSerialNumber(e.target.value)}
         />
       </div>
+      <div>
+        <label>
+          Warranty Status<span>{props.errorCode === 13 && "This field is required"}</span>
+        </label>
+        <select
+          value={props.warrantyStatus}
+          onChange={(e) => props.setWarrantyStatus(e.target.value)}
+        >
+          <option value="Under Warranty">Under Warranty</option>
+          <option value="Non-Warranty">Non-Warranty</option>
+        </select>
+      </div>
     </div>
   );
 }
 
-// STEP IV : Summary of services provided and its calculation
+
+// Step IV: Summary of services provided and its calculation
 function Summary(props) {
   return (
     <div className="personal-info-inputs">
@@ -213,7 +261,7 @@ function Summary(props) {
   );
 }
 
-function Confirm(ticketID) {
+function Confirm(ticketID ) {
   return (
     <div className="confirm left-side">
       <div className="confirm-box">
@@ -224,29 +272,30 @@ function Confirm(ticketID) {
           <h1>Thank You!</h1>
         </div>
         <div className="confirm-info">
-
-
           <p>
             This is your ticket number please save this or take a screenshot of this!
           </p>
-          <p style={{ color: 'red'}}>
+          <p style={{ color: 'red' }}>
             <strong>{ticketID.tsgID}</strong>
           </p>
           <br></br>
-          
 
-          <div 
-          style={{
+          <div
+            style={{
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'center',
-   
             }}>
-              <a href="https://wpi-projects-17ff6.web.app">
-              <button className="next-btn">Finish</button></a>
+            <a href="https://wpi-projects-17ff6.web.app">
+              <button className="next-btn">Finish</button>
+            </a>
+            <a href="">
+              <button className="next-btn">Track request</button>
+            </a>
 
-              <a href="/">
-              <button className="next-btn">Submit Again</button></a>
+            <a href="/">
+              <button className="next-btn">Submit Again</button>
+            </a>
           </div>
 
           <br></br>
@@ -255,7 +304,7 @@ function Confirm(ticketID) {
             Thanks for confirming your submission! If you ever need support, please feel free to email us
             at support@wpi.com.ph
           </p><br></br>
-     
+
         </div>
       </div>
     </div>
@@ -263,9 +312,8 @@ function Confirm(ticketID) {
 }
 
 // Form structure
-function FormStructure({ step, setStep, setTicketView, ticketView, setRequestID}) {
-
-  // handle on CLick
+function FormStructure({ step, setStep, setTicketView, ticketView, setRequestID }) {
+  // handle on Click
   const handleOnlick = () => {
     setTicketView(!ticketView)
   }
@@ -275,15 +323,18 @@ function FormStructure({ step, setStep, setTicketView, ticketView, setRequestID}
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [errorCode, setErrorCode] = useState(0);
- 
+
   // Part 2
   const [address, setAddress] = useState("");
   const [institution, setInstitution] = useState("");
+  const [designation, setDesignation] = useState("");
+  const [typeOfRequest, setTypeOfRequest] = useState("Corrective Maintenance/Repair (Default)");
 
   // Part 3
   const [brand, setBrand] = useState("");
   const [model, setModel] = useState("");
   const [serialNumber, setSerialNumber] = useState("");
+  const [warrantyStatus, setWarrantyStatus] = useState("Under Warranty");
 
   // Part 4
   const [issueDescription, setIssueDescription] = useState("");
@@ -292,9 +343,9 @@ function FormStructure({ step, setStep, setTicketView, ticketView, setRequestID}
   function checkNonEmpty() {
     if (step === 0 && (name === "" || email === "" || phone === "")) {
       setErrorCode(1);
-    } else if (step === 1 && (address === "" || institution === "")) {
+    } else if (step === 1 && (address === "" || institution === "" || designation === "" || typeOfRequest === "")) {
       setErrorCode(2);
-    } else if (step === 2 && (brand === "" || model === "" || serialNumber === "")) {
+    } else if (step === 2 && (brand === "" || model === "" || serialNumber === "" || warrantyStatus === "")) { 
       setErrorCode(3);
     } else if (step === 3 && (issueDescription === "" || date === "")) {
       setErrorCode(4);
@@ -329,6 +380,10 @@ function FormStructure({ step, setStep, setTicketView, ticketView, setRequestID}
             institution={institution}
             setInstitution={setInstitution}
             errorCode={errorCode}
+            designation={designation}
+            setDesignation={setDesignation}
+            typeOfRequest={typeOfRequest}
+            setTypeOfRequest={setTypeOfRequest}
           />
         ) : step === 2 ? (
           <AddOns
@@ -338,6 +393,8 @@ function FormStructure({ step, setStep, setTicketView, ticketView, setRequestID}
             setModel={setModel}
             serialNumber={serialNumber}
             setSerialNumber={setSerialNumber}
+            warrantyStatus={warrantyStatus} // Pass the warrantyStatus state
+            setWarrantyStatus={setWarrantyStatus} // Pass the warrantyStatus setter
             errorCode={errorCode}
           />
         ) : (
@@ -369,36 +426,29 @@ function FormStructure({ step, setStep, setTicketView, ticketView, setRequestID}
             const check = checkNonEmpty();
             if (check && step >= 0 && step <= 3) {
               setStep(step + 1);
-
             }
-            if(step===3){
+            if (step === 3) {
               const data = {
-                "name": name,
-                "address": address,
-                "institution": institution,
-                "contactNumber": String(phone),
-                "brand": brand,
-                "model": model,
-                "email": email,
-                "serialNumber": serialNumber,
-                "issue": String(issueDescription),
-                "schedule": String(date),
-                "status": "pending"
-              }
+                name: name,
+                address: address,
+                institution: institution,
+                contactNumber: String(phone),
+                brand: brand,
+                model: model,
+                email: email,
+                serialNumber: serialNumber,
+                issue: String(issueDescription),
+                schedule: String(date),
+                status: "pending",
+                typeOfRequest: typeOfRequest
+              };
 
-              
               requestTicketNumber()
-              .then(idNumber=>{
-                createTickets(data,idNumber)
-                setRequestID(idNumber)
-              })
-
-          
-             
-
+                .then(idNumber => {
+                  createTickets(data, idNumber);
+                  setRequestID(idNumber);
+                });
             }
-
-      
           }}
         >
           {step !== 3 ? "Next Step" : "Confirm"}
@@ -411,27 +461,31 @@ function FormStructure({ step, setStep, setTicketView, ticketView, setRequestID}
 // Export App Component to index.js
 export default function App() {
   const [step, setStep] = useState(0);
-  const [ticketView,setTicketView] = useState(true)
-  const [ticketID,setTicketID] = useState("TSG-20230001")
+  const [ticketView, setTicketView] = useState(true);
+  const [ticketID, setTicketID] = useState("TSG-20230001");
 
   return (
-    // <div className="multi-step-form">
-    //  <Sidebar step={step} />
-    // <Confirm tsgID={ticketID} /> 
- <div>
-    {  
-    
-    ticketView ? 
+    <div>
+      {ticketView ? (
         <div className="multi-step-form">
           <Sidebar step={step} />
-          {step >= 0 && step <= 3 ? ( <FormStructure step={step} setStep={setStep} setTicketView={setTicketView} ticketView={ticketView} setRequestID={setTicketID}/> ) : ( <Confirm tsgID={ticketID}/> ) }
+          {step >= 0 && step <= 3 ? (
+            <FormStructure
+              step={step}
+              setStep={setStep}
+              setTicketView={setTicketView}
+              ticketView={ticketView}
+              setRequestID={setTicketID}
+            />
+          ) : (
+            <Confirm tsgID={ticketID} />
+          )}
         </div>
-        :
-
-      <div>
-        <Track setTicketView={setTicketView}/>
-      </div> 
-    } 
-  </div>
+      ) : (
+        <div>
+          <Track setTicketView={setTicketView} />
+        </div>
+      )}
+    </div>
   );
 }

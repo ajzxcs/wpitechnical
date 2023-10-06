@@ -163,12 +163,12 @@ a {
 .personal-info-inputs {
   display: flex;
   flex-direction: column;
-  margin: 40px 0;
+  margin: 8px 0; /* Decreased margin further */
 }
 .personal-info-inputs div {
   display: flex;
   flex-direction: column;
-  margin-bottom: 25px;
+  margin-bottom: 8px; /* Decreased margin further */
 }
 .personal-info-inputs div > * {
   margin-bottom: 7px;
@@ -195,76 +195,20 @@ a {
 
 /* Plans  */
 .plans {
-  margin: 40px 0;
-}
-.plan-card-flex {
-  display: flex;
-  justify-content: space-between;
+  margin: 15px 0; /* Decreased margin further */
 }
 .plan-card {
-  display: flex;
-  flex-direction: column;
-  flex-basis: 30%;
-  border: 1px solid #9ba4b5;
+  flex-basis: 32%; /* Adjusted width */
+  margin-right: 2%; /* Added margin-right */
   padding: 12px;
-  border-radius: 8px;
-  cursor: pointer;
-}
-.plan-card:hover {
-  border-color: #0b285f;
-}
-.icon-img {
-  margin-bottom: 40px;
-}
-.plan-info h5 {
-  font-size: 0.9rem;
-  color: #212a3e;
-}
-.plan-info p {
-  color: #9ba4b5;
-  font-size: 13px;
-  margin-top: 8px;
-}
-.plan-time {
-  margin-top: 30px;
-  display: flex;
-  justify-content: center;
-}
-.plan-time p {
-  color: #9ba4b5;
-  font-size: 15px;
-  margin-top: 8px;
-  margin-right: 10px;
-}
-.plan-select {
-  width: 50px;
-  background: #002b5b;
-  margin-right: 10px;
-  border-radius: 20px;
-  position: relative;
-}
-.ball {
-  position: absolute;
-  width: 20px;
-  height: 70%;
-  background-color: #9ba4b5;
-  border-radius: 50%;
-  top: 4px;
-  left: 5px;
 }
 
 /* AddOns Component Styling  */
 .add-ons {
-  margin: 10px 0;
+  margin: 5px 0; /* Decreased margin further */
 }
 .add-item {
-  margin-bottom: 30px;
-  display: flex;
-  justify-content: space-between;
-  border: 1px solid rgb(167, 161, 161);
-  padding: 14px;
-  border-radius: 8px;
-  cursor: pointer;
+  margin-bottom: 10px; /* Decreased margin further */
 }
 .add-item:hover {
   border-color: #483eff;
@@ -328,7 +272,7 @@ input[type="checkbox"]:checked:after {
 
 /* Summary component styling  */
 .summary-flex {
-  margin: 40px 0;
+  margin: 20px 0; /* Decreased margin */
   padding: 0 20px;
   display: flex;
   flex-direction: column;

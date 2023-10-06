@@ -68,15 +68,23 @@ function Track({ setTicketView }) {
           <>
             {data && (data.name || data.status || data.schedule) ? (
               <div>
-                <h2 style={{ marginBottom: '1rem' }}>Name: {data.name}</h2>
-                <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginBottom: '1rem' }}>
-                  <h2>Status:</h2>
-                  <p style={{ color: getStatusColor(data.status), marginLeft: '0.5rem', marginBottom: '0' }}>
-                    <strong>{data.status}</strong>
-                  </p>
-                </div>
-                {/* <h2 style={{ color: 'blue' }}>Schedule: {data.schedule}</h2> */}
-              </div>
+              <h2 style={{ marginBottom: '1rem' }}>Name: {data.name}</h2>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', marginBottom: '1rem' }}>
+                 <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginBottom: '0.5rem' }}>
+               <h2>Status:</h2>
+               <p style={{ color: getStatusColor(data.status), marginLeft: '0.5rem', marginBottom: '0' }}>
+               <strong>{data.status}</strong>
+                 </p>
+               </div>
+              <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+               
+                <p>
+              <a href='https://drift.me/wellnessprotsg'><strong>&nbsp;&nbsp;Live chat with coordinator</strong></a>
+          </p>
+       </div>
+  </div>
+</div>
+
             ) : (
               <p style={{ color: 'red', marginBottom: '0', animation: 'bounce 2s infinite' }} className='bounce-once'>
                 No Data Found
