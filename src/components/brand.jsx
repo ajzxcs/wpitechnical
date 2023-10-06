@@ -42,7 +42,7 @@ export const Brand = (props) => {
   }, []);
 
   const handleImageClick = (url) => {
-    window.open("https://www.youtube.com", "_blank"); // Open YouTube in a new tab/window
+    window.open("https://wellnessproinc.com/", "_blank"); // Open YouTube in a new tab/window
   };
 
   return (
