@@ -1,3 +1,5 @@
+
+
 import React, { useState } from "react";
 import Modal from "react-modal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -5,6 +7,7 @@ import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import Select from "react-select"; // Import react-select
 import "../assets/public.css";
 
+Modal.setAppElement("#root");
 
 const PostForm = ({ isOpen, onRequestClose, onAddPost }) => {
   const [title, setTitle] = useState("");
@@ -12,7 +15,7 @@ const PostForm = ({ isOpen, onRequestClose, onAddPost }) => {
   const [tags, setTags] = useState([]);
   const [tagInput, setTagInput] = useState("");
   const [selectedBrands, setSelectedBrands] = useState([]);
-  const [brandInput, setBrandInput] = useState("");
+  // const [brandInput, setBrandInput] = useState("");
   const [IspostEmpty, setIspostEmpty] = useState(false);
 
   const handleAddTag = () => {
@@ -26,7 +29,7 @@ const PostForm = ({ isOpen, onRequestClose, onAddPost }) => {
     }
   
     // Include selected brands as tags
-    const selectedBrandTags = selectedBrands.map((brand) => ` ${brand.label}`);
+    const selectedBrandTags = selectedBrands.map((brand) =>  `${brand.label}`);
     if (selectedBrandTags.length > 0) {
       const updatedTags = [...tags, ...selectedBrandTags];
       setTags(updatedTags);
@@ -36,7 +39,7 @@ const PostForm = ({ isOpen, onRequestClose, onAddPost }) => {
 
   const handleCreatePost = () => {
     if (content.trim() !== "") {
-      const newTags = [...tags, ...selectedBrands.map((brand) => ` ${brand.label}`)];
+      const newTags = [...tags, ...selectedBrands.map((brand) =>  `${brand.label}`)];
       const newPost = {
         title,
         content,
@@ -50,19 +53,36 @@ const PostForm = ({ isOpen, onRequestClose, onAddPost }) => {
       setTags([]);
       setTagInput("");
       setSelectedBrands([]);
-      setBrandInput("");
+      // setBrandInput("");
       onRequestClose();
     } else {
       setIspostEmpty(true);
     }
   };
 
-  const brands = [
-    { value: "Brand A", label: "Brand A" },
-    { value: "Brand B", label: "Brand B" },
-    { value: "Brand C", label: "Brand C" },
-    // Add more brands as needed
-  ];
+ 
+const brands = [
+    { value: "AND Tokyo Japan", label: "AND Tokyo Japan" },
+    { value: "AMBU", label: "AMBU" },
+    { value: "CHINESPOSRT", label: "CHINESPOSRT" },
+    { value: "GINEVRI", label: "GINEVRI" },
+    { value: "GULDMANN", label: "GULDMANN" },
+    { value: "HADECO", label: "HADECO" },
+    { value: "KaWe", label: "KaWe" },
+    { value: "KINGVISION", label: "KINGVISION" },
+    { value: "KOIKE MEDICAL", label: "KOIKE MEDICAL" },
+    { value: "MAICO", label: "MAICO" },
+    { value: "MAMIVAC", label: "MAMIVAC" },
+    { value: "MEDLAB", label: "MEDLAB" },
+    { value: "NAVEH", label: "NAVEH" },
+    { value: "OPHARDT hygiene", label: "OPHARDT hygiene" },
+    { value: "SCHAERER MEDICAL", label: "SCHAERER MEDICAL" },
+    { value: "SECA", label: "SECA" },
+    { value: "SECULIFE", label: "SECULIFE" },
+    { value: "SINAPI", label: "SINAPI" },
+    { value: "TECNIMED", label: "TECNIMED" },
+    { value: "TRISMED", label: "TRISMED" }
+];
 
   return (
     <Modal isOpen={isOpen} onRequestClose={onRequestClose} className="post-form-modal">

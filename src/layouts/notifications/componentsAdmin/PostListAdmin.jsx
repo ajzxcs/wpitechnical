@@ -1,6 +1,6 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleDoubleDown,  faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faAngleDoubleDown } from "@fortawesome/free-solid-svg-icons";
 
 
 const PostList = ({ onSelectPost, posts }) => {
@@ -18,11 +18,6 @@ const PostList = ({ onSelectPost, posts }) => {
       {posts && posts.map((postedData,outerKey) => (
 
         <div key={outerKey} className="post">
-
-   {/* Delete Icon */}
-   <div className="delete-icon" >
-      <FontAwesomeIcon icon={faTrash} />
-    </div>
 
           {/* Tags */}
           <div className="tags">
