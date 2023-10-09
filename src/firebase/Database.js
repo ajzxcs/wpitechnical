@@ -5,10 +5,13 @@ import {
     get
 } from "@firebase/database";
 import { databases } from './Configuration'
+import { userCredentials } from './Authentication'
 
 // create tickets
 export const createTickets = async(tickets,requestID) =>{
     const adminRef = ref(databases, `Tickets/`);
+
+      const uid = await userCredentials()
   
       // Push the new post to the user's "Posts" node and get the unique key
       const newPostRef = push(adminRef);
@@ -20,6 +23,7 @@ export const createTickets = async(tickets,requestID) =>{
 
     const updates = {
         id: String(newPostRef.key),
+        uid: uid,
         tickeid: requestID,
         name: tickets.name,
         address: tickets.address,
@@ -86,8 +90,11 @@ export const requestTicketNumber = () => {
         const snapshot = await get(dbRef);
   
         const data = snapshot.val();
+
+        const uid = await userCredentials()
         
         const total = data && Object.values(data)
+          .filter(e=>e.uid === uid)
           .filter(e=>e.tickeid === SerialNumber)
           .map((result)=>{
             return {

@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from "styled-components";
-import { motion } from "framer-motion";
-import AccountBox from "./component/accountBox/AccountBox";
-import './index.css';
+
+import AccountBox from "../component/accountBox/AccountBox";
+import '../component/assets/index.css';
 
 const AppContainer = styled.div`
   width: 100%;
@@ -15,7 +15,7 @@ const AppContainer = styled.div`
 const Login = () => {
   return (
     <AppContainer>
-    <AccountBox />
+      <AccountBox />
     </AppContainer>
   )
 }

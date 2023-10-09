@@ -26,3 +26,6 @@ export const app = initializeApp(firebaseConfig);
 
 // for realtime database
 export const databases = getDatabase(app);
+
+// for firebase authentication
+export const auth = getAuth(app);

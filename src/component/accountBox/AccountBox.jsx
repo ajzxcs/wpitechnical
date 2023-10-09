@@ -3,7 +3,7 @@ import styled from "styled-components";
 import LoginForm from "./loginForm";
 import { motion } from "framer-motion";
 import { AccountContext } from "./accountContext";
-import SignUp from "./signUpForm";
+
 
 const BoxContainer = styled.div`
   width: 95%;
@@ -63,15 +63,6 @@ const HeaderText = styled.h2`
   color: #fff;
   z-index: 10;
   margin: 0;
-`;
-
-const SmallText = styled.h5`
-  color: #fff;
-  font-weight: 50;
-  font-size: 12px;
-  z-index: 10;
-  margin-left: 0;
-  margin-top: 3px;
 `;
 
 const BottomContainer = styled.div`
@@ -171,7 +162,7 @@ const AccountBox = () => {
             )}
           </TopContainer>
           <BottomContainer>
-            {active === "signin" && <LoginForm />}
+            <LoginForm />
           </BottomContainer>
           
         </BoxContainer>

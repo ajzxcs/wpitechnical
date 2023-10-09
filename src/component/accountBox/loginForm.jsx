@@ -9,6 +9,8 @@ import {
 } from "./common";
 import { Marginer } from "../marginer";
 
+import { LoginSession } from "../../firebase/Authentication"
+
 function LoginForm() {
   const [showPasswordCheckbox, setShowPasswordCheckbox] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -39,6 +41,8 @@ function LoginForm() {
   };
 
   const handleSubmit = () => {
+
+
     if (!isEmailValid) {
       // Handle invalid email here (e.g., display an error message)
       console.log("Invalid email");
@@ -46,8 +50,16 @@ function LoginForm() {
     }
 
     // Handle form submission with valid email and password
-    console.log("Email:", email);
-    console.log("Password:", password);
+
+    LoginSession({
+      email: email,
+      password : password
+    }).then(e=>{
+      alert(e);
+      window.location.reload()
+    }).catch(e=>alert(e))
+
+    
   };
 
   return (
@@ -102,7 +114,7 @@ function LoginForm() {
       </SubmitButton>
       <Marginer direction="vertical" margin="10px" />
       <Marginer direction="vertical" margin="10px" />
-          <a href="/"><BoldLink>
+          <a href="https://wpi-projects-17ff6.web.app/"><BoldLink>
             Back To Homepage
           </BoldLink></a>
 

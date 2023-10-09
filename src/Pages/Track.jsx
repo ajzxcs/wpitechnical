@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import './Track.css'; // Import the CSS file for styling
+import '../component/assets/Track.css'; // Import the CSS file for styling
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
-import { TRACK_TICKET } from './firebase/Database';
+import { TRACK_TICKET } from '../firebase/Database';
 
 function getStatusColor(status) {
   switch (status) {
