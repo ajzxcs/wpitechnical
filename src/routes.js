@@ -49,7 +49,8 @@ import Serve from "layouts/serve";
 import Gallery from "layouts/gallery";
 import Teams from "layouts/team";
 
-import AdminForum from './layouts/adminForum'
+
+import AdminForum from "./layouts/adminForum"
 
 
 // @mui icons
@@ -137,11 +138,11 @@ const routes = [
     component: <SignUp />,
   },
   {
-    type: "collapse",
-    name: "Admin Form",
-    key: "admin",
+    type: "",
+    name: "Admin Forum",
+    key: "adminForum",
     icon: <Icon fontSize="small">assignment</Icon>,
-    route: "/ForumAdmin",
+    route: "/AdminForum",
     component: <AdminForum />,
   },
   {

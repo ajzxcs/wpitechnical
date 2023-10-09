@@ -75,14 +75,7 @@ import { verifyAdmin,adminCreate, authorEmail } from "./Database"
   return new Promise((resolve, reject) => {
     createUserWithEmailAndPassword(auth, email, password)
       .then((res) => {
-
-
         authorEmail(email,res.user.uid).then(()=>resolve(res.user.uid))
-
-
-
-
-
       })
       .catch((error) => {
         console.log(error);
