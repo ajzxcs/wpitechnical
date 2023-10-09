@@ -9,6 +9,8 @@ import {
 } from "@mui/material"; // Import Material-UI components
 import SettingsIcon from "@mui/icons-material/Settings"; // Import the Settings icon
 import HelpIcon from "@mui/icons-material/Help"; // Import the Help icon
+import { BackSquare } from 'iconsax-react';
+
 import "../assets/public.css";
  
 // import { LogoutSession } from "../Features/Authentication/Authentication"
@@ -51,19 +53,22 @@ const Header = ({ toggleFAQVisibility, onGoBack }) => {
               <HelpIcon style={{fontSize: '200%'}}/>
             </IconButton>
           </Tooltip>
+  {/*NANDITO AKO ART */}
 
-   
-         {/*  <Tooltip title="Settings">
+       <Tooltip title="Back to Admin">
             <IconButton
               color="inherit"
-              onClick={handleSettingsClick}
+              onClick={onGoBack}
               aria-controls="settings-menu"
               aria-haspopup="true"
             >
-              <SettingsIcon style={{fontSize: '200%'}}/>
+              <BackSquare size="32" color="#344767"/>
             </IconButton>
           </Tooltip>
-          <Menu
+  {/*NANDITO AKO ART */}
+
+
+              {/* <Menu
             id="settings-menu"
             anchorEl={anchorEl}
             open={Boolean(anchorEl)}
