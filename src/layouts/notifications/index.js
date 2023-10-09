@@ -12,6 +12,7 @@ import { forumUpload } from '../../firebase/Storage'
 import { useNavigate } from "react-router-dom";
 
 function Notifications() {
+
   const navigate = useNavigate()
 
   // Create state variables for input values
@@ -383,9 +384,10 @@ function Notifications() {
 
             <MDButton
             variant="contained"
-              color="warning"
-          onClick={()=>navigate("/AdminForum")}
-        >
+            color="warning"
+            onClick={e=>navigate("/ForumAdmin")}
+            >
+
           Login as SuperAdmin
         </MDButton>
 

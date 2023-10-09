@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Header from "./componentsAdmin/HeaderAdmin";
 import PostList from "./componentsAdmin/PostListAdmin";
 import PostDetail from "./componentsAdmin/PostDetailAdmin";
-import SearchBar from "./componentsAdmin/SidebarAdmin";
+import SearchBar from "./componentsAdmin/SearchBarAdmin";
 import AskQ from "./componentsAdmin/AskQAdmin";
 import PostForm from "./componentsAdmin/PostFormAdmin";
 import FAQ from "./componentsAdmin/FAQAdmin"; // Import the FAQ component

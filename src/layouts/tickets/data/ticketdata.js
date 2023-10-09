@@ -13,6 +13,7 @@ import MDBadge from "components/MDBadge";
 import HourglassBottomOutlinedIcon from '@mui/icons-material/HourglassBottomOutlined';
 import CheckCircleOutlineOutlinedIcon from '@mui/icons-material/CheckCircleOutlineOutlined';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 
 import React, { useState } from "react";
 import {
@@ -110,6 +111,7 @@ const fieldConfigurations = [
   { label: "Serial Number", name: "serialNumber" },
   { label: "Issue", name: "issue" },
   { label: "Schedule", name: "schedule" },
+  { label: "Type of Request", name: "typeRequest", type: "select", options: ["Corrective Maintenance/Repair (default)", "Preventive Maintenance", "Delivery/Installation", "Inquiry/SCE", "Internal Request"] }
 ];
 
 export default function Data(rowss) {
@@ -124,6 +126,7 @@ export default function Data(rowss) {
     serialNumber: "",
     issue: "",
     schedule: "",
+    typeRequest: "",
   });
 
   
@@ -264,20 +267,41 @@ export default function Data(rowss) {
         <DialogContent>
         
         {fieldConfigurations.map((field, index) => (
-             <Box mb={2} key={index}>
-          
-             <TextField
-                label={field.label}
-                name={field.name}
-                value={editFormData[field.name] || ""}
-                onChange={handleEditFormChange}
-                fullWidth
-              
-              />
-           </Box>
+    <Box mb={2} key={index}>
+      {field.type === "select" ? (
+        <FormControl fullWidth>
+          <InputLabel>{field.label}</InputLabel>
+          <Select
+            name={field.name}
+            value={editFormData[field.name] || ""}
+            onChange={handleEditFormChange}
+          >
+            {field.options.map((option, optionIndex) => (
+              <MenuItem key={optionIndex} value={option}>
+                {option}
+              </MenuItem>
+
+
+            ))}
+      
+          </Select>
+
+        </FormControl>
+      
+      ) : (
+        <TextField
+          label={field.label}
+          name={field.name}
+          value={editFormData[field.name] || ""}
+          onChange={handleEditFormChange}
+          fullWidth
+        />
+      )}
+    </Box>
           ))}
   
         </DialogContent>
+       
         <DialogActions>
             {/* Cancel */}
             <Button onClick={handleCloseEditModal}>Cancel</Button>
