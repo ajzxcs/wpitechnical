@@ -2,6 +2,7 @@ import "./styles.css";
 import { useState } from "react";
 import { createTickets, requestTicketNumber } from "./firebase/Database";
 import Track from "./Track";
+import Login from "./login";
 
 // step heading and instruction array
 const stepInfo = [
@@ -28,6 +29,11 @@ const stepInfo = [
 function Sidebar(props) {
   // Sidebar steps name array
   const steps = ["Your Info", "Institution", "Item", "Issue"];
+  const [showlogin, setShowlogin] = useState(false);
+
+  const handleLoginButtonClick = () => {
+    setShowlogin(true);
+  };
 
   return (
     // Sidebar element
@@ -104,6 +110,12 @@ function PersonalInfo(props) {
       <a href="https://wpi-projects-17ff6.web.app">
         <button className="back-btn">Back</button>
       </a>
+      <div className="App">
+      {/* Other components */}
+      <button onClick={handleloginButtonClick}>Show Login</button>
+      {showlogin && <login />}
+      {/* Other components */}
+    </div>
     </div>
   );
 }
