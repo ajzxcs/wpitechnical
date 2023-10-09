@@ -603,7 +603,7 @@ export const update_ForumVisitToday = () => {
 }
 
 // get user email
-const getuserID = (email) => {
+export const getuserID = (email) => {
   return new Promise(async (resolve, reject) => {
     try {
       // Create a reference to the location where you want to search for the user's email
@@ -633,6 +633,7 @@ const getuserID = (email) => {
   });
 };
 
+//       addComment(post.id, post.Author, commentText)
 
 export const addComment = async (postID, author, text) => {
   return new Promise(async (resolve, reject) => {
@@ -648,17 +649,23 @@ export const addComment = async (postID, author, text) => {
       const date = new Date().toLocaleDateString();
       const time = new Date().toLocaleTimeString();
 
+      const newCommentRef = push(postCommentsRef);
+
       // Create a new comment
       const newComment = {
+        id: newCommentRef.key,
         Author: author,
         Text: text,
         date: [date, time]
       };
 
-      const newCommentRef = push(postCommentsRef);
+      // Prepare updates for the user's "Posts" node
+      const updates = {
+        [`${newCommentRef.key}`]: newComment
+        };
 
       // Set the new comment data at the generated key
-      await update(newCommentRef, newComment);
+      await update(postCommentsRef, updates);
 
       resolve("Comment created successfully"); // Resolve the promise with a success message
 
@@ -670,13 +677,13 @@ export const addComment = async (postID, author, text) => {
 }
 
 // delete data
-export const deletePost = (ID) =>{
+export const deletePost = (Author,ID) =>{
   return new Promise(async (resolve, reject) => {
     try{
-        // Get the user's unique ID
-      const user = await userCredentials();
+
+      const AuthorID = await getuserID(Author)
   
-      const dbRef = ref(databases, `POSTS/${user.uniqueID}/Posts/${ID}`);
+      const dbRef = ref(databases, `POSTS/${AuthorID}/Posts/${ID}`);
 
           // Attempt to delete data
         try {
@@ -687,13 +694,9 @@ export const deletePost = (ID) =>{
               
               await remove(dbRef);
               alert("Data has been deleted")
-              window.location.reload()
               resolve("Data has been deleted")
             }
-            else{
-              alert("this is not your post you cant delete this")
-              reject("this is not your post you cant delete this")
-            }
+   
           });
 
           // resolve("Data has been deleted");
@@ -704,6 +707,111 @@ export const deletePost = (ID) =>{
 
 
 
+
+    }catch(erroir){
+      console.log(erroir)
+      reject(erroir)
+    }
+  })
+}
+
+export const viewComments = (postID,Author) =>{
+  return new Promise(async (resolve, reject) => {
+
+    try {
+      // Get the user's unique ID
+      const user = await getuserID(Author);
+
+      // Create a reference to the existing location where you want to add comments
+      const postCommentsRef = ref(databases, `POSTS/${user}/Posts/${postID}/Comments`);
+
+      const snapshot = await get(postCommentsRef);
+
+
+      // the fetch data should convert into array function
+      const data = snapshot.val();
+
+      resolve(data); // Resolve the promise with a success message
+
+    } catch (error) {
+      console.error("Error creating comment:", error);
+      reject(error); // Reject the promise with an error
+    }
+  })
+}
+
+// get user email
+export const getCommentID = (Author,postID,email) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+
+      // Get the user's unique ID
+      const user = await getuserID(Author);
+
+      // Create a reference to the location where you want to search for the user's email
+      const postsRef = ref(databases, `POSTS/${user}/Posts/${postID}/Comments`);
+
+      const snapshot = await get(postsRef);
+
+      // The fetched data should be converted into an array or object
+      const data = snapshot.val();
+
+      if (data) {
+        // Iterate through the data to find a matching email
+        const userId = Object.keys(data).find((key) => data[key].Author === email);
+
+        if (userId) {
+          resolve(userId); // Resolve with the user's unique ID
+        } else {
+          reject("Email not found");
+        }
+      } else {
+        reject("Data not found");
+      }
+    } catch (error) {
+      console.error("Error fetching user ID:", error);
+      reject(error); // Reject the promise with an error
+    }
+  });
+};
+
+// delete data
+export const deleteComments = (Author,ID,CommentID) =>{
+  return new Promise(async (resolve, reject) => {
+    try{
+
+      const AuthorID = await getuserID(Author)
+
+      const dbRef = ref(databases, `POSTS/${AuthorID}/Posts/${ID}/Comments/${CommentID}`);
+      // const dbRef = ref(databases, `/POSTS/hUaF4KDUllTCmDbr8eeWzC5DIEv2/Posts/-NfFRD-FwknZT32lLaGE/Comments/-NfFjqVFj-e2-8X4J1Il`);
+
+          // Attempt to delete data
+        try {
+
+                   // Attempt to delete data
+        try {
+
+          onValue(dbRef,async (snapshot) => {
+
+            if(snapshot.val()){
+              
+              await remove(dbRef);
+              alert("Data has been deleted")
+              resolve("Data has been deleted")
+            }
+   
+          });
+
+        // resolve("Data has been deleted");
+        } catch (error) {
+          console.log("Delete old data error: " + error.message);
+          reject("Delete old data error: " + error.message)
+        }
+     
+        } catch (error) {
+          console.log("Delete old data error: " + error.message);
+          reject("Delete old data error: " + error.message)
+        }
 
     }catch(erroir){
       console.log(erroir)

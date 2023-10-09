@@ -31,51 +31,59 @@ function Private() {
 
   let sortedPosts = [...posts];
 
+  const fetchData = async () => {
+    try {
+      
+      // data to be fetch
+      const Data = await viewList(); // Assuming viewList is an async function that fetches data
+
+      // sorted out the data
+      const posts = Data
+        .filter((author) => author.Posts && Object.keys(author.Posts).length > 0)
+        .flatMap((author) =>
+          // rewrite the data with author
+          Object.values(author.Posts).map((post) => ({
+              ...post,
+              Author: author.Author, // Add the Author field to each post
+          }))
+        )
+        .sort((a, b) => {
+
+          // Sort by date in descending order (newest to oldest)
+          const dateA = new Date(a.date).getTime();
+          const dateB = new Date(b.date).getTime();
+          return dateB - dateA; 
+        });
+
+        // set the sorted data to PostData
+        setPostData(posts);
+        setPosts(posts)
+    } catch (error) {
+      console.error("Error fetching data: ", error);
+    }
+  };
+
   useEffect(() => {
+
     let mounted = true;
 
-    const fetchData = async () => {
-      try {
-        
-        // data to be fetch
-        const Data = await viewList(); // Assuming viewList is an async function that fetches data
-
-        // sorted out the data
-        const posts = Data
-          .filter((author) => author.Posts && Object.keys(author.Posts).length > 0)
-          .flatMap((author) =>
-            // rewrite the data with author
-            Object.values(author.Posts).map((post) => ({
-                ...post,
-                Author: author.Author, // Add the Author field to each post
-            }))
-          )
-          .sort((a, b) => {
-
-            // Sort by date in descending order (newest to oldest)
-            const dateA = new Date(a.date).getTime();
-            const dateB = new Date(b.date).getTime();
-            return dateB - dateA; 
-          });
-
-          // set the sorted data to PostData
-          setPostData(posts);
-          setPosts(posts)
-      } catch (error) {
-        console.error("Error fetching data: ", error);
-      }
-    };
-
     // Clean Up function
-    if (mounted) {
+    const fetchDataInterval = setInterval(() => {
       // Ftech Data
       fetchData();
-      
-      // Forum visit today
+    }, 2000); 
+
+
+    if (mounted) {
+       // Forum visit today
       update_ForumVisitToday();
     }
-
-    return () => (mounted = false);
+     
+    // Cleanup function
+    return () => {
+      mounted = false;
+      clearInterval(fetchDataInterval); // Clear the interval when the component unmounts
+    };
   }, []);
 
   useEffect(() => {
@@ -133,7 +141,6 @@ function Private() {
     createPost(newPost.title, newPost.content, newPost.newTags)
     .then(e=>{
       alert(e)
-      window.location.reload();
     })
     .catch(e=>alert(e))
   };
@@ -186,6 +193,8 @@ function Private() {
 
             <div className="flex-container">
               <div className="left-component">
+
+
                 {!selectedPost ? (
                   <>
                   {/* Post List */}
@@ -203,8 +212,10 @@ function Private() {
                     post={selectedPost} // Pass the selected post
                     onDeletePost={handleDeletePost}
                     onGoBack={handleGoBack}
+                    onSelectedPost={setSelectedPost}
                   />
                 )}
+
               </div>
 
               {/* FAQS */}
