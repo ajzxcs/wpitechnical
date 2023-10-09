@@ -385,7 +385,7 @@ function Notifications() {
             <MDButton
             variant="contained"
             color="warning"
-            onClick={e=>navigate("/ForumAdmin")}
+            onClick={e=>navigate("/AdminForum")}
             >
 
           Login as SuperAdmin
