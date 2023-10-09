@@ -2,6 +2,7 @@ import "./styles.css";
 import { useState } from "react";
 import { createTickets, requestTicketNumber } from "./firebase/Database";
 import Track from "./Track";
+import Login from "./Login";
 
 
 // step heading and instruction array
@@ -27,6 +28,9 @@ const stepInfo = [
 
 // Sidebar of the form
 function Sidebar(props) {
+
+    // Sidebar steps name array
+    const steps = ["Your Info", "Institution", "Item", "Issue"];
 
   return (
     // Sidebar element
@@ -490,28 +494,33 @@ export default function App() {
   const [ticketID, setTicketID] = useState("TSG20230000");
 
   return (
-    <div>
 
-      {ticketView ? (
-        <div className="multi-step-form">
-          <Sidebar step={step} />
-          {step >= 0 && step <= 3 ? (
-            <FormStructure
-              step={step}
-              setStep={setStep}
-              setTicketView={setTicketView}
-              ticketView={ticketView}
-              setRequestID={setTicketID}
-            />
-          ) : (
-            <Confirm tsgID={ticketID} setTicketView={setTicketView} ticketView={ticketView} />
-          )}
-        </div>
-      ) : (
-        <div>
-          <Track setTicketView={setTicketView} />
-        </div>
-      )}
-    </div>
+    // COMMENT OUT MO LANG TO
+    <Login />
+
+    // *********** NOTE: UNCOMMENT MOLANG TO
+    // <div>
+
+    //   {ticketView ? (
+    //     <div className="multi-step-form">
+    //       <Sidebar step={step} />
+    //       {step >= 0 && step <= 3 ? (
+    //         <FormStructure
+    //           step={step}
+    //           setStep={setStep}
+    //           setTicketView={setTicketView}
+    //           ticketView={ticketView}
+    //           setRequestID={setTicketID}
+    //         />
+    //       ) : (
+    //         <Confirm tsgID={ticketID} setTicketView={setTicketView} ticketView={ticketView} />
+    //       )}
+    //     </div>
+    //   ) : (
+    //     <div>
+    //       <Track setTicketView={setTicketView} />
+    //     </div>
+    //   )}
+    // </div>
   );
 }
