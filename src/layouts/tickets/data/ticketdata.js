@@ -30,7 +30,7 @@ import {
 import { GRANTED_FROM_PENDING,UPDATE_DATA } from '../../../firebase/Database'
 
 // Action components
-const ActionComponents = (data) => {
+const ActionComponents = (data,key) => {
 
   const handleDoneClick = (Status) => {
 
@@ -51,7 +51,7 @@ const ActionComponents = (data) => {
    {data?.status === 'pending' && (
         <>
         {/* Process */}
-          <Tooltip key={data.id} title="Process" arrow>
+          <Tooltip key={key} title="Process" arrow>
             <IconButton
               onClick={e=>{
                 e.preventDefault()
@@ -64,7 +64,7 @@ const ActionComponents = (data) => {
           </Tooltip>
 
         {/* Done */}
-          <Tooltip  key={data.id} title="Done" arrow>
+          <Tooltip  key={key} title="Done" arrow>
             <IconButton
               aria-label="Done"
               onClick={e=>{
@@ -83,7 +83,7 @@ const ActionComponents = (data) => {
       {data?.status === 'process' && (
 
         
-        <Tooltip key={data.id} title="Done" arrow>
+        <Tooltip key={key} title="Done" arrow>
           <IconButton
             aria-label="Done"
             onClick={e=>{
@@ -240,12 +240,13 @@ export default function Data(rowss) {
           {data.email}
         </MDTypography>
       ),
-      action: <ActionComponents status={data.status} id={data.id} />,
+      action: <ActionComponents status={data.status} id={data.id} key={key} />,
       edit: (
         <div key={key}>
       {/* Edit button */}
       <Tooltip title="Edit" arrow>
         <IconButton
+          key={key}
           aria-label="Edit"
           onClick={() => handleOnEdit(data)}
           color="default"
@@ -255,7 +256,7 @@ export default function Data(rowss) {
       </Tooltip>
 
       {/* Edit Modal */}
-      <Dialog open={openEditModal} onClose={handleCloseEditModal} 
+      <Dialog key={key} open={openEditModal} onClose={handleCloseEditModal} 
       maxWidth="md"
         fullWidth >
         <DialogTitle>Edit Data</DialogTitle>
