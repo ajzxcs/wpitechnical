@@ -27,6 +27,8 @@ function LoginForm() {
     setShowPassword(false); // Hide the password when toggling the checkbox
   };
 
+  
+
   const handleEmailChange = (e) => {
     const emailValue = e.target.value;
     setEmail(emailValue);
@@ -93,12 +95,18 @@ function LoginForm() {
         <span>Show Password</span>
       </div>
       <Marginer direction="horizontal" margin="10px" />
-      <MutedLink href="#">Forgot Your Password?</MutedLink>
+      
       <Marginer direction="vertical" margin="10px" />
       <SubmitButton type="button" onClick={handleSubmit}>
         Sign in
       </SubmitButton>
       <Marginer direction="vertical" margin="10px" />
+      <Marginer direction="vertical" margin="10px" />
+          <a href="/"><BoldLink>
+            Back To Homepage
+          </BoldLink></a>
+
+          <Marginer direction="vertical" margin="10px" />
     </FormContainer>
   </BoxContainer>
 </div>

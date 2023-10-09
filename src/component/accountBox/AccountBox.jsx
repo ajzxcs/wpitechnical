@@ -173,6 +173,7 @@ const AccountBox = () => {
           <BottomContainer>
             {active === "signin" && <LoginForm />}
           </BottomContainer>
+          
         </BoxContainer>
       </AccountContext.Provider>
     </>
