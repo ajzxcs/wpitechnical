@@ -52,7 +52,8 @@ const Header = ({ toggleFAQVisibility, onGoBack }) => {
             </IconButton>
           </Tooltip>
 
-          <Tooltip title="Settings">
+   
+         {/*  <Tooltip title="Settings">
             <IconButton
               color="inherit"
               onClick={handleSettingsClick}
@@ -67,10 +68,9 @@ const Header = ({ toggleFAQVisibility, onGoBack }) => {
             anchorEl={anchorEl}
             open={Boolean(anchorEl)}
             onClose={handleClose}
-          >
-            <MenuItem onClick={handleCloseLogout}>Logout</MenuItem>
+             {/*  <MenuItem onClick={handleCloseLogout}>Logout</MenuItem> */}
             {/* <MenuItem onClick={handleClose}>Change Password</MenuItem> */}
-          </Menu>
+          {/* </Menu>*/}
         </div>
       </Toolbar>
     </AppBar>
