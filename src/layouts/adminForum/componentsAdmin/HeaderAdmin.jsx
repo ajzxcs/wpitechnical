@@ -12,10 +12,13 @@ import HelpIcon from "@mui/icons-material/Help"; // Import the Help icon
 import { BackSquare } from 'iconsax-react';
 
 import "../assets/public.css";
+import { useNavigate } from "react-router";
  
 // import { LogoutSession } from "../Features/Authentication/Authentication"
 
-const Header = ({ toggleFAQVisibility, onGoBack }) => {
+const Header = ({ toggleFAQVisibility }) => {
+
+  const navigate = useNavigate()
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleSettingsClick = (event) => {
@@ -26,6 +29,10 @@ const Header = ({ toggleFAQVisibility, onGoBack }) => {
     setAnchorEl(null);
 
   };
+
+  const onGoBack = () =>{
+    navigate("/notifications")
+  }
 
   const handleCloseLogout = () => {
     setAnchorEl(null);
