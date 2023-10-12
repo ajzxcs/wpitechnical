@@ -73,7 +73,7 @@ function Track({ setTicketView }) {
                  <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginBottom: '0.5rem' }}>
                <h2>Status:</h2>
                <p style={{ color: getStatusColor(data.status), marginLeft: '0.5rem', marginBottom: '0' }}>
-               <strong>{data.status}</strong>
+               <strong>{String(data.status).toUpperCase()}</strong>
                  </p>
                </div>
               <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
