@@ -187,6 +187,7 @@ export default function Data(rowss) {
       { Header: "Request ID", accessor: "requestID", width: "45%", align: "left" },
       { Header: "Full Name", accessor: "name",align: "center" },
       { Header: "Address", accessor: "address", align: "center" },
+      { Header: "Contact Number", accessor: "contactNumber", align: "left" },
       { Header: "Institution", accessor: "institution", align: "left" },
       { Header: "Designation", accessor: "designation", align: "center" },
       { Header: "Type of Request", accessor: "typeRequest", align: "center" },
