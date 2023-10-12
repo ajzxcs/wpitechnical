@@ -110,6 +110,7 @@ const fieldConfigurations = [
   { label: "Model", name: "model" },
   { label: "Serial Number", name: "serialNumber" },
   { label: "Issue", name: "issue" },
+  { label: "Status", name: "status" },
   { label: "Schedule", name: "schedule" },
   { label: "Type of Request", name: "typeRequest", type: "select", options: ["Corrective Maintenance/Repair (default)", "Preventive Maintenance", "Delivery/Installation", "Inquiry/SCE", "Internal Request"] }
 ];
@@ -125,6 +126,7 @@ export default function Data(rowss) {
     model: "",
     serialNumber: "",
     issue: "",
+    status:"",
     schedule: "",
     typeRequest: "",
   });
