@@ -69,7 +69,7 @@ function PersonalInfo(props) {
             type="text"
             placeholder="e.g Taylor Swift"
             value={props.name}
-            onChange={(e) => props.setName(e.target.value)}
+            onChange={(e) => props.setName(e.target.value.toUpperCase())}
           />
         </div>
         <div>
@@ -131,7 +131,7 @@ function Plans(props) {
           type="text"
           placeholder=""
           value={props.address}
-          onChange={(e) => props.setAddress(e.target.value)}
+          onChange={(e) => props.setAddress(e.target.value.toUpperCase())}
         />
       </div>
       <div>
@@ -143,7 +143,7 @@ function Plans(props) {
           type="text"
           placeholder=""
           value={props.institution}
-          onChange={(e) => props.setInstitution(e.target.value)}
+          onChange={(e) => props.setInstitution(e.target.value.toUpperCase())}
         />
       </div>
       <div>
@@ -155,7 +155,7 @@ function Plans(props) {
           type="text"
           placeholder=""
           value={props.designation}
-          onChange={(e) => props.setDesignation(e.target.value)}
+          onChange={(e) => props.setDesignation(e.target.value.toUpperCase())}
         />
       </div>
       <div>
@@ -191,7 +191,7 @@ function AddOns(props) {
           type="text"
           placeholder=""
           value={props.brand}
-          onChange={(e) => props.setBrand(e.target.value)}
+          onChange={(e) => props.setBrand(e.target.value.toUpperCase())}
         />
       </div>
       <div>
@@ -202,7 +202,7 @@ function AddOns(props) {
           type="text"
           placeholder=""
           value={props.model}
-          onChange={(e) => props.setModel(e.target.value)}
+          onChange={(e) => props.setModel(e.target.value.toUpperCase())}
         />
       </div>
       <div>
@@ -213,7 +213,7 @@ function AddOns(props) {
           type="text"
           placeholder=""
           value={props.serialNumber}
-          onChange={(e) => props.setSerialNumber(e.target.value)}
+          onChange={(e) => props.setSerialNumber(e.target.value.toUpperCase())}
         />
       </div>
       <div>
@@ -247,7 +247,7 @@ function Summary(props) {
           type="text"
           placeholder=""
           value={props.issueDescription}
-          onChange={(e) => props.setIssueDescription(e.target.value)}
+          onChange={(e) => props.setIssueDescription(e.target.value.toUpperCase())}
         />
       </div>
       <div>
@@ -278,7 +278,7 @@ function Confirm(ticketID ) {
     <div className="confirm left-side">
       <div className="confirm-box">
         <div className="confirm-checkbox">
-          <span className="material-symbols-outlined">new_releases</span>
+         
         </div>
         <div className="confirm-thank">
           <h1>Thank You!</h1>

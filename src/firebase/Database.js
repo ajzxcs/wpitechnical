@@ -70,7 +70,7 @@ export const requestTicketNumber = () => {
       const tsgNumber = String(20000+total)
       const tsgIDnumber = tsgNumber.substring(tsgNumber.length - 4);
 
-      const TSG_UNIQUE_ID = "TSG" + currentYear + tsgIDnumber
+      const TSG_UNIQUE_ID = "RRN" + currentYear + tsgIDnumber
 
       resolve(TSG_UNIQUE_ID)
      
